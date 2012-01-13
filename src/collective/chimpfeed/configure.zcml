@@ -1,0 +1,97 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:i18n="http://namespaces.zope.org/i18n"
+   xmlns:five="http://namespaces.zope.org/five"
+   xmlns:plone="http://namespaces.plone.org/plone"
+   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+   i18n_domain="collective.chimpfeed">
+
+  <include package="plone.browserlayer" />
+  <include package="plone.app.registry" />
+  <include package="archetypes.schemaextender" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="collective.chimpfeed: Install"
+      directory="profiles/default"
+      description="Registers control panel and default settings."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <!-- Schema extension -->
+
+  <adapter name="feeds" factory=".schema.FeedExtender" />
+  <adapter name="chimpfeeds" factory=".schema.feed_indexer" />
+
+  <!-- Feeds -->
+
+  <adapter
+      factory=".feeds.FeedTraverser"
+      name="chimpfeeds"
+      />
+
+  <!-- Control panel -->
+
+  <browser:page
+      name="chimpfeed-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel.ControlPanel"
+      permission="cmf.ManagePortal"
+      layer=".interfaces.IBrowserLayer"
+      />
+
+  <adapter factory=".controlpanel.ControlPanelAdapter" />
+
+  <!-- Portlet -->
+
+  <plone:portlet
+      name="collective.chimpfeed.SubscriptionPortlet"
+      interface=".interfaces.ISubscriptionPortlet"
+      assignment=".portlet.SubscriptionPortletAssignment"
+      view_permission="zope2.View"
+      edit_permission="cmf.ManagePortal"
+      renderer=".portlet.SubscriptionPortletRenderer"
+      addview=".portlet.SubscriptionPortletAddForm"
+      editview=".portlet.SubscriptionPortletEditForm"
+      />
+
+  <!-- Vocabularies -->
+
+  <utility
+      component=".vocabularies.feeds_factory"
+      name="collective.chimpfeed.vocabularies.Feeds"
+      />
+
+  <utility
+      component=".vocabularies.lists_factory"
+      name="collective.chimpfeed.vocabularies.Lists"
+      />
+
+  <utility
+      component=".vocabularies.interest_groupings_factory"
+      name="collective.chimpfeed.vocabularies.InterestGroupings"
+      />
+
+  <utility
+      component=".vocabularies.interest_groups_factory"
+      name="collective.chimpfeed.vocabularies.InterestGroups"
+      />
+
+  <!-- Translations -->
+
+  <i18n:registerTranslations directory="locales" />
+
+  <!-- Forms -->
+
+  <adapter
+      for="zope.schema.ValidationError
+           .interfaces.IBrowserLayer
+           *
+           *
+           .form.SubscribeForm
+           *"
+      factory=".form.SchemaErrorSnippet"
+      />
+
+</configure>

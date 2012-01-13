@@ -1,0 +1,4 @@
+<div>
+  <div tal:content="structure view/renderInterestGroupings" />
+  <div tal:content="structure view/renderInterestGroups" />
+</div>

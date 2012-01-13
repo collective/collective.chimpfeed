@@ -1,0 +1,91 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-13T13:42:13.958584\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: da\n"
+"Language-Name: \n"
+"Preferred-Encodings: utf-8\n"
+"Domain: collective.chimpfeed\n"
+
+msgid ""
+msgstr ""
+
+msgid "Add Subscription Portlet"
+msgstr "Tilføj tilmeldingsportlet"
+
+msgid "E-mail"
+msgstr "E-mail"
+
+msgid "Edit Subscription Portlet"
+msgstr "Redigér tilmeldingsportlet"
+
+msgid "Feeds"
+msgstr "Udsendelseslister"
+
+msgid "Interest groups"
+msgstr "Grupper"
+
+msgid "Interests"
+msgstr "Interesser"
+
+msgid "MailChimp API key"
+msgstr "MailChimp API-nøgle"
+
+msgid "MailChimp feeds"
+msgstr "MailChimp nyhedsbrev"
+
+msgid "Mailinglist"
+msgstr "Tilmeldingsliste"
+
+msgid "Name"
+msgstr "Navn"
+
+msgid "Provide a title for the portlet."
+msgstr "Denne tekst bliver vist som overskrift for portletten."
+
+msgid "Required input is missing."
+msgstr "Dette felt skal udfyldes."
+
+msgid "Select a mailinglist for this portlet."
+msgstr "Vælg en tilmeldingsliste for denne portlet."
+
+msgid "Select interest groups. Note that all interests within the selected groups will appear in the portlet."
+msgstr "Vælg grupper. For hver udvalgt gruppe, vises de underliggende interessevalg."
+
+msgid "Select interests. The number listed in each parenthesis is the current number of subscribers with that interest."
+msgstr "Vælg interessevalg. Tallet i parentes markerer hvor mange abonnenter der har tilmeldt sig det pågældende valg."
+
+msgid "Sign up"
+msgstr "Tilmelding"
+
+msgid "Subscribe: ${title}"
+msgstr "Nyhedsbrev: Sign up"
+
+msgid "Thank you for signing up. We'll send you a confirmation message by e-mail shortly."
+msgstr "Tak for din tilmelding. Du vil om kort tid modtage en e-mail med anmodning om godkendelse."
+
+msgid "These correspond to the feeds given above. Copy the URL into MailChimp when setting up one or more RSS-campaigns."
+msgstr "De viste links svarer til udsendelseslisterne ovenfor. Kopiér ind i MailChimp, når der opsættes en RSS-kampagne."
+
+msgid "This key is associated to your account with MailChimp."
+msgstr "Denne nøgle giver adgang til din MailChimp-konto."
+
+msgid "This portlet shows a subscription form."
+msgstr "Denne portlet viser en tilmeldingsformular."
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "URLs"
+msgstr "Adresser"
+
+msgid "Use this field to set up your feeds. Give each feed a title such as \"News\"; one feed per line."
+msgstr "Brug dette felt til at sætte dine udsendelseslister op. På hver linie angives en kort tekst f.eks. \"Nyheder\"."
+

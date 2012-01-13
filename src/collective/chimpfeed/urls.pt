@@ -1,0 +1,5 @@
+<ul>
+  <li tal:repeat="url view/value">
+    <a tal:attributes="href url" tal:content="url" />
+  </li>
+</ul>

@@ -1,0 +1,91 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-13T13:42:13.958406\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: \n"
+"Preferred-Encodings: utf-8\n"
+"Domain: collective.chimpfeed\n"
+
+msgid ""
+msgstr ""
+
+msgid "Add Subscription Portlet"
+msgstr ""
+
+msgid "E-mail"
+msgstr ""
+
+msgid "Edit Subscription Portlet"
+msgstr ""
+
+msgid "Feeds"
+msgstr ""
+
+msgid "Interest groups"
+msgstr ""
+
+msgid "Interests"
+msgstr ""
+
+msgid "MailChimp API key"
+msgstr ""
+
+msgid "MailChimp feeds"
+msgstr ""
+
+msgid "Mailinglist"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Provide a title for the portlet."
+msgstr ""
+
+msgid "Required input is missing."
+msgstr ""
+
+msgid "Select a mailinglist for this portlet."
+msgstr ""
+
+msgid "Select interest groups. Note that all interests within the selected groups will appear in the portlet."
+msgstr ""
+
+msgid "Select interests. The number listed in each parenthesis is the current number of subscribers with that interest."
+msgstr ""
+
+msgid "Sign up"
+msgstr ""
+
+msgid "Subscribe: ${title}"
+msgstr ""
+
+msgid "Thank you for signing up. We'll send you a confirmation message by e-mail shortly."
+msgstr ""
+
+msgid "These correspond to the feeds given above. Copy the URL into MailChimp when setting up one or more RSS-campaigns."
+msgstr ""
+
+msgid "This key is associated to your account with MailChimp."
+msgstr ""
+
+msgid "This portlet shows a subscription form."
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "URLs"
+msgstr ""
+
+msgid "Use this field to set up your feeds. Give each feed a title such as \"News\"; one feed per line."
+msgstr ""
+

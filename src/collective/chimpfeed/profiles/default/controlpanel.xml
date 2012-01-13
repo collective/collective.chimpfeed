@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<object
+    name="portal_controlpanel"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="collective.chimpfeed"
+    purge="False">
+
+    <configlet
+        title="MailChimp RSS"
+        action_id="chimpfeed"
+        appId="collective.chimpfeed"
+        category="Products"
+        condition_expr=""
+        url_expr="string:${portal_url}/@@chimpfeed-controlpanel"
+        icon_expr="string:$portal_url/rss.png"
+        visible="True"
+        i18n:attributes="title">
+      <permission>Manage portal</permission>
+    </configlet>
+
+</object>

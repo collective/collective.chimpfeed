@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      tal:omit-tag="">
+  <dl class="portlet portletSubscribe" i18n:domain="collective.chimpfeed">
+
+    <dt class="portletHeader">
+      <span class="portletTopLeft"></span>
+      <span class="tile" i18n:translate="" tal:content="view/data/heading" />
+      <span class="portletTopRight"></span>
+    </dt>
+
+    <dd class="portletItem">
+      <form tal:replace="structure view/render_form" />
+    </dd>
+
+    <dd class="portletFooter">
+      <span class="portletBottomLeft"></span>
+      <span class="portletBottomRight"></span>
+    </dd>
+  </dl>
+</html
+>
