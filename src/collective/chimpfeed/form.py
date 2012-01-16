@@ -8,6 +8,7 @@ from plone.registry.interfaces import IRegistry
 from plone.memoize.ram import cache
 from plone.memoize.instance import memoizedproperty
 
+from zope.i18n import negotiate
 from zope.component import getUtility
 from zope.component import queryUtility
 from zope.interface import Interface
@@ -28,21 +29,7 @@ from collective.chimpfeed import logger
 from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed.interfaces import INameSplitter
 from collective.chimpfeed.vocabularies import interest_groups_factory
-
-
-class DefaultNameSplitter:
-    @staticmethod
-    def split_name(name):
-        names = filter(None, name.split(u' '))
-
-        if len(names) < 2:
-            return name, u''
-
-        if len(names) == 2:
-            return names
-
-        last = names[-1]
-        return u' '.join(names[:-2]), '%s %s' % (names[-2], last)
+from collective.chimpfeed.splitters import GenericNameSplitter
 
 
 def create_groupings(groups):
@@ -184,9 +171,12 @@ class SubscribeForm(form.Form):
             if api_key:
                 api = greatape.MailChimp(api_key, debug=True)
 
+                # Negotiate language
+                language = negotiate(self.request)
+
                 # Split full name into first (given) and last name.
                 fname, lname = queryUtility(
-                    INameSplitter, default=DefaultNameSplitter
+                    INameSplitter, name=language, default=GenericNameSplitter
                     ).split_name(name)
 
                 try:

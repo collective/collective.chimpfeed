@@ -94,4 +94,18 @@
       factory=".form.SchemaErrorSnippet"
       />
 
+  <!-- Name splitting -->
+
+  <utility
+      name="en"
+      factory=".splitters.GenericNameSplitter"
+      provides=".interfaces.INameSplitter"
+      />
+
+  <utility
+      name="da"
+      factory=".splitters.DanishNameSplitter"
+      provides=".interfaces.INameSplitter"
+      />
+
 </configure>
