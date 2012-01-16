@@ -27,6 +27,11 @@ def check_api_key(api_key):
     return False
 
 
+class INameSplitter(Interface):
+    def split_name(fullname):
+        """Return (fname, lname) tuple."""
+
+
 class IBrowserLayer(Interface):
     """Theme-specific browser-layer."""
 

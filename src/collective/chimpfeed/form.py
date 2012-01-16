@@ -9,6 +9,7 @@ from plone.memoize.ram import cache
 from plone.memoize.instance import memoizedproperty
 
 from zope.component import getUtility
+from zope.component import queryUtility
 from zope.interface import Interface
 from zope.interface import implements
 from zope.schema.vocabulary import SimpleVocabulary
@@ -25,7 +26,23 @@ from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from collective.chimpfeed import MessageFactory as _
 from collective.chimpfeed import logger
 from collective.chimpfeed.interfaces import IFeedSettings
+from collective.chimpfeed.interfaces import INameSplitter
 from collective.chimpfeed.vocabularies import interest_groups_factory
+
+
+class DefaultNameSplitter:
+    @staticmethod
+    def split_name(name):
+        names = filter(None, name.split(u' '))
+
+        if len(names) < 2:
+            return name, u''
+
+        if len(names) == 2:
+            return names
+
+        last = names[-1]
+        return u' '.join(names[:-2]), '%s %s' % (names[-2], last)
 
 
 def create_groupings(groups):
@@ -167,19 +184,27 @@ class SubscribeForm(form.Form):
             if api_key:
                 api = greatape.MailChimp(api_key, debug=True)
 
+                # Split full name into first (given) and last name.
+                fname, lname = queryUtility(
+                    INameSplitter, default=DefaultNameSplitter
+                    ).split_name(name)
+
                 try:
                     result = api(
                         method="listSubscribe", id=list_id,
                         email_address=email,
                         merge_vars={
-                            'NAME': name.encode('utf-8'),
+                            'FNAME': fname.encode('utf-8'),
+                            'LNAME': lname.encode('utf-8'),
                             'GROUPINGS': [
                                 dict(
                                     id=grouping_id,
-                                    groups=[
-                                        name.encode('utf-8')
-                                        for name in group_names
-                                        ]
+                                    groups=",".join(
+                                        group.\
+                                        encode('utf-8').\
+                                        replace(',', '\\,')
+                                        for group in group_names
+                                        ),
                                     )
                                 for (grouping_id, group_names) in
                                 create_groupings(interests).items()
