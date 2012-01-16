@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-01-16T10:56:31.671499\n"
+"POT-Creation-Date: 2012-01-16T17:45:06.860249\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -10,12 +10,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 "Language-Code: en\n"
-"Language-Name: \n"
+"Language-Name: English\n"
 "Preferred-Encodings: utf-8\n"
 "Domain: collective.chimpfeed\n"
-
-msgid ""
-msgstr ""
 
 msgid "Add Subscription Portlet"
 msgstr ""
@@ -29,6 +26,9 @@ msgstr ""
 msgid "Feeds"
 msgstr ""
 
+msgid "If you want this content item published to a news feed, select one or more from the list below."
+msgstr ""
+
 msgid "Interest groups"
 msgstr ""
 
@@ -36,6 +36,9 @@ msgid "Interests"
 msgstr ""
 
 msgid "MailChimp API key"
+msgstr ""
+
+msgid "MailChimp RSS"
 msgstr ""
 
 msgid "MailChimp feeds"

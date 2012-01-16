@@ -1,21 +1,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-01-16T10:56:31.672206\n"
+"POT-Creation-Date: 2012-01-16T17:45:06.860431\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Last-Translator: Malthe Borch <mborch@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 "Language-Code: da\n"
-"Language-Name: \n"
+"Language-Name: Danish\n"
 "Preferred-Encodings: utf-8\n"
 "Domain: collective.chimpfeed\n"
-
-msgid ""
-msgstr ""
 
 msgid "Add Subscription Portlet"
 msgstr "Tilføj tilmeldingsportlet"
@@ -29,6 +25,9 @@ msgstr "Redigér tilmeldingsportlet"
 msgid "Feeds"
 msgstr "Udsendelseslister"
 
+msgid "If you want this content item published to a news feed, select one or more from the list below."
+msgstr "Vælg én eller flere udsendelseslister for dette indholdsobjekt."
+
 msgid "Interest groups"
 msgstr "Grupper"
 
@@ -37,6 +36,9 @@ msgstr "Interesser"
 
 msgid "MailChimp API key"
 msgstr "MailChimp API-nøgle"
+
+msgid "MailChimp RSS"
+msgstr "MailChimp RSS"
 
 msgid "MailChimp feeds"
 msgstr "MailChimp nyhedsbrev"
@@ -88,4 +90,3 @@ msgstr "Adresser"
 
 msgid "Use this field to set up your feeds. Give each feed a title such as \"News\"; one feed per line."
 msgstr "Brug dette felt til at sætte dine udsendelseslister op. På hver linie angives en kort tekst f.eks. \"Nyheder\"."
-
