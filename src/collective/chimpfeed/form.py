@@ -169,7 +169,7 @@ class SubscribeForm(form.Form):
             interests = data['interests']
 
             if api_key:
-                api = greatape.MailChimp(api_key, debug=True)
+                api = greatape.MailChimp(api_key, debug=False)
 
                 # Negotiate language
                 language = negotiate(self.request)
