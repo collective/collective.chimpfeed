@@ -183,6 +183,8 @@ class SubscribeForm(form.Form):
                     result = api(
                         method="listSubscribe", id=list_id,
                         email_address=email,
+                        update_existing=True,
+                        replace_interests=False,
                         merge_vars={
                             'FNAME': fname.encode('utf-8'),
                             'LNAME': lname.encode('utf-8'),
@@ -203,11 +205,13 @@ class SubscribeForm(form.Form):
                         )
                 except greatape.MailChimpError, exc:
                     logger.warn(exc.msg)
-
-                if result:
-                    return IStatusMessage(self.request).addStatusMessage(
-                        _(u"Thank you for signing up. We'll send you a "
-                          u"confirmation message by e-mail shortly."), "info")
+                else:
+                    if result:
+                        return IStatusMessage(self.request).addStatusMessage(
+                            _(u"Thank you for signing up. We'll send you a "
+                              u"confirmation message by e-mail shortly."),
+                            "info"
+                            )
 
             IStatusMessage(self.request).addStatusMessage(
                 _(u"An error occurred while processing your "
