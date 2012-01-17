@@ -202,7 +202,7 @@ class SubscribeForm(form.Form):
                             },
                         )
                 except greatape.MailChimpError, exc:
-                    logger(exc)
+                    logger.warn(exc.msg)
 
                 if result:
                     return IStatusMessage(self.request).addStatusMessage(
