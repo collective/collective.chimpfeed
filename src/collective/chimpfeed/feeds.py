@@ -35,6 +35,15 @@ class Feed(Implicit):
         self.request = request
         self.name = name
 
+    def HEAD(self, *args):
+        """Handle HEAD-request."""
+
+        response = self.template()
+        self.request.response.setHeader('Content-Length', len(response))
+
+        # Actually return an empty string
+        return u""
+
     def get_brains(self):
         catalog = getToolByName(self.context, 'portal_catalog')
         brains = catalog(
