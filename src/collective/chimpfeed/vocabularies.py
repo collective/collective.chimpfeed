@@ -1,7 +1,6 @@
 import greatape
 import base64
 import time
-import functools
 
 from zope.interface import implements
 from zope.component import getUtility
@@ -18,13 +17,6 @@ from collective.chimpfeed import logger
 
 def stub_api(**kwargs):
     return ()
-
-
-def generate(generator):
-    @functools.wraps(generator)
-    def decorator(*args, **kwargs):
-        return list(generator(*args, **kwargs))
-    return decorator
 
 
 class VocabularyBase(object):
@@ -77,20 +69,25 @@ class MailChimpVocabulary(VocabularyBase):
         return stub_api
 
     @cache(lambda *args: time.time() // (5 * 60))
-    @generate
     def get_lists(self):
+        results = []
         for result in self.api(method="lists"):
-            yield result['id'], result['name']
+            results.append((result['id'], result['name']))
+
+        return results
 
     @cache(lambda *args: time.time() // (5 * 60))
-    @generate
     def get_groupings(self):
+        results = []
+
         for list_id, list_name in self.get_lists():
             groupings = self.api(
                 method="listInterestGroupings", id=list_id
                 )
             for grouping in groupings:
-                yield grouping
+                results.append(grouping)
+
+        return results
 
 
 class ListVocabulary(MailChimpVocabulary):
