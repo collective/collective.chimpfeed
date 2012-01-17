@@ -22,6 +22,9 @@ msgstr "E-mail"
 msgid "Edit Subscription Portlet"
 msgstr "Redigér tilmeldingsportlet"
 
+msgid "Subscription portlet"
+msgstr "Tilmeldingsportlet"
+
 msgid "Feeds"
 msgstr "Udsendelseslister"
 

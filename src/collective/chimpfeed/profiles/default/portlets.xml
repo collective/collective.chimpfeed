@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <portlets
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    i18n:domain="plone">
+    i18n:domain="collective.chimpfeed">
 
   <portlet
       addview="collective.chimpfeed.SubscriptionPortlet"
-      title="Subscription Portlet"
+      title="Subscription portlet"
       description="A portlet which allow users to sign up for a mailinglist."
       />
 
