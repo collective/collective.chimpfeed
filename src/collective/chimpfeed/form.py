@@ -128,6 +128,7 @@ class InterestsWidget(SequenceWidget):
 
         widget = CheckBoxFieldWidget(field, self.request)
         widget.name = self.name
+        widget.id = self.id
 
         widget.update()
 
@@ -159,7 +160,14 @@ class SubscribeForm(form.Form):
 
     @property
     def action(self):
+        # Use the parent object's URL instead of the current request
+        # URL; this avoids adding a view name to the end of the path.
         return self.context.aq_parent.absolute_url()
+
+    @property
+    def prefix(self):
+        # Make sure form prefix is unique
+        return 'form-%d.' % u64(self.context._p_oid)
 
     @button.buttonAndHandler(u'Register')
     def handleApply(self, action):
