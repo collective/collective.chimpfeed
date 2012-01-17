@@ -90,7 +90,8 @@ class InterestsWidget(SequenceWidget):
         for grouping in self.groupings:
             grouping_id = grouping['id']
             names = groups.get(grouping_id, ())
-            for name in groups.get(grouping_id):
+            for group in grouping['groups']:
+                name = group['name']
                 if name in names:
                     term = interest_groups_factory.get_term_for_group(
                         name, grouping_id
