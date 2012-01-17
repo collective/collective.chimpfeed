@@ -3,10 +3,12 @@ import greatape
 
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from ZODB.utils import u64
 
 from plone.registry.interfaces import IRegistry
 from plone.memoize.ram import cache
 from plone.memoize.instance import memoizedproperty
+from plone.memoize.volatile import DontCache
 
 from zope.i18n import negotiate
 from zope.component import getUtility
@@ -39,6 +41,13 @@ def create_groupings(groups):
     return groupings
 
 
+def cache_on_get_for_an_hour(method, self):
+    if self.request.method != 'GET':
+        raise DontCache
+
+    return time.time() // (60 * 60)
+
+
 class ISubscription(Interface):
     name = schema.TextLine(
         title=_(u"Name"),
@@ -62,7 +71,7 @@ class ISubscription(Interface):
 class InterestsWidget(SequenceWidget):
     template = ViewPageTemplateFile("interests.pt")
 
-    @cache(lambda *args: time.time() // (60 * 60))
+    @cache(cache_on_get_for_an_hour)
     def render(self):
         return self.template()
 
