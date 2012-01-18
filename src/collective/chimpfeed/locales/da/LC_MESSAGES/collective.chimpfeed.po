@@ -71,7 +71,7 @@ msgid "Sign up"
 msgstr "Tilmelding"
 
 msgid "Subscribe: ${title}"
-msgstr "Nyhedsbrev: Sign up"
+msgstr "Tilmelding: ${title}"
 
 msgid "Thank you for signing up. We'll send you a confirmation message by e-mail shortly."
 msgstr "Tak for din tilmelding. Du vil om kort tid modtage en e-mail med anmodning om godkendelse."
