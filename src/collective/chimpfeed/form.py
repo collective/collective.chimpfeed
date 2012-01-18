@@ -177,7 +177,10 @@ class SubscribeForm(form.Form):
     @property
     def prefix(self):
         # Make sure form prefix is unique
-        return 'form-%d.' % u64(self.context._p_oid)
+        return 'form-%d-%d.' % (
+            u64(self.context._p_oid),
+            int(self.context._p_mtime) % 10000
+            )
 
     @button.buttonAndHandler(_(u'Register'))
     def handleApply(self, action):
