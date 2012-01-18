@@ -47,7 +47,7 @@ def cache_on_get_for_an_hour(method, self):
     if self.request.method != 'GET':
         raise DontCache
 
-    return time.time() // (60 * 60)
+    return time.time() // (60 * 60), self.id
 
 
 class ISubscription(Interface):
