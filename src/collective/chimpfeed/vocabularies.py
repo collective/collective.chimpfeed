@@ -129,7 +129,15 @@ class InterestGroupingVocabulary(MailChimpVocabulary):
 
         for grouping in groupings:
             value = token = grouping['id']
-            yield SimpleTerm(value, token, grouping['name'])
+            groups = grouping['groups']
+            name = grouping['name']
+
+            if groups:
+                name += u" (%s)" % ", ".join(
+                    group['name'] for group in groups
+                    )
+
+            yield SimpleTerm(value, token, name)
 
 
 feeds_factory = FeedVocabulary()
