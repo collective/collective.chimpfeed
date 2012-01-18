@@ -40,11 +40,14 @@ msgstr "Interesser"
 msgid "MailChimp API key"
 msgstr "MailChimp API-nøgle"
 
-msgid "MailChimp RSS"
-msgstr "MailChimp RSS"
+msgid "MailChimp"
+msgstr "MailChimp"
 
-msgid "MailChimp feeds"
-msgstr "MailChimp nyhedsbrev"
+msgid "MailChimp settings"
+msgstr "MailChimp-indstillinger"
+
+msgid "Please configure an API-key and define one or more feeds."
+msgstr "Indsæt din API-nøgle og opret en eller flere udsendelseslister."
 
 msgid "Mailinglist"
 msgstr "Tilmeldingsliste"

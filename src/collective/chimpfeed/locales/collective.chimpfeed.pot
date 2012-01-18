@@ -41,10 +41,13 @@ msgstr ""
 msgid "MailChimp API key"
 msgstr ""
 
-msgid "MailChimp RSS"
+msgid "MailChimp"
 msgstr ""
 
-msgid "MailChimp feeds"
+msgid "MailChimp settings"
+msgstr ""
+
+msgid "Please configure an API-key and define one or more feeds."
 msgstr ""
 
 msgid "Mailinglist"

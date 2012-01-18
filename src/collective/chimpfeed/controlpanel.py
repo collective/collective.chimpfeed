@@ -56,7 +56,11 @@ class UrlsWidget(widget.Widget):
 class ControlPanelEditForm(controlpanel.RegistryEditForm):
     schema = IFeedSettings
     fields = field.Fields(IControlPanel)
-    label = _(u"MailChimp feeds")
+    label = _(u"MailChimp settings")
+    description = _(
+        u"Please configure an API-key and define one or more "
+        u"feeds."
+        )
 
     fields['urls'].mode = "display"
     fields['urls'].widgetFactory = UrlsWidget.factory
