@@ -93,3 +93,9 @@ msgstr "Adresser"
 
 msgid "Use this field to set up your feeds. Give each feed a title such as \"News\"; one feed per line."
 msgstr "Brug dette felt til at sætte dine udsendelseslister op. På hver linie angives en kort tekst f.eks. \"Nyheder\"."
+
+msgid "Choose ${name}:"
+msgstr "Vælg ${name}:"
+
+msgid "Register"
+msgstr "Tilmeld"

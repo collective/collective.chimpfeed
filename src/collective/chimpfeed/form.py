@@ -1,5 +1,6 @@
 import time
 import greatape
+import cgi
 
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -11,6 +12,7 @@ from plone.memoize.instance import memoizedproperty
 from plone.memoize.volatile import DontCache
 
 from zope.i18n import negotiate
+from zope.i18n import translate
 from zope.component import getUtility
 from zope.component import queryUtility
 from zope.interface import Interface
@@ -60,7 +62,6 @@ class ISubscription(Interface):
         )
 
     interests = schema.Tuple(
-        title=_(u"Interests"),
         value_type=schema.Choice(
             vocabulary="collective.chimpfeed.vocabularies.InterestGroups",
             ),
@@ -113,7 +114,13 @@ class InterestsWidget(SequenceWidget):
                 grouping, count=False
                 ))
 
-            result = self.renderChoices(terms, grouping['name'])
+            # Create label from the grouping name; we simply lowercase
+            # it.
+            label = _(u"Choose ${name}:", mapping={
+                'name': cgi.escape(grouping['name'].lower())
+                })
+
+            result = self.renderChoices(terms, label)
             rendered.append(result)
 
         return u"\n".join(rendered)
@@ -131,11 +138,14 @@ class InterestsWidget(SequenceWidget):
         widget.id = self.id
 
         widget.update()
+        result = widget.render()
 
         if label is not None:
-            widget.label = label
+            result = u"<fieldset><legend>%s</legend>%s</fieldset>" % (
+                translate(label, context=self.request), result
+                )
 
-        return widget.render()
+        return result
 
 
 class SchemaErrorSnippet(object):
@@ -169,7 +179,7 @@ class SubscribeForm(form.Form):
         # Make sure form prefix is unique
         return 'form-%d.' % u64(self.context._p_oid)
 
-    @button.buttonAndHandler(u'Register')
+    @button.buttonAndHandler(_(u'Register'))
     def handleApply(self, action):
         data, errors = self.extractData()
         if errors:

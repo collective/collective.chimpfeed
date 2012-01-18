@@ -95,3 +95,8 @@ msgstr ""
 msgid "Use this field to set up your feeds. Give each feed a title such as \"News\"; one feed per line."
 msgstr ""
 
+msgid "Choose ${name}:"
+msgstr ""
+
+msgid "Register"
+msgstr ""
