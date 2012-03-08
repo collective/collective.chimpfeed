@@ -103,3 +103,36 @@ msgstr ""
 
 msgid "Register"
 msgstr ""
+
+msgid "Approve"
+msgstr ""
+
+msgid "Approve schedule"
+msgstr ""
+
+msgid "Feeds"
+msgstr ""
+
+msgid "If you want this content item published to a news feed, select one or more from the list below."
+msgstr ""
+
+msgid "Moderation"
+msgstr ""
+
+msgid "Schedule feed date"
+msgstr ""
+
+msgid "Select this option to approve schedule."
+msgstr ""
+
+msgid "The item will be scheduled to be included in feeds from this date. Note that this is subject to editor moderation."
+msgstr ""
+
+msgid "All items have been moderated."
+msgstr ""
+
+msgid "Please review the following schedule."
+msgstr ""
+
+msgid "Today"
+msgstr ""

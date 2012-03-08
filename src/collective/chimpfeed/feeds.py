@@ -6,7 +6,9 @@ from zope.component import adapts
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.AdvancedQuery import Indexed, Le, Eq, In
 from Acquisition import Implicit
+from DateTime import DateTime
 
 from plone.i18n.normalizer.interfaces import IURLNormalizer
 from plone.registry.interfaces import IRegistry
@@ -46,10 +48,14 @@ class Feed(Implicit):
 
     def get_brains(self):
         catalog = getToolByName(self.context, 'portal_catalog')
-        brains = catalog(
-            review_state=['visible', 'published'],
-            chimpfeeds=self.name
-            )
+        today = DateTime()
+
+        query = In('review_state', ('visible', 'published')) & \
+                Eq('chimpfeeds', self.name) & \
+                Eq('feedModerate', True) & \
+                Le('feedSchedule', today)
+
+        brains = catalog.evalAdvancedQuery(query)
         return tuple(brains)
 
     def index_html(self):

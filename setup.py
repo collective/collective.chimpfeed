@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 def read(*pathnames):
     return open(os.path.join(os.path.dirname(__file__), *pathnames)).read()
 
-version = '1.0'
+version = '1.1-dev'
 
 setup(name='collective.chimpfeed',
       version=version,
@@ -34,9 +34,11 @@ setup(name='collective.chimpfeed',
           'plone.app.controlpanel',
           'greatape',
           'simplejson',
+          'Products.AdvancedQuery',
       ],
       entry_points="""
       [z3c.autoinclude.plugin]
       target = plone
       """,
       )
+ 

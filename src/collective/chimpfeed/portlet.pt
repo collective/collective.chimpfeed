@@ -12,12 +12,8 @@
 
     <dd class="portletItem">
       <form tal:replace="structure view/render_form" />
+      <div class="visualClear"></div>
     </dd>
 
-    <dd class="portletFooter">
-      <span class="portletBottomLeft"></span>
-      <span class="portletBottomRight"></span>
-    </dd>
   </dl>
-</html
->
+</html>

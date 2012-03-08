@@ -9,4 +9,10 @@
       description="A portlet which allow users to sign up for a mailinglist."
       />
 
+  <portlet
+      addview="collective.chimpfeed.ModerationPortlet"
+      title="Moderation portlet"
+      description="A portlet which allow editors to moderate feeds."
+      />
+
 </portlets>

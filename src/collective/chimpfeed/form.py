@@ -1,10 +1,14 @@
 import time
+import math
 import greatape
 import cgi
 
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.CMFCore.utils import getToolByName
+
 from ZODB.utils import u64
+from DateTime import DateTime
 
 from plone.registry.interfaces import IRegistry
 from plone.memoize.ram import cache
@@ -50,6 +54,15 @@ def cache_on_get_for_an_hour(method, self):
     return time.time() // (60 * 60), self.id
 
 
+class IModeration(Interface):
+    items = schema.Tuple(
+        value_type=schema.Choice(
+            vocabulary="collective.chimpfeed.vocabularies.ScheduledItems",
+            ),
+        required=False,
+        )
+
+
 class ISubscription(Interface):
     name = schema.TextLine(
         title=_(u"Name"),
@@ -67,6 +80,80 @@ class ISubscription(Interface):
             ),
         required=False,
         )
+
+
+class ModerationWidget(SequenceWidget):
+    template = ViewPageTemplateFile("moderate.pt")
+
+    @classmethod
+    def factory(cls, field, request):
+        return FieldWidget(field, cls(request))
+
+    def render(self):
+        return self.template()
+
+    def _localize_time(self, time, long_format):
+        util = getToolByName(self.context, 'translation_service')
+
+        return util.ulocalized_time(
+            time, long_format=long_format,
+            context=self.context, request=self.request,
+            domain='plonelocales'
+            )
+
+    @memoizedproperty
+    def entries(self):
+        entries = []
+        catalog = self.context.portal_catalog
+
+        for term in self.terms:
+            rid = term.value
+            entry = catalog.getMetadataForRID(rid)
+            entries.append(entry)
+
+        return entries
+
+    @memoizedproperty
+    def action_required(self):
+        for entry in self.entries:
+            if not entry['feedModerate']:
+                return True
+
+    @property
+    def groups(self):
+        last = None
+        groups = []
+        entries = []
+        today = DateTime()
+
+        for entry in self.entries:
+            date = entry['feedSchedule']
+
+            days = int(math.floor(date - today))
+            if days != last:
+                entries = []
+
+                # To-Do: Use Plone's date formatters
+                if days == -1:
+                    name = _(u"Today")
+                elif days < 7:
+                    abbr = date.strftime("%a")
+                    name = translate(
+                        'weekday_%s' % abbr.lower(),
+                        domain="plonelocales",
+                        context=self.request
+                        )
+                else:
+                    name = self._localize_time(date, False)
+
+                groups.append({
+                    'date': name,
+                    'entries': entries,
+                    })
+
+            entries.append(entry)
+
+        return groups
 
 
 class InterestsWidget(SequenceWidget):
@@ -161,11 +248,7 @@ class SchemaErrorSnippet(object):
         return _(self.error.__doc__)
 
 
-class SubscribeForm(form.Form):
-    fields = field.Fields(ISubscription)
-
-    fields['interests'].widgetFactory = InterestsWidget.factory
-
+class BaseForm(form.Form):
     ignoreContext = True
 
     @property
@@ -181,6 +264,43 @@ class SubscribeForm(form.Form):
             u64(self.context._p_oid),
             int(self.context._p_mtime) % 10000
             )
+
+
+class ModerationForm(BaseForm):
+    fields = field.Fields(IModeration)
+
+    fields['items'].widgetFactory = ModerationWidget.factory
+
+    ignoreContext = True
+
+    @button.buttonAndHandler(_(u'Approve'))
+    def handleApprove(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+
+        catalog = self.context.portal_catalog
+        for rid in data['items'] or ():
+            metadata = catalog.getMetadataForRID(rid)
+            for brain in self.context.uid_catalog(UID=metadata['UID']):
+                obj = brain.getObject()
+                obj.getField('feedModerate').set(obj, True)
+                obj.reindexObject(['feedModerate'])
+
+    def update(self):
+        super(ModerationForm, self).update()
+
+        # No reason to show a button if no action is required (or
+        # possible).
+        if not self.widgets['items'].action_required:
+            del self.actions['approve']
+
+
+class SubscribeForm(BaseForm):
+    fields = field.Fields(ISubscription)
+
+    fields['interests'].widgetFactory = InterestsWidget.factory
 
     @button.buttonAndHandler(_(u'Register'))
     def handleApply(self, action):

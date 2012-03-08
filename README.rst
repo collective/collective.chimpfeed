@@ -16,13 +16,16 @@ optionally lists a subset of interest groups.
 Compatibility
 -------------
 
-Tested on Plone 4.0.
+Tested on Plone 4.0 - 4.2
 
 
 Getting started
 ---------------
 
 1. First, install the product using Plone's add-on control panel.
+
+   This register a control panel, and adds a number of required
+   indexes and columns to the catalog.
 
 2. Visit the "MailChimp RSS" control panel to define one or more
    feeds.

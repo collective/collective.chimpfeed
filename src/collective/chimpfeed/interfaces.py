@@ -88,6 +88,10 @@ class ISubscriptionFormSettings(Interface):
         )
 
 
+class IModerationPortlet(IPortletDataProvider):
+    pass
+
+
 class ISubscriptionPortlet(IPortletDataProvider, ISubscriptionFormSettings):
     heading = schema.TextLine(
         title=_(u"Title"),

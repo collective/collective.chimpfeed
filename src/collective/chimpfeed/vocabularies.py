@@ -14,6 +14,9 @@ from plone.memoize.ram import cache
 from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed import logger
 
+from Products.AdvancedQuery import Indexed, Ge
+from DateTime import DateTime
+
 
 def stub_api(**kwargs):
     return ()
@@ -23,6 +26,25 @@ class VocabularyBase(object):
     implements(IVocabularyFactory)
 
 
+class ScheduledItems(VocabularyBase):
+    def __call__(self, context):
+        terms = []
+        today = DateTime()
+        today = DateTime(today.year(), today.month(), today.day())
+
+        query = Indexed('chimpfeeds') & Ge('feedSchedule', today)
+        brains = context.portal_catalog.evalAdvancedQuery(
+            query, (('feedSchedule', 'desc'), ))
+
+        for brain in brains:
+            rid = brain.getRID()
+            terms.append(
+                SimpleTerm(rid, brain.UID, brain.Title)
+                )
+
+        return SimpleVocabulary(terms)
+
+
 class FeedVocabulary(VocabularyBase):
     def __call__(self, context):
         normalize = getUtility(IIDNormalizer).normalize
@@ -30,7 +52,7 @@ class FeedVocabulary(VocabularyBase):
 
         return SimpleVocabulary([
             SimpleTerm(feed, normalize(feed), feed)
-            for feed in settings.feeds
+            for feed in settings.feeds or ()
             ])
 
 
@@ -144,3 +166,4 @@ feeds_factory = FeedVocabulary()
 lists_factory = ListVocabulary()
 interest_groupings_factory = InterestGroupingVocabulary()
 interest_groups_factory = InterestGroupVocabulary()
+scheduled_items = ScheduledItems()

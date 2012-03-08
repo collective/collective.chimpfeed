@@ -7,13 +7,23 @@ from plone.app.z3cform.interfaces import IPloneFormLayer
 from z3c.form.interfaces import IFormLayer
 from plone.app.portlets.portlets import base
 from five.formlib.formbase import FormBase
+from zope.security import checkPermission
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Acquisition import ImplicitAcquisitionWrapper
 
 from collective.chimpfeed.form import SubscribeForm
+from collective.chimpfeed.form import ModerationForm
 from collective.chimpfeed.interfaces import ISubscriptionPortlet
+from collective.chimpfeed.interfaces import IModerationPortlet
 from collective.chimpfeed import MessageFactory as _
+
+
+class ModerationPortletAssignment(base.Assignment):
+    implements(IModerationPortlet)
+
+    heading = _(u"Moderation")
+
+    title = _(u"Feed moderation")
 
 
 class SubscriptionPortletAssignment(base.Assignment):
@@ -28,7 +38,7 @@ class SubscriptionPortletAssignment(base.Assignment):
         return _("Subscribe: ${title}", mapping={'title': self.heading})
 
 
-class SubscriptionPortletRenderer(base.Renderer):
+class FormPortletRenderer(base.Renderer):
     render = ViewPageTemplateFile('portlet.pt')
 
     def render_form(self):
@@ -36,8 +46,7 @@ class SubscriptionPortletRenderer(base.Renderer):
         noLongerProvides(self.request, IPloneFormLayer)
         alsoProvides(self.request, IFormLayer)
         try:
-            context = self.data.__of__(self.context)
-            form = SubscribeForm(context, self.request)
+            form = self.create_form()
             alsoProvides(form, IWrappedForm)
             form.update()
             return form.render()
@@ -45,6 +54,27 @@ class SubscriptionPortletRenderer(base.Renderer):
             noLongerProvides(self.request, IFormLayer)
             if provided:
                 alsoProvides(self.request, IPloneFormLayer)
+
+
+class ModerationPortletRenderer(FormPortletRenderer):
+    @property
+    def available(self):
+        return checkPermission("chimpfeed.Moderate", self.context)
+
+    def create_form(self):
+        context = self.data.__of__(self.context)
+        return ModerationForm(context, self.request)
+
+
+class SubscriptionPortletRenderer(FormPortletRenderer):
+    def create_form(self):
+        context = self.data.__of__(self.context)
+        return SubscribeForm(context, self.request)
+
+
+class ModerationPortletAddForm(base.NullAddForm):
+    def create(self):
+        return ModerationPortletAssignment()
 
 
 class SubscriptionPortletForm(FormBase):

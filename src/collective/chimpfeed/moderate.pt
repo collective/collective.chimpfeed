@@ -1,0 +1,45 @@
+<div i18n:domain="collective.chimpfeed">
+  <p tal:condition="view/action_required"
+     i18n:translate="">Please review the following schedule.</p>
+
+  <p tal:condition="not: view/action_required"
+     i18n:translate="">All items have been moderated.</p>
+
+  <ul tal:define="pview context/@@plone">
+    <li tal:repeat="group view/groups">
+      <fieldset>
+        <legend style="padding: 5px" class="portletItemDetails">
+          &nbsp;
+          <em i18n:translate="" tal:content="group/date" />
+          &nbsp;
+        </legend>
+        <div class="field" tal:repeat="entry group/entries">
+          <div class="disabled" style="color: #999 !important" tal:omit-tag="not: entry/feedModerate">
+            <tal:field define="id string:${view/id}-${repeat/entry/number}">
+
+              <input type="checkbox"
+                     tal:define="moderated entry/feedModerate"
+                     tal:attributes="id id;
+                                     name string:${view/name}:list;
+                                     value entry/UID;
+                                     checked python: 'checked' if moderated else None;
+                                     disabled python: 'disabled' if moderated else None;"
+                     />
+
+              <label tal:attributes="for id" tal:content="entry/Title" />
+              <div tal:define="description entry/Description"
+                   tal:content="python: pview.cropText(description, 30, u'…')" />
+              <div class="feeds">
+                <span tal:repeat="feed entry/chimpfeeds"
+                      tal:content="feed"
+                      tal:attributes="class string:feed-marker-${repeat/feed/number};
+                                      style string:font-weight: bold;; font-size: 75%;; margin-right: 5px"
+                      />
+              </div>
+            </tal:field>
+          </div>
+        </div>
+      </fieldset>
+    </li>
+  </ul>
+</div>

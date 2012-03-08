@@ -102,3 +102,30 @@ msgstr "Vælg ${name}:"
 
 msgid "Register"
 msgstr "Tilmeld"
+
+msgid "Approve"
+msgstr "Godkend"
+
+msgid "Approve schedule"
+msgstr "Godkend udsendelsesdato"
+
+msgid "Moderation"
+msgstr "Udsendelsesstyring"
+
+msgid "Schedule feed date"
+msgstr "Udsendelsesdato"
+
+msgid "Select this option to approve schedule."
+msgstr "Vælg dette for at godkende udsendelsesdatoen."
+
+msgid "The item will be scheduled to be included in feeds from this date. Note that this is subject to editor moderation."
+msgstr "Dette indholdsobjekt vil blive sat til udsendelse i de valgte lister på denne dato. Bemærk, at udsendelse kræver godkendelse."
+
+msgid "All items have been moderated."
+msgstr "Alt indhold er godkendt til udsendelse."
+
+msgid "Please review the following schedule."
+msgstr "Indhold uden markering kræver godkendelse."
+
+msgid "Today"
+msgstr "I dag"

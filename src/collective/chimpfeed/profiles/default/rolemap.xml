@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<rolemap>
+  <permissions>
+    <permission name="collective.chimpfeed: Moderate" acquire="False">
+      <role name="Manager" />
+      <role name="Editor" />
+    </permission>
+  </permissions>
+</rolemap>

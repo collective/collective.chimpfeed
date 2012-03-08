@@ -24,6 +24,13 @@
   <adapter name="feeds" factory=".schema.FeedExtender" />
   <adapter name="chimpfeeds" factory=".schema.feed_indexer" />
 
+  <!-- Permissions -->
+
+  <permission
+      id="chimpfeed.Moderate"
+      title="collective.chimpfeed: Moderate"
+      />
+
   <!-- Feeds -->
 
   <adapter
@@ -43,7 +50,7 @@
 
   <adapter factory=".controlpanel.ControlPanelAdapter" />
 
-  <!-- Portlet -->
+  <!-- Portlets -->
 
   <plone:portlet
       name="collective.chimpfeed.SubscriptionPortlet"
@@ -54,6 +61,16 @@
       renderer=".portlet.SubscriptionPortletRenderer"
       addview=".portlet.SubscriptionPortletAddForm"
       editview=".portlet.SubscriptionPortletEditForm"
+      />
+
+  <plone:portlet
+      name="collective.chimpfeed.ModerationPortlet"
+      interface=".interfaces.IModerationPortlet"
+      assignment=".portlet.ModerationPortletAssignment"
+      view_permission="zope2.View"
+      edit_permission="cmf.ManagePortal"
+      renderer=".portlet.ModerationPortletRenderer"
+      addview=".portlet.ModerationPortletAddForm"
       />
 
   <!-- Vocabularies -->
@@ -76,6 +93,11 @@
   <utility
       component=".vocabularies.interest_groups_factory"
       name="collective.chimpfeed.vocabularies.InterestGroups"
+      />
+
+  <utility
+      component=".vocabularies.scheduled_items"
+      name="collective.chimpfeed.vocabularies.ScheduledItems"
       />
 
   <!-- Translations -->
