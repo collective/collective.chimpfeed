@@ -41,6 +41,8 @@ class SubscriptionPortletAssignment(base.Assignment):
 class FormPortletRenderer(base.Renderer):
     render = ViewPageTemplateFile('portlet.pt')
 
+    name = ""
+
     def render_form(self):
         provided = IPloneFormLayer.providedBy(self.request)
         noLongerProvides(self.request, IPloneFormLayer)
@@ -57,6 +59,8 @@ class FormPortletRenderer(base.Renderer):
 
 
 class ModerationPortletRenderer(FormPortletRenderer):
+    name = "Moderation"
+
     @property
     def available(self):
         return checkPermission("chimpfeed.Moderate", self.context)
@@ -78,6 +82,8 @@ class ModerationPortletAddForm(base.NullAddForm):
 
 
 class SubscriptionPortletForm(FormBase):
+    name = "Subscribe"
+
     form_fields = form.Fields(ISubscriptionPortlet)
     description = _(u"This portlet shows a subscription form.")
 

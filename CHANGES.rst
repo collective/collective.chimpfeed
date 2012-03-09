@@ -1,6 +1,13 @@
 Changes
 =======
 
+In next release ...
+
+Bugfixes:
+
+- The moderation portlet now correctly gets the class
+  ``'portletModeration'``.
+
 1.1 (2012-03-08)
 ----------------
 

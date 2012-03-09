@@ -2,7 +2,8 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       tal:omit-tag="">
-  <dl class="portlet portletSubscribe" i18n:domain="collective.chimpfeed">
+  <dl tal:attributes="class string:portlet portlet${view/name}"
+      i18n:domain="collective.chimpfeed">
 
     <dt class="portletHeader">
       <span class="portletTopLeft"></span>
