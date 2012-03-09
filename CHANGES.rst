@@ -3,6 +3,10 @@ Changes
 
 In next release ...
 
+Features:
+
+- Add link to content for moderation.
+
 Bugfixes:
 
 - The moderation portlet now correctly gets the class

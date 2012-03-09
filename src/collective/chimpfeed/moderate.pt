@@ -5,10 +5,11 @@
   <p tal:condition="not: view/action_required"
      i18n:translate="">All items have been moderated.</p>
 
-  <ul tal:define="pview context/@@plone">
+  <ul tal:define="pview context/@@plone;
+                  resolve_url string:${context/portal_url}/resolveuid">
     <li tal:repeat="group view/groups">
       <fieldset>
-        <legend style="padding: 5px" class="portletItemDetails">
+        <legend class="portletItemDetails">
           &nbsp;
           <em i18n:translate="" tal:content="group/date" />
           &nbsp;
@@ -26,7 +27,11 @@
                                      disabled python: 'disabled' if moderated else None;"
                      />
 
-              <label tal:attributes="for id" tal:content="entry/Title" />
+              <label tal:attributes="for id">
+                <a tal:attributes="href string:${resolve_url}/${entry/UID}"
+                   tal:content="entry/Title" />
+              </label>
+
               <div tal:define="description entry/Description"
                    tal:content="python: pview.cropText(description, 30, u'…')" />
               <div class="feeds">
