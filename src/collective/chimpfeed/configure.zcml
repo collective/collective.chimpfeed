@@ -13,9 +13,9 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="collective.chimpfeed: Install"
+      title="Chimpfeed"
       directory="profiles/default"
-      description="Registers control panel and default settings."
+      description="Registers portlet, control panel and default settings."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
