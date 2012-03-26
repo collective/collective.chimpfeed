@@ -27,6 +27,19 @@ def make_urls(feeds):
         ))
 
 
+class ItemProxy(Implicit):
+    __allow_access_to_unprotected_subobjects__ = 1
+
+    def __init__(self, context):
+        self.context = context
+
+    def getText(self):
+        # This may raise an `AttributeError`, but that's expected.
+        view = self.context.aq_inner.restrictedTraverse('@@rss-summary')
+
+        return view()
+
+
 class Feed(Implicit):
     template = ViewPageTemplateFile("feed.pt")
 
@@ -46,7 +59,7 @@ class Feed(Implicit):
         # Actually return an empty string
         return u""
 
-    def get_brains(self):
+    def get_items(self):
         catalog = getToolByName(self.context, 'portal_catalog')
         today = DateTime()
 
@@ -59,7 +72,8 @@ class Feed(Implicit):
             query = query & Eq('feedModerate', True)
 
         brains = catalog.evalAdvancedQuery(query)
-        return tuple(brains)
+        objects = tuple(brain.getObject() for brain in brains)
+        return tuple(ItemProxy(obj).__of__(obj) for obj in objects)
 
     def index_html(self):
         """Publish RSS-feed."""

@@ -8,7 +8,7 @@
   xmlns:tal="http://xml.zope.org/namespaces/tal"
   xmlns:metal="http://xml.zope.org/namespaces/metal">
 
-  <tal:block define="objectList view/get_brains;
+  <tal:block define="objectList view/get_items;
                      max_items view/max_items">
     <metal:block use-macro="context/rss_template/macros/master" />
   </tal:block>

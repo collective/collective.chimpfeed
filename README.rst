@@ -40,6 +40,17 @@ Optionally,
 5. Add one or more subscription portlets.
 
 
+Feed content
+------------
+
+In the out of the box configuration, only the default dublin core
+metadata will be returned in RSS feeds.
+
+If a view ``rss-summary`` is registered for the item, the template
+will call this view and include it as the RSS summary field (marked as
+CDATA). The string should be HTML.
+
+
 Localization
 ------------
 
