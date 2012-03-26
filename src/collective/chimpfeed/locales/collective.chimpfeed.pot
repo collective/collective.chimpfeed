@@ -29,7 +29,7 @@ msgstr ""
 msgid "Feeds"
 msgstr ""
 
-msgid "If you want this content item published to a news feed, select one or more from the list below."
+msgid "If you want this content item published to a MailChimp RSS-feed, select one or more from the list below."
 msgstr ""
 
 msgid "Interest groups"
@@ -119,13 +119,13 @@ msgstr ""
 msgid "Moderation"
 msgstr ""
 
-msgid "Schedule feed date"
+msgid "Feed Date"
 msgstr ""
 
 msgid "Select this option to approve schedule."
 msgstr ""
 
-msgid "The item will be scheduled to be included in feeds from this date. Note that this is subject to editor moderation."
+msgid "The item will be scheduled to be included in feeds from this date. Note that this is subject to editor moderation (if required)."
 msgstr ""
 
 msgid "All items have been moderated."

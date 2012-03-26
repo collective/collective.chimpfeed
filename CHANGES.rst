@@ -1,6 +1,14 @@
 Changes
 =======
 
+In next release ...
+
+Features:
+
+- Add support for Dexterity-based content.
+
+- Make content moderation requirement optional.
+
 1.2 (2012-03-09)
 ----------------
 

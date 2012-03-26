@@ -3,8 +3,13 @@ import greatape
 from zope.interface import Interface
 from zope import schema
 
+from plone.supermodel.model import Fieldset
+from plone.supermodel.interfaces import FIELDSETS_KEY
+from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
 from plone.portlets.interfaces import IPortletDataProvider
+from plone.directives import form
 
+from collective.chimpfeed.permissions import MODERATE_PERMISSION
 from collective.chimpfeed import MessageFactory as _
 from collective.chimpfeed import logger
 
@@ -44,6 +49,13 @@ class IFeedSettings(Interface):
         required=False,
         default=u"",
         constraint=check_api_key,
+        )
+
+    use_moderation = schema.Bool(
+        title=_(u'Require moderation'),
+        description=_(u'Select this option to enable content '
+                      u'moderation.'),
+        required=False,
         )
 
     feeds = schema.List(
@@ -110,3 +122,52 @@ class IControlPanel(IFeedSettings):
         required=False,
         value_type=schema.ASCIILine(),
         )
+
+
+class IFeedControl(form.Schema):
+    """Content settings that provide feed control."""
+
+    feeds = schema.Set(
+        title=_(u"Feeds"),
+        description=_(u"If you want this content item published "
+                      u"to a MailChimp RSS-feed, select one or more "
+                      u"from the list below."),
+        required=False,
+        value_type=schema.Choice(
+            vocabulary="collective.chimpfeed.vocabularies.Feeds",
+            )
+        )
+
+    feedSchedule = schema.Date(
+        title=_(u'Feed Date'),
+        description=_(u'The item will be scheduled to be included '
+                      u'in feeds from this date. Note that this '
+                      u'may be subject to editor moderation '
+                      u'(if required).'),
+        required=False,
+        )
+
+    feedModerate = schema.Bool(
+        title=_(u'Approve schedule'),
+        description=_(u'Select this option to approve schedule.'),
+        required=False,
+        )
+
+
+IFeedControl.setTaggedValue(
+    WRITE_PERMISSIONS_KEY, {
+    'feedModerate': MODERATE_PERMISSION
+    })
+
+
+IFeedControl.setTaggedValue(
+    FIELDSETS_KEY,
+    [Fieldset(
+        'dates',
+        fields=['feedSchedule', 'feedModerate'],
+        label=_(u"Dates")),
+     Fieldset(
+        'categorization',
+        fields=['feeds'],
+        label=_(u"Categorization")),
+     ])

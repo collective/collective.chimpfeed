@@ -6,7 +6,7 @@ from zope.component import adapts
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.AdvancedQuery import Indexed, Le, Eq, In
+from Products.AdvancedQuery import Le, Eq, In
 from Acquisition import Implicit
 from DateTime import DateTime
 
@@ -52,8 +52,11 @@ class Feed(Implicit):
 
         query = In('review_state', ('visible', 'published')) & \
                 Eq('chimpfeeds', self.name) & \
-                Eq('feedModerate', True) & \
                 Le('feedSchedule', today)
+
+        settings = getUtility(IRegistry).forInterface(IFeedSettings)
+        if settings.use_moderation:
+            query = query & Eq('feedModerate', True)
 
         brains = catalog.evalAdvancedQuery(query)
         return tuple(brains)

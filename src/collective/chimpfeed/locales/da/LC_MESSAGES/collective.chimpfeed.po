@@ -25,10 +25,13 @@ msgstr "Redigér tilmeldingsportlet"
 msgid "Subscription portlet"
 msgstr "Tilmeldingsportlet"
 
+msgid "Moderation portlet"
+msgstr "Udsendelsesstyring"
+
 msgid "Feeds"
 msgstr "Udsendelseslister"
 
-msgid "If you want this content item published to a news feed, select one or more from the list below."
+msgid "If you want this content item published to a MailChimp RSS-feed, select one or more from the list below."
 msgstr "Vælg én eller flere udsendelseslister for dette indholdsobjekt."
 
 msgid "Interest groups"
@@ -107,19 +110,19 @@ msgid "Approve"
 msgstr "Godkend"
 
 msgid "Approve schedule"
-msgstr "Godkend udsendelsesdato"
+msgstr "Godkend udsendelse"
 
 msgid "Moderation"
 msgstr "Udsendelsesstyring"
 
-msgid "Schedule feed date"
+msgid "Feed Date"
 msgstr "Udsendelsesdato"
 
 msgid "Select this option to approve schedule."
 msgstr "Vælg dette for at godkende udsendelsesdatoen."
 
-msgid "The item will be scheduled to be included in feeds from this date. Note that this is subject to editor moderation."
-msgstr "Dette indholdsobjekt vil blive sat til udsendelse i de valgte lister på denne dato. Bemærk, at udsendelse kræver godkendelse."
+msgid "The item will be scheduled to be included in feeds from this date. Note that this is subject to editor moderation (if required)."
+msgstr "Dette indholdsobjekt vil blive sat til udsendelse i de valgte lister på denne dato. Bemærk, at udsendelse kan være afhængigt af godkendelse fra en indholdsredaktør (hvis påkrævet)."
 
 msgid "All items have been moderated."
 msgstr "Alt indhold er godkendt til udsendelse."
@@ -129,3 +132,10 @@ msgstr "Indhold uden markering kræver godkendelse."
 
 msgid "Today"
 msgstr "I dag"
+
+msgid "Require moderation"
+msgstr "Indhold skal godkendes"
+
+msgid "Select this option to enable content moderation."
+msgstr "Vælg dette for at påkræve godkendelse af indhold til udsendelse."
+

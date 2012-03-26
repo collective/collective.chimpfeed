@@ -35,6 +35,7 @@ from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from collective.chimpfeed import MessageFactory as _
 from collective.chimpfeed import logger
 from collective.chimpfeed.interfaces import IFeedSettings
+from collective.chimpfeed.interfaces import IFeedControl
 from collective.chimpfeed.interfaces import INameSplitter
 from collective.chimpfeed.vocabularies import interest_groups_factory
 from collective.chimpfeed.splitters import GenericNameSplitter
@@ -283,9 +284,16 @@ class ModerationForm(BaseForm):
         catalog = self.context.portal_catalog
         for rid in data['items'] or ():
             metadata = catalog.getMetadataForRID(rid)
-            for brain in self.context.uid_catalog(UID=metadata['UID']):
+            for brain in catalog(UID=metadata['UID']):
                 obj = brain.getObject()
-                obj.getField('feedModerate').set(obj, True)
+
+                try:
+                    field = obj.getField('feedModerate')
+                except AttributeError:
+                    obj.feedModerate = True
+                else:
+                    field.set(obj, True)
+
                 obj.reindexObject(['feedModerate'])
 
     def update(self):
