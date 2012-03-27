@@ -3,6 +3,12 @@ Changes
 
 In next release ...
 
+Features:
+
+- Bump schedule date to today's date on moderation, if date is in the
+  past. This ensures that the item will be shown on the moderation
+  screen.
+
 Bugfixes:
 
 - Fixed incorrect package dependency.
