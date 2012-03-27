@@ -11,6 +11,10 @@ Features:
 
 Bugfixes:
 
+- Fixed issue with custom schema mutator which would not function
+  correctly with schema caching; we are able to work around it using
+  Archetypes' storage API directly.
+
 - Fixed incorrect package dependency.
 
 

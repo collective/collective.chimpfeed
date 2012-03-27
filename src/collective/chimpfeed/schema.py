@@ -72,7 +72,9 @@ class ScheduleField(ExtensionField, atapi.DateTimeField):
         if previous == value:
             return
 
-        instance.getField('feedModerate').set(instance, False)
+        storage = instance.getField('feedModerate').getStorage()
+        storage.set('feedModerate', instance, False, **kwargs)
+
         super(ScheduleField, self).set(instance, value, **kwargs)
 
 
