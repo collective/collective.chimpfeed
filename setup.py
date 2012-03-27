@@ -30,7 +30,7 @@ setup(name='collective.chimpfeed',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'plone.directives',
+          'plone.directives.form',
           'plone.supermodel',
           'plone.app.registry',
           'plone.app.controlpanel',
