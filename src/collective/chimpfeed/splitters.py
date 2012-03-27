@@ -33,7 +33,7 @@ class DanishNameSplitter(object):
         names = filter(None, name.split(u' '))
 
         if len(names) < 2:
-            return name
+            return name, u""
 
         last = names[-1]
 

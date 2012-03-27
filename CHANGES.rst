@@ -1,6 +1,13 @@
 Changes
 =======
 
+In next release ...
+
+Bugfixes:
+
+- Fixed issue where subscription using first name only (single name,
+  when split on space) would cause an exception.
+
 1.4 (2012-03-27)
 ----------------
 
