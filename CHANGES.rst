@@ -1,6 +1,13 @@
 Changes
 =======
 
+In next release ...
+
+Bugfixes:
+
+- Fixed incorrect package dependency.
+
+
 1.3 (2012-03-26)
 ----------------
 
