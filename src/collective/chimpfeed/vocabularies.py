@@ -7,7 +7,6 @@ from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
-from plone.registry.interfaces import IRegistry
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.memoize.ram import cache
 
@@ -16,6 +15,7 @@ from collective.chimpfeed import logger
 
 from Products.AdvancedQuery import Indexed, Ge
 from DateTime import DateTime
+from Acquisition import ImplicitAcquisitionWrapper
 
 
 def stub_api(**kwargs):
@@ -48,7 +48,7 @@ class ScheduledItems(VocabularyBase):
 class FeedVocabulary(VocabularyBase):
     def __call__(self, context):
         normalize = getUtility(IIDNormalizer).normalize
-        settings = getUtility(IRegistry).forInterface(IFeedSettings)
+        settings = IFeedSettings(context)
 
         return SimpleVocabulary([
             SimpleTerm(feed, normalize(feed), feed)
@@ -58,14 +58,15 @@ class FeedVocabulary(VocabularyBase):
 
 class MailChimpVocabulary(VocabularyBase):
     def __call__(self, context):
-        generator = self.get_terms(context)
+        settings = IFeedSettings(context)
+        wrapped = ImplicitAcquisitionWrapper(self, settings)
+
+        generator = wrapped.get_terms()
         terms = tuple(generator)
         return SimpleVocabulary(terms)
 
-    @property
-    def api(self):
-        settings = getUtility(IRegistry).forInterface(IFeedSettings)
-        api_key = settings.mailchimp_api_key
+    def api(self, **kwargs):
+        api_key = self.mailchimp_api_key
 
         if api_key:
             api = greatape.MailChimp(api_key)
@@ -86,9 +87,10 @@ class MailChimpVocabulary(VocabularyBase):
 
                 return ()
 
-            return api
+        else:
+            api = stub_api
 
-        return stub_api
+        return api(**kwargs)
 
     @cache(lambda *args: time.time() // (5 * 60))
     def get_lists(self):
@@ -113,13 +115,13 @@ class MailChimpVocabulary(VocabularyBase):
 
 
 class ListVocabulary(MailChimpVocabulary):
-    def get_terms(self, context):
+    def get_terms(self):
         for value, name in self.get_lists():
             yield SimpleTerm(value, value, name)
 
 
 class InterestGroupVocabulary(MailChimpVocabulary):
-    def get_terms(self, context):
+    def get_terms(self):
         groupings = self.get_groupings()
 
         for grouping in groupings:
@@ -146,7 +148,7 @@ class InterestGroupVocabulary(MailChimpVocabulary):
 
 
 class InterestGroupingVocabulary(MailChimpVocabulary):
-    def get_terms(self, context):
+    def get_terms(self):
         groupings = self.get_groupings()
 
         for grouping in groupings:

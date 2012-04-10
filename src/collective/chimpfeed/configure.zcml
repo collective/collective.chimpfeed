@@ -9,10 +9,8 @@
    i18n_domain="collective.chimpfeed">
 
   <include package="plone.browserlayer" />
-  <include package="plone.app.registry" />
+  <include package="plone.app.z3cform" />
   <include package="archetypes.schemaextender" />
-
-  <include package="plone.dexterity" file="meta.zcml" />
 
   <genericsetup:registerProfile
       name="default"
@@ -26,11 +24,23 @@
 
   <adapter name="feeds" factory=".schema.FeedExtender" />
 
-  <!-- Catalog -->
+  <!-- Archetypes -->
 
   <adapter name="chimpfeeds" factory=".schema.at_feed_indexer" />
 
+  <!-- Settings -->
+
+  <adapter
+      for="*"
+      provides=".interfaces.IFeedSettings"
+      factory=".settings.get_settings"
+      />
+
+  <!-- Dexterity -->
+
   <configure zcml:condition="installed plone.dexterity">
+
+    <include package="plone.dexterity" file="meta.zcml" />
 
     <adapter
         name="feedSchedule"
@@ -40,16 +50,15 @@
         name="chimpfeeds"
         factory=".schema.dx_feed_indexer" />
 
-  </configure>
+    <plone:behavior
+        title="Feed-enabled"
+        description="Provide additional fields to manage feed publication."
+        provides=".interfaces.IFeedControl"
+        factory=".schema.FeedControl"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        />
 
-  <plone:behavior
-      zcml:condition="installed plone.dexterity"
-      title="Feed-enabled"
-      description="Provide additional fields to manage feed publication."
-      provides=".interfaces.IFeedControl"
-      factory=".schema.FeedControl"
-      for="plone.dexterity.interfaces.IDexterityContent"
-      />
+  </configure>
 
   <!-- Permissions -->
 

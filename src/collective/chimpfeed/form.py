@@ -4,25 +4,23 @@ import greatape
 import cgi
 
 from Products.statusmessages.interfaces import IStatusMessage
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 
 from ZODB.utils import u64
 from DateTime import DateTime
 
-from plone.registry.interfaces import IRegistry
 from plone.memoize.ram import cache
 from plone.memoize.instance import memoizedproperty
 from plone.memoize.volatile import DontCache
 
 from zope.i18n import negotiate
 from zope.i18n import translate
-from zope.component import getUtility
 from zope.component import queryUtility
 from zope.interface import Interface
 from zope.interface import implements
 from zope.schema.vocabulary import SimpleVocabulary
 from zope import schema
+from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 
 from z3c.form import button
 from z3c.form import field
@@ -35,7 +33,6 @@ from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from collective.chimpfeed import MessageFactory as _
 from collective.chimpfeed import logger
 from collective.chimpfeed.interfaces import IFeedSettings
-from collective.chimpfeed.interfaces import IFeedControl
 from collective.chimpfeed.interfaces import INameSplitter
 from collective.chimpfeed.vocabularies import interest_groups_factory
 from collective.chimpfeed.splitters import GenericNameSplitter
@@ -49,7 +46,7 @@ def create_groupings(groups):
 
 
 def cache_on_get_for_an_hour(method, self):
-    if self.request.method != 'GET':
+    if self.request['REQUEST_METHOD'] != 'GET':
         raise DontCache
 
     return time.time() // (60 * 60), self.id
@@ -317,7 +314,7 @@ class SubscribeForm(BaseForm):
             self.status = self.formErrorsMessage
             return
 
-        settings = getUtility(IRegistry).forInterface(IFeedSettings)
+        settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
 
         try:

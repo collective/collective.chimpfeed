@@ -2,14 +2,31 @@ from zope.formlib import form
 from zope.interface import implements
 from zope.interface import alsoProvides
 from zope.interface import noLongerProvides
-from plone.z3cform.interfaces import IWrappedForm
-from plone.app.z3cform.interfaces import IPloneFormLayer
+
+try:
+    from plone.z3cform.interfaces import IWrappedForm
+except ImportError:
+    IWrappedForm = None
+    from plone.z3cform.z2 import switch_on
+
+try:
+    from plone.app.z3cform.interfaces import IPloneFormLayer
+except:
+    from Products.CMFDefault.interfaces import ICMFDefaultSkin as \
+         IPloneFormLayer
+
 from z3c.form.interfaces import IFormLayer
 from plone.app.portlets.portlets import base
-from five.formlib.formbase import FormBase
+
+try:
+    from five.formlib.formbase import FormBase
+except ImportError:
+    from Products.Five.formlib.formbase import FormBase
+
 from zope.security import checkPermission
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.CMFDefault.interfaces import ICMFDefaultSkin
 
 from collective.chimpfeed.form import SubscribeForm
 from collective.chimpfeed.form import ModerationForm
@@ -49,7 +66,11 @@ class FormPortletRenderer(base.Renderer):
         alsoProvides(self.request, IFormLayer)
         try:
             form = self.create_form()
-            alsoProvides(form, IWrappedForm)
+            if IWrappedForm is None:
+                switch_on(self)
+                alsoProvides(self.request, ICMFDefaultSkin)
+            else:
+                alsoProvides(form, IWrappedForm)
             form.update()
             return form.render()
         finally:

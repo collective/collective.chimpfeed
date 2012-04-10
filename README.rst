@@ -16,7 +16,7 @@ optionally lists a subset of interest groups.
 Compatibility
 -------------
 
-Tested on Plone 4.0 - 4.2
+Plone 3 and 4 (all versions).
 
 
 Getting started

@@ -112,7 +112,7 @@ class FeedExtender(object):
                 label=IFeedControl['feeds'].title,
                 description=IFeedControl['feeds'].description,
                 ),
-            vocabulary_factory=IFeedControl['feeds'].value_type.vocabulary,
+            vocabulary_factory=IFeedControl['feeds'].value_type.vocabularyName,
             ),
 
         ScheduleField(

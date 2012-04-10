@@ -3,6 +3,10 @@ Changes
 
 In next release ...
 
+Features:
+
+- Plone 3 compatibility.
+
 Bugfixes:
 
 - Fixed issue where subscription using first name only (single name,

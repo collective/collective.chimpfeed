@@ -11,7 +11,6 @@ from Acquisition import Implicit
 from DateTime import DateTime
 
 from plone.i18n.normalizer.interfaces import IURLNormalizer
-from plone.registry.interfaces import IRegistry
 
 from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed.interfaces import IBrowserLayer
@@ -45,6 +44,8 @@ class Feed(Implicit):
 
     max_items = 25
 
+    __allow_access_to_unprotected_subobjects__ = 1
+
     def __init__(self, context, request, name):
         self.context = context
         self.request = request
@@ -67,7 +68,7 @@ class Feed(Implicit):
                 Eq('chimpfeeds', self.name) & \
                 Le('feedSchedule', today)
 
-        settings = getUtility(IRegistry).forInterface(IFeedSettings)
+        settings = IFeedSettings(self.context)
         if settings.use_moderation:
             query = query & Eq('feedModerate', True)
 
@@ -82,8 +83,10 @@ class Feed(Implicit):
 
 
 class Feeds(Implicit):
+    __allow_access_to_unprotected_subobjects__ = 1
+
     def __getitem__(self, name):
-        settings = getUtility(IRegistry).forInterface(IFeedSettings)
+        settings = IFeedSettings(self)
         urls = make_urls(settings.feeds)
         name = urls[name]
         return Feed(self, self.REQUEST, name)

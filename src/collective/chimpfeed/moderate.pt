@@ -23,8 +23,8 @@
                      tal:attributes="id id;
                                      name string:${view/name}:list;
                                      value entry/UID;
-                                     checked python: 'checked' if moderated else None;
-                                     disabled python: 'disabled' if moderated else None;"
+                                     checked python: moderated and 'checked' or None;
+                                     disabled python: moderated and 'disabled' or None;"
                      />
 
               <label tal:attributes="for id">

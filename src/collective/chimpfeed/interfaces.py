@@ -3,11 +3,7 @@ import greatape
 from zope.interface import Interface
 from zope import schema
 
-from plone.supermodel.model import Fieldset
-from plone.supermodel.interfaces import FIELDSETS_KEY
-from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
 from plone.portlets.interfaces import IPortletDataProvider
-from plone.directives import form
 
 from collective.chimpfeed.permissions import MODERATE_PERMISSION
 from collective.chimpfeed import MessageFactory as _
@@ -124,8 +120,8 @@ class IControlPanel(IFeedSettings):
         )
 
 
-class IFeedControl(form.Schema):
-    """Content settings that provide feed control."""
+class IFeedControl(Interface):
+    """Feed control settings."""
 
     feeds = schema.Set(
         title=_(u"Feeds"),
@@ -154,20 +150,30 @@ class IFeedControl(form.Schema):
         )
 
 
-IFeedControl.setTaggedValue(
-    WRITE_PERMISSIONS_KEY, {
-    'feedModerate': MODERATE_PERMISSION
-    })
+try:
+    from plone.directives.form import Schema
+    from plone.supermodel.model import Fieldset
+    from plone.supermodel.interfaces import FIELDSETS_KEY
+    from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
+except ImportError:
+    pass
+else:
+    class IFeedControl(Schema, IFeedControl):
+        """Form-enabled feed control settings."""
 
+    IFeedControl.setTaggedValue(
+        WRITE_PERMISSIONS_KEY, {
+        'feedModerate': MODERATE_PERMISSION
+        })
 
-IFeedControl.setTaggedValue(
-    FIELDSETS_KEY,
-    [Fieldset(
-        'dates',
-        fields=['feedSchedule', 'feedModerate'],
-        label=_(u"Dates")),
-     Fieldset(
-        'categorization',
-        fields=['feeds'],
-        label=_(u"Categorization")),
-     ])
+    IFeedControl.setTaggedValue(
+        FIELDSETS_KEY,
+        [Fieldset(
+            'dates',
+            fields=['feedSchedule', 'feedModerate'],
+            label=_(u"Dates")),
+         Fieldset(
+            'categorization',
+            fields=['feeds'],
+            label=_(u"Categorization")),
+         ])
