@@ -16,5 +16,9 @@
       <div class="visualClear"></div>
     </dd>
 
+    <div class="portletFooter portletFooterEmpty">
+      <span class="portletBottomLeft"></span>
+      <span class="portletBottomRight"></span>
+    </div>
   </dl>
 </html>
