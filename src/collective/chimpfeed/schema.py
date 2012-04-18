@@ -1,3 +1,6 @@
+import logging
+import weakref
+
 from zope.interface import implements
 from zope.interface import alsoProvides
 from zope.component import adapts
@@ -143,8 +146,30 @@ class FeedExtender(object):
             ),
         )
 
+    types = weakref.WeakKeyDictionary()
+
     def __init__(self, context):
         self.context = context
 
     def getFields(self):
+        cls = type(self.context.aq_base)
+        applicable = self.types.get(cls)
+        if applicable is None:
+            # If there's an overlap on field names, we do not extend
+            # the content schema. Note that Archetypes allows
+            # overriding a field which is why we need to perform this
+            # check ourselves.
+            names = set(field.__name__ for field in self.fields)
+            existing = self.context.schema.keys()
+            overlap = names & set(existing)
+            applicable = self.types[cls] = not bool(overlap)
+
+            if not applicable:
+                logging.getLogger('collective.chimpfeed').warn(
+                    "Unable to extend schema for: %s." % cls.__name__
+                    )
+
+        if not applicable:
+            return ()
+
         return self.fields
