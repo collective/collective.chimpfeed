@@ -4,7 +4,7 @@
  <action-icon category="controlpanel"
               action_id="chimpfeed"
               title="MailChimp" priority="0"
-              icon_expr="string:$portal_url/rss.png"
+              icon_expr="rss.png"
               i18n:attributes="title"
               />
 </action-icons>
