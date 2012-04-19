@@ -1,7 +1,8 @@
 Changes
 =======
 
-Bugfixes:
+1.5.3 (2012-04-19)
+------------------
 
 - Do not extend schema (or add via behavior) if product is not
   installed (settings not available).
