@@ -47,6 +47,8 @@ try:
 except ImportError:
     pass
 else:
+    from plone.behavior.interfaces import IBehaviorAssignable
+
     @indexer(IDexterityContent)
     def dx_schedule_indexer(context):
         date = context.feedSchedule
@@ -58,12 +60,10 @@ else:
 
     @indexer(IDexterityContent)
     def dx_feed_indexer(context):
-        if IFeedControl.providedBy(context):
-            return tuple(context.feeds)
-
-        # To-Do: It seems that we can't check for the behavior in this
-        # way.
-        return getattr(context, "feeds", None)
+        assignable = IBehaviorAssignable(context, None)
+        if assignable is not None:
+            if assignable.supports(IFeedControl):
+                return tuple(context.feeds)
 
 
 class ScheduleField(ExtensionField, atapi.DateTimeField):
