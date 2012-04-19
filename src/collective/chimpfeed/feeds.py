@@ -32,11 +32,10 @@ class ItemProxy(Implicit):
     def __init__(self, context):
         self.context = context
 
+    @property
     def getText(self):
         # This may raise an `AttributeError`, but that's expected.
-        view = self.context.aq_inner.restrictedTraverse('@@rss-summary')
-
-        return view()
+        return self.context.aq_inner.restrictedTraverse('@@rss-summary')
 
 
 class Feed(Implicit):

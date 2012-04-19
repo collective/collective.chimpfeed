@@ -1,6 +1,13 @@
 Changes
 =======
 
+In next release ...
+
+Bugfixes:
+
+- Fixed issue where an RSS-feed would fail for content which does not
+  provide a ``getText`` method.
+
 1.5.1 (2012-04-18)
 ------------------
 
