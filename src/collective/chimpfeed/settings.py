@@ -1,3 +1,4 @@
+from zope.component import ComponentLookupError
 from collective.chimpfeed.interfaces import IFeedSettings
 
 try:
@@ -12,4 +13,7 @@ else:
     from zope.component import getUtility
 
     def get_settings(context):
-        return getUtility(IRegistry).forInterface(IFeedSettings)
+        try:
+            return getUtility(IRegistry).forInterface(IFeedSettings)
+        except KeyError:
+            raise ComponentLookupError(IFeedSettings)

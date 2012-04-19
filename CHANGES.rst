@@ -5,8 +5,8 @@ In next release ...
 
 Bugfixes:
 
-- On Archetypes, do not extend schema if product is not installed
-  (settings not available).
+- Do not extend schema (or add via behavior) if product is not
+  installed (settings not available).
 
 1.5.2 (2012-04-19)
 ------------------

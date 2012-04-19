@@ -175,6 +175,13 @@ else:
 
     moderation_enabled = moderation_enabled()
 
+    class settings_available:
+        def __nonzero__(self):
+            context = getSite()
+            return IFeedSettings(context, None) is None
+
+    settings_available = settings_available()
+
     IFeedControl.setTaggedValue(
         WRITE_PERMISSIONS_KEY, {
             'feedModerate': MODERATE_PERMISSION
@@ -183,6 +190,9 @@ else:
 
     IFeedControl.setTaggedValue(
         OMITTED_KEY, (
+            (IAutoExtensibleForm, 'feeds', settings_available),
+            (IAutoExtensibleForm, 'feedModerate', settings_available),
+            (IAutoExtensibleForm, 'feedSchedule', settings_available),
             (IAutoExtensibleForm, 'feedModerate', moderation_enabled),
             )
         )
