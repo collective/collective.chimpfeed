@@ -8,6 +8,9 @@ from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.field import ExtensionField
 from plone.indexer.decorator import indexer
 
+from Acquisition.interfaces import IAcquirer
+from Acquisition import aq_base
+
 from Products.Archetypes import atapi
 from Products.Archetypes.interfaces import IBaseContent
 from DateTime import DateTime
@@ -171,7 +174,12 @@ class FeedExtender(object):
         self.context = context
 
     def getFields(self):
-        cls = type(self.context.aq_base)
+        if IAcquirer.providedBy(self.context):
+            base = aq_base(self.context)
+        else:
+            base = self.context
+
+        cls = type(base)
         applicable = self.types.get(cls)
         if applicable is None:
             # If there's an overlap on field names, we do not extend
