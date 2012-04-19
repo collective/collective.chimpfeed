@@ -13,6 +13,9 @@ Changes:
 
 Bugfixes:
 
+- Fixed issue on Archetypes where the feed schedule date would default
+  to today's date (instead of ``None``).
+
 - Fixed issue where ``effective_date`` would return 0 due to explicit
   acquisition. The attribute is now declared as "acquired" which
   informs the explicit wrapper to yield the contained attribute.

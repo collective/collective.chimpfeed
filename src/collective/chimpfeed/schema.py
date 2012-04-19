@@ -110,7 +110,11 @@ class LinesField(ExtensionField, atapi.LinesField):
 class ModerationField(ExtensionField, atapi.BooleanField):
     def set(self, instance, value, **kwargs):
         schedule = instance.getField('feedSchedule')
+        super(ModerationField, self).set(instance, value, **kwargs)
+
         date = schedule.get(instance)
+        if date is None:
+            return
 
         today = DateTime()
         today = DateTime(today.year(), today.month(), today.day())
@@ -119,8 +123,6 @@ class ModerationField(ExtensionField, atapi.BooleanField):
         # the item will be shown on the moderation portlet.
         if date < today:
             schedule.set(instance, today)
-
-        super(ModerationField, self).set(instance, value, **kwargs)
 
 
 class FeedExtender(object):
