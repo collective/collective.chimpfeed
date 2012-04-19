@@ -68,7 +68,7 @@ class Feed(Implicit):
         catalog = getToolByName(self.context, 'portal_catalog')
         today = DateTime()
 
-        query = In('review_state', ('visible', 'published')) & \
+        query = In('review_state', ('published', )) & \
                 Eq('chimpfeeds', self.name) & \
                 Le('feedSchedule', today)
 

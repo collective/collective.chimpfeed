@@ -7,6 +7,10 @@ Features:
 
 - Use "Publishing date" when feed schedule is unset.
 
+Changes:
+
+- The feed now only includes items in the 'published' workflow state.
+
 Bugfixes:
 
 - Fixed issue where ``effective_date`` would return 0 due to explicit
