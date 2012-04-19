@@ -3,6 +3,11 @@ import greatape
 from zope.interface import Interface
 from zope import schema
 
+try:
+    from zope.component.hooks import getSite
+except ImportError:
+    from zope.app.component.hooks import getSite
+
 from plone.portlets.interfaces import IPortletDataProvider
 
 from collective.chimpfeed.permissions import MODERATE_PERMISSION
@@ -135,17 +140,16 @@ class IFeedControl(Interface):
         )
 
     feedSchedule = schema.Date(
-        title=_(u'Feed Date'),
-        description=_(u'The item will be scheduled to be included '
-                      u'in feeds from this date. Note that this '
-                      u'may be subject to editor moderation '
-                      u'(if required).'),
+        title=_(u'Feed date'),
+        description=_(u'If this date is set, the content will only be '
+                      u'included in Mailchimp-based feeds from this date on. '
+                      u'Otherwise, the "Publishing date" is used.'),
         required=False,
         )
 
     feedModerate = schema.Bool(
-        title=_(u'Approve schedule'),
-        description=_(u'Select this option to approve schedule.'),
+        title=_(u'Feed moderation'),
+        description=_(u'Select this option to approve item.'),
         required=False,
         )
 
@@ -155,16 +159,33 @@ try:
     from plone.supermodel.model import Fieldset
     from plone.supermodel.interfaces import FIELDSETS_KEY
     from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
+    from plone.autoform.interfaces import OMITTED_KEY
+    from plone.autoform.interfaces import IAutoExtensibleForm
 except ImportError:
     pass
 else:
     class IFeedControl(Schema, IFeedControl):
         """Form-enabled feed control settings."""
 
+    class moderation_enabled:
+        def __nonzero__(self):
+            context = getSite()
+            settings = IFeedSettings(context)
+            return not settings.use_moderation
+
+    moderation_enabled = moderation_enabled()
+
     IFeedControl.setTaggedValue(
         WRITE_PERMISSIONS_KEY, {
-        'feedModerate': MODERATE_PERMISSION
-        })
+            'feedModerate': MODERATE_PERMISSION
+            },
+        )
+
+    IFeedControl.setTaggedValue(
+        OMITTED_KEY, (
+            (IAutoExtensibleForm, 'feedModerate', moderation_enabled),
+            )
+        )
 
     IFeedControl.setTaggedValue(
         FIELDSETS_KEY,
