@@ -3,6 +3,10 @@ Changes
 
 In next release ...
 
+Features:
+
+- Use "Publishing date" when feed schedule is unset.
+
 Bugfixes:
 
 - Fixed issue where ``effective_date`` would return 0 due to explicit

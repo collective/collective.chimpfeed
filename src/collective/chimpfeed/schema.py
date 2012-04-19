@@ -42,16 +42,31 @@ def at_feed_indexer(context):
     return tuple(unicode(feed, 'utf-8') for feed in feeds)
 
 
+@indexer(IBaseContent)
+def at_schedule_indexer(context):
+    schedule = context.getField('feedSchedule').get(context)
+    if schedule is None:
+        return context.getField('effectiveDate').get(context)
+
+    return schedule
+
 try:
     from plone.dexterity.interfaces import IDexterityContent
 except ImportError:
     pass
 else:
     from plone.behavior.interfaces import IBehaviorAssignable
+    from plone.app.dexterity.behaviors.metadata import IDublinCore
 
     @indexer(IDexterityContent)
     def dx_schedule_indexer(context):
         date = context.feedSchedule
+        if date is None:
+            assignable = IBehaviorAssignable(context, None)
+            if assignable is not None:
+                if assignable.supports(IDublinCore):
+                    return context.effective()
+
         return DateTime(
             date.year,
             date.month,

@@ -27,6 +27,7 @@
   <!-- Archetypes -->
 
   <adapter name="chimpfeeds" factory=".schema.at_feed_indexer" />
+  <adapter name="feedSchedule" factory=".schema.at_schedule_indexer" />
 
   <!-- Settings -->
 
