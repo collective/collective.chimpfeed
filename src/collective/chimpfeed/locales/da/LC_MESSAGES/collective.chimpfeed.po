@@ -115,14 +115,17 @@ msgstr "Godkend udsendelse"
 msgid "Moderation"
 msgstr "Udsendelsesstyring"
 
-msgid "Feed Date"
+msgid "Feed date"
 msgstr "Udsendelsesdato"
 
-msgid "Select this option to approve schedule."
-msgstr "Vælg dette for at godkende udsendelsesdatoen."
+msgid "Feed moderation"
+msgstr "Godkend udsendelse"
 
-msgid "The item will be scheduled to be included in feeds from this date. Note that this is subject to editor moderation (if required)."
-msgstr "Dette indholdsobjekt vil blive sat til udsendelse i de valgte lister på denne dato. Bemærk, at udsendelse kan være afhængigt af godkendelse fra en indholdsredaktør (hvis påkrævet)."
+msgid "Select this option to approve item."
+msgstr "Vælg dette for at godkende udsendelse."
+
+msgid "If this date is set, the content will only be included in Mailchimp-based feeds from this date on. Otherwise, the \"Publishing date\" is used."
+msgstr "Hvis denne dato er valgt, medtages indholdet kun i udsendelseslister fra den valgte dato og fremefter. I modsat fald benyttes \"Publiceringsdato\"."
 
 msgid "All items have been moderated."
 msgstr "Alt indhold er godkendt til udsendelse."
