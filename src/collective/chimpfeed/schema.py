@@ -17,6 +17,7 @@ from DateTime import DateTime
 
 from collective.chimpfeed.permissions import MODERATE_PERMISSION
 from collective.chimpfeed.interfaces import IFeedControl
+from collective.chimpfeed.interfaces import IFeedSettings
 
 
 try:
@@ -184,14 +185,19 @@ class FeedExtender(object):
         cls = type(base)
         applicable = self.types.get(cls)
         if applicable is None:
-            # If there's an overlap on field names, we do not extend
-            # the content schema. Note that Archetypes allows
-            # overriding a field which is why we need to perform this
-            # check ourselves.
-            names = set(field.__name__ for field in self.fields)
-            existing = self.context.schema.keys()
-            overlap = names & set(existing)
-            applicable = self.types[cls] = not bool(overlap)
+            # Check that we can get a settings object for this
+            # context.
+            applicable = IFeedSettings(base, None) is not None
+
+            if applicable:
+                # If there's an overlap on field names, we do not extend
+                # the content schema. Note that Archetypes allows
+                # overriding a field which is why we need to perform this
+                # check ourselves.
+                names = set(field.__name__ for field in self.fields)
+                existing = self.context.schema.keys()
+                overlap = names & set(existing)
+                applicable = self.types[cls] = not bool(overlap)
 
             if not applicable:
                 logging.getLogger('collective.chimpfeed').warn(
