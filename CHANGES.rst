@@ -1,8 +1,6 @@
 Changes
 =======
 
-In next release ...
-
 Bugfixes:
 
 - Do not extend schema (or add via behavior) if product is not
