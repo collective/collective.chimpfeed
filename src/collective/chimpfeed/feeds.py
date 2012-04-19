@@ -7,7 +7,10 @@ from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.AdvancedQuery import Le, Eq, In
+
+from Acquisition import Acquired
 from Acquisition import Implicit
+
 from DateTime import DateTime
 
 from plone.i18n.normalizer.interfaces import IURLNormalizer
@@ -28,6 +31,8 @@ def make_urls(feeds):
 
 class ItemProxy(Implicit):
     __allow_access_to_unprotected_subobjects__ = 1
+
+    effective_date = Acquired
 
     def __init__(self, context):
         self.context = context
