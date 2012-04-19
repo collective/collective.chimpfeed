@@ -60,12 +60,16 @@ else:
 
     @indexer(IDexterityContent)
     def dx_schedule_indexer(context):
-        date = context.feedSchedule
+        assignable = IBehaviorAssignable(context, None)
+        if assignable is None or not assignable.supports(IFeedControl):
+            return
+
+        date = getattr(context, "feedSchedule", None)
         if date is None:
             assignable = IBehaviorAssignable(context, None)
             if assignable is not None:
                 if assignable.supports(IDublinCore):
-                    return context.effective()
+                    return context.effective_date
 
         return DateTime(
             date.year,
