@@ -187,7 +187,7 @@ class FeedExtender(object):
         if applicable is None:
             # Check that we can get a settings object for this
             # context.
-            applicable = IFeedSettings(base, None) is not None
+            applicable = IFeedSettings(self.context, None) is not None
 
             if applicable:
                 # If there's an overlap on field names, we do not extend

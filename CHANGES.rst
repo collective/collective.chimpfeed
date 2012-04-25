@@ -1,6 +1,11 @@
 Changes
 =======
 
+In next release ...
+
+- Fixed bug that would make the schema extension fail with
+  Archetypes-based content.
+
 1.5.3 (2012-04-19)
 ------------------
 
