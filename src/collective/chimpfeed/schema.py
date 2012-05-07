@@ -86,7 +86,10 @@ else:
         assignable = IBehaviorAssignable(context, None)
         if assignable is not None:
             if assignable.supports(IFeedControl):
-                return tuple(context.feeds)
+                try:
+                    return tuple(context.feeds)
+                except TypeError:
+                    return tuple()
 
 
 class ScheduleField(ExtensionField, atapi.DateTimeField):
