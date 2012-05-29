@@ -197,7 +197,9 @@ class FeedExtender(object):
                 names = set(field.__name__ for field in self.fields)
                 existing = self.context.schema.keys()
                 overlap = names & set(existing)
-                applicable = self.types[cls] = not bool(overlap)
+                applicable = not bool(overlap)
+
+            self.types[cls] = applicable
 
             if not applicable:
                 logging.getLogger('collective.chimpfeed').warn(
