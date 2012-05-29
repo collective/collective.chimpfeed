@@ -206,7 +206,7 @@ class FeedExtender(object):
 
             if not applicable:
                 logging.getLogger('collective.chimpfeed').warn(
-                    "Unable to extend schema for: %s." % cls.__name__
+                    "skipping %s." % cls.__name__
                     )
 
         if not applicable:
