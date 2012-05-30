@@ -205,7 +205,7 @@ class FeedExtender(object):
             self.types[cls] = applicable
 
             if not applicable:
-                logging.getLogger('collective.chimpfeed').warn(
+                logging.getLogger('collective.chimpfeed').info(
                     "skipping %s." % cls.__name__
                     )
 
