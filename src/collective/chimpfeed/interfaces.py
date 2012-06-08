@@ -113,6 +113,13 @@ class ISubscriptionPortlet(IPortletDataProvider, ISubscriptionFormSettings):
         default=u"Sign up",
         )
 
+    description = schema.Text(
+        title=_(u"Description"),
+        description=_(u"Enter a description of your newsletter."),
+        required=False,
+        default=u"Join our newsletter and stay updated!",
+        )
+
 
 class IControlPanel(IFeedSettings):
     urls = schema.Tuple(

@@ -46,6 +46,8 @@ class ModerationPortletAssignment(base.Assignment):
 class SubscriptionPortletAssignment(base.Assignment):
     implements(ISubscriptionPortlet)
 
+    description = None
+
     def __init__(self, **kwargs):
         for name, value in kwargs.items():
             self.__dict__[name] = value

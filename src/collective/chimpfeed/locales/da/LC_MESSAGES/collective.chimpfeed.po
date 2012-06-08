@@ -142,3 +142,8 @@ msgstr "Indhold skal godkendes"
 msgid "Select this option to enable content moderation."
 msgstr "Vælg dette for at påkræve godkendelse af indhold til udsendelse."
 
+msgid "Description"
+msgstr "Beskrivelse"
+
+msgid "Enter a description of your newsletter."
+msgstr "Her kan du give en beskrivelse af dit nyhedsbrev."

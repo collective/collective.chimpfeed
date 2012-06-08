@@ -1,6 +1,12 @@
 Changes
 =======
 
+In next release ...
+
+Features:
+
+- Added optional portlet description field.
+
 1.5.4 (2012-04-25)
 ------------------
 

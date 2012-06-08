@@ -136,3 +136,9 @@ msgstr ""
 
 msgid "Today"
 msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Enter a description of your newsletter."
+msgstr ""

@@ -12,6 +12,9 @@
     </dt>
 
     <dd class="portletItem">
+      <p tal:condition="view/data/description"
+         tal:content="view/data/description"
+         />
       <form tal:replace="structure view/render_form" />
       <div class="visualClear"></div>
     </dd>
