@@ -1,6 +1,13 @@
 Changes
 =======
 
+In next release ...
+
+Bugfixes:
+
+- Provide title explicitly; the RSS template checks for this attribute
+  using explicit acquisition.
+
 1.5.5 (2012-06-08)
 ------------------
 

@@ -33,6 +33,7 @@ class ItemProxy(Implicit):
     __allow_access_to_unprotected_subobjects__ = 1
 
     effective_date = Acquired
+    Title = Acquired
 
     def __init__(self, context):
         self.context = context
