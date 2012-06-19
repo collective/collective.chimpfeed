@@ -1,7 +1,8 @@
 Changes
 =======
 
-In next release ...
+1.5.7 (2012-06-19)
+------------------
 
 Compatibility:
 
