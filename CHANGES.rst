@@ -1,6 +1,12 @@
 Changes
 =======
 
+In next release ...
+
+Compatibility:
+
+- Fixed compatibility issues with legacy libraries.
+
 1.5.6 (2012-06-18)
 ------------------
 

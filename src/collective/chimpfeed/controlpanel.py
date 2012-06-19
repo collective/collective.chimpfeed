@@ -24,7 +24,12 @@ from collective.chimpfeed.feeds import make_urls
 
 from z3c.form import field
 from z3c.form import widget
-from z3c.form.browser import textlines
+try:
+    from z3c.form.browser import textlines
+except ImportError:
+    logging.warn("z3c.form library does not have textlines widget.")
+    textlines = None
+
 from z3c.form.interfaces import IDataConverter
 
 logger = logging.getLogger("collective.chimpfeed.controlpanel")
@@ -73,7 +78,8 @@ class ControlPanelEditForm(controlpanel.RegistryEditForm):
     fields['urls'].mode = "display"
     fields['urls'].widgetFactory = UrlsWidget.factory
 
-    fields['feeds'].widgetFactory = textlines.TextLinesFieldWidget
+    if textlines is not None:
+        fields['feeds'].widgetFactory = textlines.TextLinesFieldWidget
 
     def updateActions(self):
         # This prevents a redirect to the main control panel page

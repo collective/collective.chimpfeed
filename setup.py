@@ -30,6 +30,7 @@ setup(name='collective.chimpfeed',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'plone.indexer',
           'plone.z3cform',
           'greatape',
           'simplejson',
