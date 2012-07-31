@@ -194,10 +194,9 @@ class InterestsWidget(SequenceWidget):
             for group in grouping['groups']:
                 name = group['name']
                 if name in names:
-                    term = interest_groups_factory.get_term_for_group(
-                        name, grouping_id
-                        )
-                    terms.append(term)
+                    terms.append(interest_groups_factory.get_term_for_group(
+                        group, grouping
+                        ))
 
         return self.renderChoices(terms)
 

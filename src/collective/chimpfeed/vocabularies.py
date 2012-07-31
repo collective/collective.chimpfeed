@@ -165,23 +165,25 @@ class InterestGroupVocabulary(MailChimpVocabulary):
     def get_terms_for_grouping(self, grouping, qualified=False):
         terms = []
         for group in grouping['groups']:
-            name = group['name']
-
-            if qualified:
-                name = grouping['name'] + " : " + name
-
-            value = self.get_term_value(group, grouping)
-            token = "%s-%s" % (
-                grouping['id'],
-                base64.urlsafe_b64encode(name.encode('utf-8'))
-                )
-
-            terms.append(SimpleTerm(value, token, name))
-
+            terms.append(self.get_term_for_group(group, grouping, qualified))
         return sorted(terms, key=lambda term: term.title)
 
     def get_term_value(self, group, grouping):
         return (grouping['id'], group['name'])
+
+    def get_term_for_group(self, group, grouping, qualified=False):
+        name = group['name']
+        value = self.get_term_value(group, grouping)
+
+        token = "%s-%s" % (
+            grouping['id'],
+            base64.urlsafe_b64encode(name.encode('utf-8'))
+            )
+
+        if qualified:
+            name = grouping['name'] + " : " + name
+
+        return SimpleTerm(value, token, name)
 
 
 class InterestGroupStringVocabulary(InterestGroupVocabulary):
