@@ -204,9 +204,21 @@ class InterestGroupingVocabulary(MailChimpVocabulary):
             name = grouping['name']
 
             if groups:
-                name += u" (%s)" % ", ".join(
-                    group['name'] for group in groups
-                    )
+                names = [group['name'] for group in groups]
+
+                if len(names) > 4:
+                    del names[4:]
+
+                    name = _(
+                        u"${name} (${groups} and ${count} more)",
+                        mapping={
+                            'name': name,
+                            'groups': ", ".join(names),
+                            'count': len(groups) - len(names),
+                            }
+                        )
+                else:
+                    name += u" (%s)" % ", ".join(names)
 
             yield SimpleTerm(value, token, name)
 
