@@ -548,6 +548,17 @@ class SubscribeForm(BaseForm):
                         )
                 except greatape.MailChimpError, exc:
                     logger.warn(exc.msg)
+
+                    # ... is not a valid interest grouping id for the list
+                    if exc.code == 270:
+                        return IStatusMessage(self.request).addStatusMessage(
+                            _(u"There was a problem signing you up for "
+                              u"the selected interest groups. This could "
+                              u"mean that the subscription service is "
+                              u"configured incorrectly. Please contact "
+                              u"the webmaster."),
+                            "error",
+                            )
                 else:
                     if result:
                         return IStatusMessage(self.request).addStatusMessage(
