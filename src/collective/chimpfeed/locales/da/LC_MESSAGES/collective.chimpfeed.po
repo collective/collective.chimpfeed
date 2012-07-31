@@ -62,10 +62,10 @@ msgid "Select a mailinglist for this portlet."
 msgstr "Vælg en tilmeldingsliste for denne portlet."
 
 msgid "Select interest groups. Note that all interests within the selected groups will appear in the portlet."
-msgstr "Vælg grupper. For hver udvalgt gruppe, vises de underliggende interessevalg."
+msgstr "Vælg interessegrupper. For hver gruppe vises de underliggende interessevalg. Bemærk, at de angivne interessegrupper skal være definerede for den valgte tilmeldingsliste. I modsat fald kan det ske, at tilmelding mislykkedes."
 
-msgid "Select interests. The number listed in each parenthesis is the current number of subscribers with that interest."
-msgstr "Vælg interessevalg. Tallet i parentes markerer hvor mange abonnenter der har tilmeldt sig det pågældende valg."
+msgid "Select interests."
+msgstr "Vælg specifikke interesser. Som ved valg af interessegrupper skal de valgte interesser være definerede indenfor den valgte tilmeldingsliste."
 
 msgid "Sign up"
 msgstr "Tilmelding"
@@ -246,3 +246,6 @@ msgstr "Nyhedsbrev oprettet"
 
 msgid "There was a problem signing you up for the selected interest groups. This could mean that the subscription service is configured incorrectly. Please contact the webmaster."
 msgstr "Der opstod et problem i forbindelse med din tilmelding til én eller flere interesser. Det skyldes muligvis en fejl i opsætningen. Kontakt venligst redaktionen eller webmaster og anmeld dette. Vi beklager fejlen."
+
+msgid "${name} (${groups} and ${count} more)"
+msgstr "${name} (${groups} og ${count} yderligere)"

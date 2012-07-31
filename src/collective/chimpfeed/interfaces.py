@@ -94,10 +94,7 @@ class ISubscriptionFormSettings(Interface):
 
     interest_groups = schema.Tuple(
         title=_(u"Interests"),
-        description=_(u"Select interests. "
-                      u"The number listed in each parenthesis is "
-                      u"the current number of subscribers with "
-                      u"that interest."),
+        description=_(u"Select interests."),
         value_type=schema.Choice(
             vocabulary="collective.chimpfeed.vocabularies.InterestGroups",
             ),
