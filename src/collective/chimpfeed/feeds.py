@@ -23,10 +23,10 @@ def make_urls(feeds):
     filtered = filter(None, feeds or ())
     normalize = getUtility(IURLNormalizer).normalize
 
-    return dict((
+    return tuple(
         ("%s.rss" % normalize(feed), feed)
-        for feed in filtered
-        ))
+        for feed in sorted(filtered)
+        )
 
 
 class ItemProxy(Implicit):
@@ -42,6 +42,17 @@ class ItemProxy(Implicit):
     def getText(self):
         # This may raise an `AttributeError`, but that's expected.
         return self.context.aq_inner.restrictedTraverse('@@rss-summary')
+
+    def getCategory(self):
+        obj = self.context.aq_inner
+
+        try:
+            field = obj.getField('feedCategory')
+        except AttributeError:
+            return getattr(obj, 'feedCategory', None)
+
+        if field is not None:
+            return field.get(obj)
 
 
 class Feed(Implicit):
@@ -92,7 +103,7 @@ class Feeds(Implicit):
 
     def __getitem__(self, name):
         settings = IFeedSettings(self)
-        urls = make_urls(settings.feeds)
+        urls = dict(make_urls(settings.feeds))
         name = urls[name]
         return Feed(self, self.REQUEST, name)
 

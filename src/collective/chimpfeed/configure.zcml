@@ -44,6 +44,10 @@
     <include package="plone.dexterity" file="meta.zcml" />
 
     <adapter
+        name="feedCategory"
+        factory=".schema.dx_category_indexer" />
+
+    <adapter
         name="feedSchedule"
         factory=".schema.dx_schedule_indexer" />
 
@@ -68,6 +72,11 @@
       title="collective.chimpfeed: Moderate"
       />
 
+  <permission
+      id="chimpfeed.Campaign"
+      title="collective.chimpfeed: Send or schedule campaign"
+      />
+
   <!-- Feeds -->
 
   <adapter
@@ -87,7 +96,43 @@
 
   <adapter factory=".controlpanel.ControlPanelAdapter" />
 
+  <!-- Campaign views -->
+
+  <browser:page
+      name="chimpfeed-preview"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".campaign.CampaignView"
+      template="preview.pt"
+      permission="chimpfeed.Campaign"
+      />
+
+  <browser:page
+      name="chimpfeed-campaign"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".campaign.CampaignView"
+      permission="chimpfeed.Campaign"
+      />
+
+  <browser:page
+      name="chimpfeed-content"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".campaign.CampaignContentView"
+      template="preview.pt"
+      permission="chimpfeed.Campaign"
+      />
+
   <!-- Portlets -->
+
+  <plone:portlet
+      name="collective.chimpfeed.CampaignPortlet"
+      interface=".interfaces.ICampaignPortlet"
+      assignment=".portlet.CampaignPortletAssignment"
+      view_permission="zope2.View"
+      edit_permission="cmf.ManagePortal"
+      renderer=".portlet.CampaignPortletRenderer"
+      addview=".portlet.CampaignPortletAddForm"
+      editview=".portlet.CampaignPortletEditForm"
+      />
 
   <plone:portlet
       name="collective.chimpfeed.SubscriptionPortlet"
@@ -113,8 +158,8 @@
   <!-- Vocabularies -->
 
   <utility
-      component=".vocabularies.feeds_factory"
-      name="collective.chimpfeed.vocabularies.Feeds"
+      component=".vocabularies.categories_factory"
+      name="collective.chimpfeed.vocabularies.Categories"
       />
 
   <utility
@@ -133,8 +178,18 @@
       />
 
   <utility
+      component=".vocabularies.interest_group_strings_factory"
+      name="collective.chimpfeed.vocabularies.InterestGroupStrings"
+      />
+
+  <utility
       component=".vocabularies.scheduled_items"
       name="collective.chimpfeed.vocabularies.ScheduledItems"
+      />
+
+  <utility
+      component=".vocabularies.templates"
+      name="collective.chimpfeed.vocabularies.Templates"
       />
 
   <!-- Translations -->

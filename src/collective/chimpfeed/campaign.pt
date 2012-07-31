@@ -1,0 +1,37 @@
+<div tal:define="start request/start|options/start|context/start|nothing;
+                 field request/image|options/image|context/image|nothing;
+                 scale request/scale|options/scale|context/scale|nothing;"
+     tal:repeat="group python: view.getGroups(start)">
+  <tal:group define="name python: group[0];
+                     items python: group[1]">
+    *|INTERESTED:<span tal:replace="name" />|*
+    <h2 tal:content="python: name.rsplit(':', 1)[-1]" />
+    <table>
+      <tr tal:repeat="item items">
+        <tal:block define="obj item/getObject;
+                           url obj/absolute_url;
+                           has_image python: []">
+          <tal:image define="scales obj/@@images;
+                             scale python: scales.scale(field, scale=scale);
+                             dummy python: has_image.append(True)"
+                     on-error="nothing">
+            <td tal:content="structure scale/tag" />
+          </tal:image>
+          <td style="vertical-align: top"
+              tal:attributes="colspan python: not any(has_image) and '2' or None">
+            <span class="category"
+                  tal:define="category item/feedCategory"
+                  tal:condition="category"
+                  tal:content="category"
+                  />
+            <a tal:attributes="href url">
+              <h3 tal:content="item/Title" />
+            </a>
+            <p tal:content="item/Description" />
+          </td>
+        </tal:block>
+      </tr>
+    </table>
+    *|END:INTERESTED|*
+  </tal:group>
+</div>

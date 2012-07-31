@@ -1,6 +1,46 @@
 Changes
 =======
 
+In next release ...
+
+Changes:
+
+- Interest groups are now conflated with feeds. These are now always
+  defined in MailChimp.
+
+  Previously, a manager needed to set up a list of feeds
+  manually. These were just strings that did not tie into MailChimp's
+  interest groups directly. This is now changed.
+
+Bugfixes:
+
+- Feed URLs in the control panel are now listed in the same order as
+  they are defined.
+
+Features:
+
+- Added new schema extension to give items an explicit feed category.
+
+  Available categories are configured in the control panel.
+
+- It's now possible to create and schedule a a new campaign based on
+  the items currently active.
+
+  This is implemented as a new portlet. It is intended that the
+  portlet be added to the editor's dashboard.
+
+  Note that content is grouped by their interest group marking, and
+  uses MailChimp's conditional markup to tailor the newsletter to each
+  user. The sorting of the groups is pluggable via a utility.
+
+  The portlet includes a date which sets the lower date boundary on
+  what items are active. The upper boundary defaults to today's date
+  which is matched with the item schedule date.
+
+  When a campaign is created, tomorrow's date is set as the new lower
+  date boundary such that no items are immediately active for a
+  subsequent campaign.
+
 1.5.7 (2012-06-19)
 ------------------
 

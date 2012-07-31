@@ -23,9 +23,6 @@ msgstr ""
 msgid "Edit Subscription Portlet"
 msgstr ""
 
-msgid "Subscription portlet"
-msgstr ""
-
 msgid "Feeds"
 msgstr ""
 
@@ -141,4 +138,37 @@ msgid "Description"
 msgstr ""
 
 msgid "Enter a description of your newsletter."
+msgstr ""
+
+msgid "Feed category"
+msgstr ""
+
+msgid "Please select a category for this item."
+msgstr ""
+
+msgid "Categories"
+msgstr ""
+
+msgid "List the available feed categories."
+msgstr ""
+
+msgid "Subscription portlet"
+msgstr ""
+
+msgid "Campaign portlet"
+msgstr ""
+
+msgid "Moderation portlet"
+msgstr ""
+
+msgid "Send or schedule newsletter campaigns."
+msgstr ""
+
+msgid "Sign up form to join a mailinglist."
+msgstr ""
+
+msgid "Moderate newsletter feed content."
+msgstr ""
+
+msgid "Campaign scheduling"
 msgstr ""

@@ -21,14 +21,10 @@ from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed.interfaces import IControlPanel
 from collective.chimpfeed import MessageFactory as _
 from collective.chimpfeed.feeds import make_urls
+from collective.chimpfeed.vocabularies import interest_groups_factory
 
 from z3c.form import field
 from z3c.form import widget
-try:
-    from z3c.form.browser import textlines
-except ImportError:
-    logging.warn("z3c.form library does not have textlines widget.")
-    textlines = None
 
 from z3c.form.interfaces import IDataConverter
 
@@ -45,11 +41,15 @@ class ControlPanelAdapter(object):
     @property
     def urls(self):
         portal_url = getToolByName(self.settings, 'portal_url')()
-        urls = make_urls(self.settings.feeds)
-        return [
-            "%s/++chimpfeeds++/%s" % (portal_url, url)
-            for url in urls
-            ]
+        vocabulary = interest_groups_factory(self.settings)
+
+        # Use term's titles as the basis for the feed URLs.
+        urls = make_urls((term.title for term in vocabulary))
+
+        return tuple(
+            ("%s/++chimpfeeds++/%s" % (portal_url, url), title)
+            for url, title in urls
+            )
 
 
 class UrlsWidget(widget.Widget):
@@ -78,9 +78,6 @@ class ControlPanelEditForm(controlpanel.RegistryEditForm):
     fields['urls'].mode = "display"
     fields['urls'].widgetFactory = UrlsWidget.factory
 
-    if textlines is not None:
-        fields['feeds'].widgetFactory = textlines.TextLinesFieldWidget
-
     def updateActions(self):
         # This prevents a redirect to the main control panel page
         self.request.response.setStatus(200, lock=True)
@@ -91,10 +88,11 @@ class ControlPanelEditForm(controlpanel.RegistryEditForm):
         if switch_on is not None:
             switch_on(self)
 
-        if not self.getContent().feeds:
+        urls = self.widgets['urls']
+        urls.update()
+
+        if not urls.value:
             del self.widgets['urls']
-        else:
-            self.widgets['urls'].update()
 
         return super(ControlPanelEditForm, self).render()
 

@@ -12,6 +12,7 @@ from plone.memoize.ram import cache
 
 from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed import logger
+from collective.chimpfeed import MessageFactory as _
 
 from Products.AdvancedQuery import Indexed, Ge
 from DateTime import DateTime
@@ -45,21 +46,30 @@ class ScheduledItems(VocabularyBase):
         return SimpleVocabulary(terms)
 
 
-class FeedVocabulary(VocabularyBase):
+class SettingVocabulary(VocabularyBase):
+    field = None
+
     def __call__(self, context):
         normalize = getUtility(IIDNormalizer).normalize
         settings = IFeedSettings(context)
+        name = self.field.__name__
 
         return SimpleVocabulary([
             SimpleTerm(feed, normalize(feed), feed)
-            for feed in settings.feeds or ()
+            for feed in getattr(settings, name, None) or ()
             ])
+
+
+class CategoryVocabulary(SettingVocabulary):
+    field = IFeedSettings['categories']
 
 
 class MailChimpVocabulary(VocabularyBase):
     def __call__(self, context):
-        settings = IFeedSettings(context)
-        wrapped = ImplicitAcquisitionWrapper(self, settings)
+        if not IFeedSettings.providedBy(context):
+            context = IFeedSettings(context)
+
+        wrapped = ImplicitAcquisitionWrapper(self, context)
 
         generator = wrapped.get_terms()
         terms = tuple(generator)
@@ -77,13 +87,13 @@ class MailChimpVocabulary(VocabularyBase):
                 except greatape.MailChimpError, exc:
                     # http://apidocs.mailchimp.com/api/1.3/exceptions.field.php
                     if exc.code <= 0:
-                        logger.critical(exc)
+                        logger.critical(exc.msg)
                     elif exc.code < 120:
-                        logger.warn(exc)
+                        logger.warn(exc.msg)
                     elif exc.code < 200:
-                        logger.info(exc)
+                        logger.info(exc.msg)
                 except TypeError, exc:
-                    logger.warn(exc)
+                    logger.warn(exc.msg)
 
                 return ()
 
@@ -100,7 +110,7 @@ class MailChimpVocabulary(VocabularyBase):
 
         return results
 
-    @cache(lambda *args: time.time() // (5 * 60))
+    @cache(lambda *args: time.time() // (60 * 60))
     def get_groupings(self):
         results = []
 
@@ -113,10 +123,34 @@ class MailChimpVocabulary(VocabularyBase):
 
         return results
 
+    @cache(lambda *args: time.time() // (60 * 60))
+    def get_templates(self):
+        results = []
+        for result in self.api(method="campaignTemplates"):
+            name = result['name']
+
+            if name == 'Untitled Template':
+                continue
+
+            results.append(
+                (result['id'], "%s (%s)" % (
+                    name,
+                    ", ".join(result['sections']))))
+
+        return results
+
 
 class ListVocabulary(MailChimpVocabulary):
     def get_terms(self):
         for value, name in self.get_lists():
+            yield SimpleTerm(value, value, name)
+
+
+class TemplateVocabulary(MailChimpVocabulary):
+    def get_terms(self):
+        yield SimpleTerm(u"", "", _(u"Empty"))
+
+        for value, name in self.get_templates():
             yield SimpleTerm(value, value, name)
 
 
@@ -125,26 +159,37 @@ class InterestGroupVocabulary(MailChimpVocabulary):
         groupings = self.get_groupings()
 
         for grouping in groupings:
-            for term in self.get_terms_for_grouping(grouping):
+            for term in self.get_terms_for_grouping(grouping, True):
                 yield term
 
-    def get_terms_for_grouping(self, grouping, count=True):
+    def get_terms_for_grouping(self, grouping, qualified=False):
+        terms = []
         for group in grouping['groups']:
-            term = self.get_term_for_group(group['name'], grouping['id'])
+            name = group['name']
 
-            if count:
-                term.title += " (%d)" % group['subscribers']
+            if qualified:
+                name = grouping['name'] + " : " + name
 
-            yield term
+            value = self.get_term_value(group, grouping)
+            token = "%s-%s" % (
+                grouping['id'],
+                base64.urlsafe_b64encode(name.encode('utf-8'))
+                )
 
-    def get_term_for_group(self, name, grouping_id):
-        token = "%s-%s" % (
-            grouping_id,
-            base64.urlsafe_b64encode(name.encode('utf-8'))
+            terms.append(SimpleTerm(value, token, name))
+
+        return sorted(terms, key=lambda term: term.title)
+
+    def get_term_value(self, group, grouping):
+        return (grouping['id'], group['name'])
+
+
+class InterestGroupStringVocabulary(InterestGroupVocabulary):
+    def get_term_value(self, group, grouping):
+        return "%s:%s" % (
+            grouping['name'].replace(':', ''),
+            group['name'].replace(':', '')
             )
-
-        value = (grouping_id, name)
-        return SimpleTerm(value, token, name)
 
 
 class InterestGroupingVocabulary(MailChimpVocabulary):
@@ -164,8 +209,10 @@ class InterestGroupingVocabulary(MailChimpVocabulary):
             yield SimpleTerm(value, token, name)
 
 
-feeds_factory = FeedVocabulary()
 lists_factory = ListVocabulary()
 interest_groupings_factory = InterestGroupingVocabulary()
 interest_groups_factory = InterestGroupVocabulary()
+interest_group_strings_factory = InterestGroupStringVocabulary()
 scheduled_items = ScheduledItems()
+categories_factory = CategoryVocabulary()
+templates = TemplateVocabulary()

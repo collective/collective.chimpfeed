@@ -1,22 +1,23 @@
 Overview
 ========
 
-This package makes it easy to designate content into one or more named
-feeds, suitable for creating automated newsletter content.
+This package makes it easy to create newsletter content feeds or
+campaigns from Plone based on content interest group tagging.
 
-It extends the base content schema for any Archetypes-based content
-which lets editors easily manage which feeds (if any) that a given
-item should be listed under.
+Simply define interest groups in your `MailChimp
+<http://www.mailchimp.com>`_ list, configure Plone with your API key
+and start tagging content.
 
-Designed for the `MailChimp <http://www.mailchimp.com>`_ internet
-service, the package also includes a subscription portlet that
-optionally lists a subset of interest groups.
+The package also includes a subscription portlet that presents a
+selection of interest groups, as well as a moderation portlet and a
+portlet that lets an editor create, send or schedule a new campaign.
 
 
 Compatibility
 -------------
 
-Plone 3 and 4 (all versions).
+- Plone 3 and 4 (all versions);
+- Archetypes or Dexterity.
 
 
 Getting started
@@ -27,15 +28,11 @@ Getting started
    This register a control panel, and adds a number of required
    indexes and columns to the catalog.
 
-2. Visit the "MailChimp RSS" control panel to define one or more
-   feeds.
+2. Visit the "MailChimp RSS" control panel to configure API key.
 
-3. Enable one or more feeds for your content by clicking "Edit" and
-   selecting from the "Feeds" option.
+3. Tag content with interest groups.
 
 Optionally,
-
-4. Configure a MailChimp API-key (also available in the control panel).
 
 5. Add one or more subscription portlets.
 

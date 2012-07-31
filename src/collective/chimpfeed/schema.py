@@ -28,6 +28,7 @@ except ImportError:
 else:
     class FeedControl(Categorization):
         feeds = DCFieldProperty(IFeedControl['feeds'])
+        feedCategory = DCFieldProperty(IFeedControl['feedCategory'])
         feedSchedule = DCFieldProperty(IFeedControl['feedSchedule'])
         feedModerate = DCFieldProperty(IFeedControl['feedModerate'])
 
@@ -53,6 +54,13 @@ def at_schedule_indexer(context):
         return context.getField('effectiveDate').get(context)
 
     return schedule
+
+@indexer(IBaseContent)
+def at_category_indexer(context):
+    category = context.getField('feedCategory').get(context)
+    if category is not None:
+        return unicode(category, 'utf-8')
+
 
 try:
     from plone.dexterity.interfaces import IDexterityContent
@@ -90,6 +98,17 @@ else:
                     return tuple(context.feeds)
                 except TypeError:
                     return tuple()
+
+    @indexer(IDexterityContent)
+    def dx_category_indexer(context):
+        assignable = IBehaviorAssignable(context, None)
+        if assignable is not None:
+            if assignable.supports(IFeedControl):
+                return getattr(context, "feedCategory", None)
+
+
+class StringField(ExtensionField, atapi.StringField):
+    pass
 
 
 class ScheduleField(ExtensionField, atapi.DateTimeField):
@@ -144,6 +163,19 @@ class FeedExtender(object):
                 description=IFeedControl['feeds'].description,
                 ),
             vocabulary_factory=IFeedControl['feeds'].value_type.vocabularyName,
+            ),
+
+        StringField(
+            'feedCategory',
+            schemata="settings",
+            languageIndependent=True,
+            required=False,
+            default=None,
+            widget=atapi.SelectionWidget(
+                label=IFeedControl['feedCategory'].title,
+                description=IFeedControl['feedCategory'].description
+                ),
+            vocabulary_factory=IFeedControl['feedCategory'].vocabularyName,
             ),
 
         ScheduleField(

@@ -1,5 +1,7 @@
 <ul>
-  <li tal:repeat="url view/value">
-    <a tal:attributes="href url" tal:content="url" />
+  <li tal:repeat="entry view/value">
+    <a tal:define="url python: entry[0]"
+       tal:attributes="href url"
+       tal:content="python: entry[1]" />
   </li>
 </ul>

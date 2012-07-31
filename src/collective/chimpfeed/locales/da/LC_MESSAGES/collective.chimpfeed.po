@@ -22,12 +22,6 @@ msgstr "E-mail"
 msgid "Edit Subscription Portlet"
 msgstr "Redigér tilmeldingsportlet"
 
-msgid "Subscription portlet"
-msgstr "Tilmeldingsportlet"
-
-msgid "Moderation portlet"
-msgstr "Udsendelsesstyring"
-
 msgid "Feeds"
 msgstr "Udsendelseslister"
 
@@ -82,8 +76,8 @@ msgstr "Tilmelding: ${title}"
 msgid "Thank you for signing up. We'll send you a confirmation message by e-mail shortly."
 msgstr "Tak for din tilmelding. Du vil om kort tid modtage en e-mail med anmodning om godkendelse."
 
-msgid "These correspond to the feeds given above. Copy the URL into MailChimp when setting up one or more RSS-campaigns."
-msgstr "De viste links svarer til udsendelseslisterne ovenfor. Kopiér ind i MailChimp, når der opsættes en RSS-kampagne."
+msgid "For each interest group defined for your MailChimp-account, an RSS-feed is available that lists content with a matching tag."
+msgstr "Herunder vises et link for hver gruppe, du har defineret i én eller flere tilmeldingslister under din MailChimp-konto. Du kan bruge disse adresser til at opsætte en RSS-kampagne, hvor indholdet trækkes automatisk fra Plone."
 
 msgid "This key is associated to your account with MailChimp."
 msgstr "Denne nøgle giver adgang til din MailChimp-konto."
@@ -94,8 +88,8 @@ msgstr "Denne portlet viser en tilmeldingsformular."
 msgid "Title"
 msgstr "Titel"
 
-msgid "URLs"
-msgstr "Adresser"
+msgid "Interest group feeds"
+msgstr "RSS-adresser for grupper"
 
 msgid "Use this field to set up your feeds. Give each feed a title such as \"News\"; one feed per line."
 msgstr "Brug dette felt til at sætte dine udsendelseslister op. På hver linie angives en kort tekst f.eks. \"Nyheder\"."
@@ -147,3 +141,105 @@ msgstr "Beskrivelse"
 
 msgid "Enter a description of your newsletter."
 msgstr "Her kan du give en beskrivelse af dit nyhedsbrev."
+
+msgid "Feed category"
+msgstr "Udsendelseskategori"
+
+msgid "Please select a category for this item."
+msgstr "Vælg venligst en kategori for dette indholdsobjekt."
+
+msgid "Categories"
+msgstr "Kategorier"
+
+msgid "List the available feed categories."
+msgstr "Til udsendt indhold kan der knyttes en kategori. Indskriv i dette felt de tilgængelige kategorier."
+
+msgid "Subscription portlet"
+msgstr "Tilmeldingsportlet"
+
+msgid "Campaign portlet"
+msgstr "Nyhedsbrevsportlet"
+
+msgid "Moderation portlet"
+msgstr "Udsendelsesstyring"
+
+msgid "Send or schedule a newsletter campaign."
+msgstr "Send eller planlæg et nyhedsbrev."
+
+msgid "Sign up form to join a mailinglist."
+msgstr "Tilmeld til nyhedsbrev."
+
+msgid "Moderate newsletter feed content."
+msgstr "Godkend indhold til udsendelse."
+
+msgid "Campaign scheduling"
+msgstr "Send nyhedsbrev"
+
+msgid "Start date"
+msgstr "Dato"
+
+msgid "Include items published after this date."
+msgstr "Medtag kun indhold fra denne dato."
+
+msgid "Use this form to moderate content."
+msgstr "Brug denne formular til at godkendelse indhold til nyhedsbrev."
+
+msgid "Preview"
+msgstr "Vis"
+
+msgid "Create"
+msgstr "Opret nyhedsbrev"
+
+msgid "The content below the line is the newsletter preview content."
+msgstr "Indholdet under linjen viser nyhedsbrevet."
+
+msgid "Subject"
+msgstr "Emne"
+
+msgid "The newsletter subject."
+msgstr "Denne tekst bruges som nyhedsbrevets emnelinje."
+
+msgid "Unable to process request."
+msgstr "Oprettelse mislykkedes. Kontakt venligst din administrator!"
+
+msgid "Template"
+msgstr "Skabelon"
+
+msgid "Select a campaign template."
+msgstr "Vælg en skabelon til dit nyhedsbrev. Bemærk, at der i parentesen efter skabelonens navn er anført de definerede sektioner (se nedenfor)."
+
+msgid "Section"
+msgstr "Sektion"
+
+msgid "In MailChimp, templates have multiple sections, each identified by a string. When the campaign is created, we need to know where to put the dynamically created newsletter content."
+msgstr "Vælg den sektion, hvor det dynamiske indhold skal indsættes. Du kan se hvilke sektioner, der er tilgængelige i listen over skabeloner."
+
+msgid "Image field"
+msgstr "Billede"
+
+msgid "The name of the content field that contains the content lead image. Note that it does not need to exist for all content."
+msgstr "Her kan angives navnet på et felt, der indeholder et billede (for hvert indholdsobjekt)."
+
+msgid "Image scale"
+msgstr "Skalering"
+
+msgid "The name of the image scale."
+msgstr "Her angives navnet på den ønskede billedskalering."
+
+msgid "No content found; newsletter not created."
+msgstr "Intet indhold fundet; nyhedsbrev er ikke blevet oprettet."
+
+msgid "Campaign created."
+msgstr "Nyhedsbrev oprettet."
+
+msgid "Empty"
+msgstr "Ingen skabelon"
+
+msgid "Schedule date"
+msgstr "Planlæg udsendelse"
+
+msgid "If provided, item will be scheduled to be sent at this time."
+msgstr "Hvis dette felt udfyldes, vil nyhedsbrevet efter oprettelse blive planlagt til udsendelse på det angivne tidspunkt."
+
+msgid "Campaign created"
+msgstr "Nyhedsbrev oprettet"

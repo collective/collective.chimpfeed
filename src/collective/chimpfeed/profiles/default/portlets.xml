@@ -4,15 +4,21 @@
     i18n:domain="collective.chimpfeed">
 
   <portlet
+      addview="collective.chimpfeed.CampaignPortlet"
+      title="Campaign portlet"
+      description="Send or schedule newsletter campaigns."
+      />
+
+  <portlet
       addview="collective.chimpfeed.SubscriptionPortlet"
       title="Subscription portlet"
-      description="A portlet which allow users to sign up for a mailinglist."
+      description="Sign up form to join a mailinglist."
       />
 
   <portlet
       addview="collective.chimpfeed.ModerationPortlet"
       title="Moderation portlet"
-      description="A portlet which allow editors to moderate feeds."
+      description="Moderate newsletter feed content."
       />
 
 </portlets>

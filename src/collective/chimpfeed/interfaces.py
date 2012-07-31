@@ -33,6 +33,12 @@ def check_api_key(api_key):
     return False
 
 
+class IGroupSorter(Interface):
+    def key(name, items):
+        """Return sorting key for group with the provided name and
+        items."""
+
+
 class INameSplitter(Interface):
     def split_name(fullname):
         """Return (fname, lname) tuple."""
@@ -59,11 +65,9 @@ class IFeedSettings(Interface):
         required=False,
         )
 
-    feeds = schema.List(
-        title=_(u"Feeds"),
-        description=_(u"Use this field to set up your feeds. "
-                      u"Give each feed a title such as \"News\"; "
-                      u"one feed per line."),
+    categories = schema.List(
+        title=_(u"Categories"),
+        description=_(u"List the available feed categories."),
         required=False,
         value_type=schema.TextLine(),
         )
@@ -101,6 +105,63 @@ class ISubscriptionFormSettings(Interface):
         )
 
 
+class ICampaignPortlet(IPortletDataProvider):
+    mailinglist = schema.Choice(
+        title=_(u"Mailinglist"),
+        description=_(u"Select a mailinglist for this portlet."),
+        vocabulary="collective.chimpfeed.vocabularies.Lists",
+        required=True,
+        )
+
+    template = schema.Choice(
+        title=_(u"Template"),
+        description=_(u"Select a campaign template."),
+        required=False,
+        default=u"",
+        vocabulary="collective.chimpfeed.vocabularies.Templates",
+        )
+
+    section = schema.TextLine(
+        title=_(u"Section"),
+        description=_(u"In MailChimp, templates have multiple sections, "
+                      u"each identified by a string. When the "
+                      u"campaign is created, we need to know where to "
+                      u"put the dynamically created newsletter content."),
+        default=u"std_content00",
+        required=True,
+        )
+
+    subject = schema.TextLine(
+        title=_(u"Subject"),
+        description=_(u"The newsletter subject."),
+        required=False,
+        default=u"",
+        )
+
+    start = schema.Date(
+        title=_(u"Start date"),
+        description=_(u"Include items published after this date."),
+        required=False,
+        default=None,
+        )
+
+    image = schema.TextLine(
+        title=_(u"Image field"),
+        description=_(u"The name of the content field that contains "
+                      u"the content lead image. Note that it does not "
+                      u"need to exist for all content."),
+        required=False,
+        default=u"image",
+        )
+
+    scale = schema.TextLine(
+        title=_(u"Image scale"),
+        description=_(u"The name of the image scale."),
+        required=False,
+        default=u"thumb",
+        )
+
+
 class IModerationPortlet(IPortletDataProvider):
     pass
 
@@ -123,10 +184,10 @@ class ISubscriptionPortlet(IPortletDataProvider, ISubscriptionFormSettings):
 
 class IControlPanel(IFeedSettings):
     urls = schema.Tuple(
-        title=_(u"URLs"),
-        description=_(u"These correspond to the feeds given above. "
-                      u"Copy the URL into MailChimp when setting up one "
-                      u"or more RSS-campaigns."),
+        title=_(u"Interest group feeds"),
+        description=_(u"For each interest group defined for your "
+                      u"MailChimp-account, an RSS-feed is available "
+                      u"that lists content with a matching tag."),
         required=False,
         value_type=schema.ASCIILine(),
         )
@@ -142,8 +203,16 @@ class IFeedControl(Interface):
                       u"from the list below."),
         required=False,
         value_type=schema.Choice(
-            vocabulary="collective.chimpfeed.vocabularies.Feeds",
+            vocabulary="collective.chimpfeed.vocabularies.InterestGroupStrings",
             )
+        )
+
+    feedCategory = schema.Choice(
+        title=_(u"Feed category"),
+        description=_(u"Please select a category for this item."),
+        required=False,
+        default=None,
+        vocabulary="collective.chimpfeed.vocabularies.Categories",
         )
 
     feedSchedule = schema.Date(

@@ -10,6 +10,7 @@
    <indexed_attr value="feedModerate"/>
  </index>
  <column value="chimpfeeds"/>
+ <column value="feedCategory"/>
  <column value="feedSchedule"/>
  <column value="feedModerate"/>
 </object>
