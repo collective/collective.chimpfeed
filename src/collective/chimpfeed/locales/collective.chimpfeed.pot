@@ -65,7 +65,7 @@ msgstr ""
 msgid "Select interest groups. Note that all interests within the selected groups will appear in the portlet."
 msgstr ""
 
-msgid "Select interests. The number listed in each parenthesis is the current number of subscribers with that interest."
+msgid "Select interests."
 msgstr ""
 
 msgid "Sign up"
