@@ -17,15 +17,16 @@ from plone.i18n.normalizer.interfaces import IURLNormalizer
 
 from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed.interfaces import IBrowserLayer
+from collective.chimpfeed.vocabularies import interest_groups_factory
 
 
-def make_urls(feeds):
-    filtered = filter(None, feeds or ())
+def make_urls(vocabulary):
+    filtered = filter(lambda term: term.title, vocabulary or ())
     normalize = getUtility(IURLNormalizer).normalize
 
     return tuple(
-        ("%s.rss" % normalize(feed), feed)
-        for feed in sorted(filtered)
+        ("%s.rss" % normalize(term.title), term.value, term.title)
+        for term in sorted(filtered, key=lambda term: term.title)
         )
 
 
@@ -103,9 +104,19 @@ class Feeds(Implicit):
 
     def __getitem__(self, name):
         settings = IFeedSettings(self)
-        urls = dict(make_urls(settings.feeds))
-        name = urls[name]
-        return Feed(self, self.REQUEST, name)
+        vocabulary = interest_groups_factory(settings)
+
+        # Use term's titles as the basis for the feed URLs.
+        for url, value, title in make_urls(vocabulary):
+            if url == name:
+                break
+        else:
+            return KeyError(name)
+
+        return Feed(self, self.REQUEST, value)
+
+    def pretty_title_or_id(self):
+        return self.title or self.id
 
 
 class FeedTraverser(object):

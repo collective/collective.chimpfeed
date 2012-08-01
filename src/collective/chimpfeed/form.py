@@ -7,17 +7,21 @@ import urllib
 
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.CMFCore.utils import getToolByName
+from Acquisition import ImplicitAcquisitionWrapper
+from zExceptions import BadRequest
 
 from ZODB.utils import u64
 from DateTime import DateTime
 
 from plone.memoize.ram import cache
+from plone.memoize import view
 from plone.memoize.instance import memoizedproperty
 from plone.memoize.volatile import DontCache
 
 from zope.i18n import negotiate
 from zope.i18n import translate
 from zope.component import queryUtility
+from zope.interface import alsoProvides
 from zope.interface import Interface
 from zope.interface import implements
 from zope.schema.vocabulary import SimpleVocabulary
@@ -31,13 +35,17 @@ from z3c.form.widget import SequenceWidget
 from z3c.form.widget import FieldWidget
 from z3c.form.interfaces import IErrorViewSnippet
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
+from z3c.form.interfaces import IWidget
+from z3c.form.interfaces import NO_VALUE
 
 from collective.chimpfeed import MessageFactory as _
 from collective.chimpfeed import logger
 from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed.interfaces import INameSplitter
 from collective.chimpfeed.interfaces import ICampaignPortlet
+from collective.chimpfeed.interfaces import ISubscriptionFormSettings
 from collective.chimpfeed.vocabularies import interest_groups_factory
+from collective.chimpfeed.vocabularies import InterestGroupVocabulary
 from collective.chimpfeed.splitters import GenericNameSplitter
 
 
@@ -52,7 +60,7 @@ def cache_on_get_for_an_hour(method, self):
     if self.request['REQUEST_METHOD'] != 'GET':
         raise DontCache
 
-    return time.time() // (60 * 60), self.id
+    return time.time() // (60 * 60), self.id, self.request.get('list_id')
 
 
 class ICampaign(ICampaignPortlet):
@@ -213,18 +221,14 @@ class InterestsWidget(SequenceWidget):
                 grouping
                 ))
 
-            # Create label from the grouping name; we simply lowercase
-            # it.
-            label = _(u"Choose ${name}:", mapping={
-                'name': cgi.escape(grouping['name'].lower())
-                })
-
-            result = self.renderChoices(terms, label)
+            # Create label from the grouping name
+            label = cgi.escape(grouping['name'])
+            result = self.renderChoices(terms, label, grouping['id'])
             rendered.append(result)
 
         return u"\n".join(rendered)
 
-    def renderChoices(self, terms, label=None):
+    def renderChoices(self, terms, label=None, grouping_id=None):
         choice = schema.Choice(
             vocabulary=SimpleVocabulary(terms),
             )
@@ -236,12 +240,17 @@ class InterestsWidget(SequenceWidget):
         widget.name = self.name
         widget.id = self.id
 
+        if grouping_id is not None:
+            widget.id += "-%s" % grouping_id
+
         widget.update()
         result = widget.render()
 
         if label is not None:
-            result = u"<fieldset><legend>%s</legend>%s</fieldset>" % (
-                translate(label, context=self.request), result
+            result = (
+                u'<fieldset class="interest-group">'
+                u'<legend>%s</legend>%s</fieldset>') % (
+                label, result
                 )
 
         return result
@@ -252,6 +261,8 @@ class SchemaErrorSnippet(object):
 
     def __init__(self, error, request, widget, field, form, content):
         self.error = error
+        self.widget = widget
+        self.message = error.__doc__
 
     def update(self):
         pass
@@ -262,12 +273,6 @@ class SchemaErrorSnippet(object):
 
 class BaseForm(form.Form):
     ignoreContext = True
-
-    @property
-    def action(self):
-        # Use the parent object's URL instead of the current request
-        # URL; this avoids adding a view name to the end of the path.
-        return self.context.aq_parent.absolute_url()
 
     @property
     def prefix(self):
@@ -489,6 +494,30 @@ class ModerationForm(BaseForm):
             del self.actions['approve']
 
 
+class SubscribeContext(object):
+    interest_groups = ()
+
+    def __init__(self, request):
+        list_id = self.mailinglist = request['list_id']
+        self.factory = InterestGroupVocabulary(list_id)
+
+    @property
+    def name(self):
+        wrapped = ImplicitAcquisitionWrapper(self.factory, self)
+        for list_id, name in wrapped.get_lists():
+            if list_id == self.mailinglist:
+                return name
+
+        return _(u"Untitled")
+
+    @property
+    def interest_groupings(self):
+        vocabulary = self.factory(self)
+        return set(
+            term.value[0] for term in vocabulary
+            )
+
+
 class SubscribeForm(BaseForm):
     fields = field.Fields(ISubscription)
 
@@ -503,9 +532,11 @@ class SubscribeForm(BaseForm):
 
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
+        next_url = self.nextURL()
+        content = self.getContent()
 
         try:
-            list_id = self.context.mailinglist
+            list_id = content.mailinglist
 
             email = data['email']
             name = data['name']
@@ -521,6 +552,10 @@ class SubscribeForm(BaseForm):
                 fname, lname = queryUtility(
                     INameSplitter, name=language, default=GenericNameSplitter
                     ).split_name(name)
+
+                # Log subscription attempt.
+                logger.info(("listSubscribe(%r, %r, %r, %r)" % (
+                    list_id, email, fname, lname)).encode('utf-8'))
 
                 try:
                     result = api(
@@ -574,4 +609,93 @@ class SubscribeForm(BaseForm):
                 "error")
 
         finally:
-            self.request.response.redirect(self.action)
+            self.request.response.redirect(next_url)
+
+    def nextURL(self):
+        return self.action
+
+
+class JavascriptWidget(field.Field):
+    """Generic javascript snippet."""
+
+    error = None
+    required = False
+
+    def __call__(self, field, request):
+        widget = type(self)(field)
+        widget.request = request
+        alsoProvides(widget, IWidget)
+        return widget
+
+    def get(self, mode):
+        return self
+
+    @property
+    def widgetFactory(self):
+        return self
+
+    def render(self):
+        return u'<script type="text/javascript">\n' + \
+               self.template() + \
+               u'</script>'
+
+    def update(self):
+        pass
+
+    def extract(self):
+        return NO_VALUE
+
+
+class SelectAllGroupsJavascript(JavascriptWidget):
+    """Replace the fieldset legend with a select all checkbox."""
+
+    template = ViewPageTemplateFile("select.js")
+
+
+class ListSubscribeForm(SubscribeForm):
+    description = _(u"Select subscription options and submit form.")
+
+    # Add Javascript widget
+    fields = field.Fields(SelectAllGroupsJavascript(schema.Field(
+        __name__="js", required=False), mode="hidden"))
+
+    # Include form fields, but change the order around.
+    fields += SubscribeForm.fields.select('interests', 'name', 'email')
+
+    # Add mailinglist as hidden field
+    fields += field.Fields(schema.TextLine(
+        __name__="list_id",
+        required=True,
+        ), mode="hidden")
+
+    # Remove prefix; we want to be able to provide defaults using a
+    # simple format.
+    prefix = ""
+
+    # buttons = button.Buttons()
+    # handlers = SubscribeForm.handlers.copy()
+
+    @property
+    def label(self):
+        name = self.getContent().name
+        return _(u"Subscribe to: ${name}", mapping={'name': name})
+
+    @view.memoize
+    def getContent(self):
+        if ISubscriptionFormSettings.providedBy(self.context):
+            return self.context
+
+        settings = IFeedSettings(self.context)
+        try:
+            context = SubscribeContext(self.request)
+        except KeyError, exc:
+            raise BadRequest(u"Missing parameter: %s." % exc)
+
+        return ImplicitAcquisitionWrapper(context, settings)
+
+    def nextURL(self):
+        return self.context.portal_url()
+
+
+class ListSubscribeFormFieldWidgets(field.FieldWidgets):
+    prefix = ""

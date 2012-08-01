@@ -102,7 +102,7 @@ class MailChimpVocabulary(VocabularyBase):
 
         return api(**kwargs)
 
-    @cache(lambda *args: time.time() // (5 * 60))
+    @cache(lambda *args: time.time() // (15 * 60))
     def get_lists(self):
         results = []
         for result in self.api(method="lists"):
@@ -110,11 +110,21 @@ class MailChimpVocabulary(VocabularyBase):
 
         return results
 
-    @cache(lambda *args: time.time() // (60 * 60))
-    def get_groupings(self):
+    def get_groupings(self, list_id=None):
+        if list_id is None:
+            list_id = getattr(self, 'mailinglist', None)
+        return self._get_cached_groupings(list_id)
+
+    @cache(lambda method, self, list_id: (list_id, time.time() // (60 * 60)))
+    def _get_cached_groupings(self, list_id):
         results = []
 
-        for list_id, list_name in self.get_lists():
+        if list_id is None:
+            list_ids = [list_id for (list_id, list_name) in self.get_lists()]
+        else:
+            list_ids = [list_id]
+
+        for list_id in list_ids:
             groupings = self.api(
                 method="listInterestGroupings", id=list_id
                 )
@@ -155,8 +165,11 @@ class TemplateVocabulary(MailChimpVocabulary):
 
 
 class InterestGroupVocabulary(MailChimpVocabulary):
+    def __init__(self, list_id=None):
+        self.list_id = list_id
+
     def get_terms(self):
-        groupings = self.get_groupings()
+        groupings = self.get_groupings(self.list_id)
 
         for grouping in groupings:
             for term in self.get_terms_for_grouping(grouping, True):

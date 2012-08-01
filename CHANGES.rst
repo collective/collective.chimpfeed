@@ -1,6 +1,17 @@
 Changes
 =======
 
+In next release ...
+
+Features:
+
+- Added a subscription form, available from the control panel (there's
+  a link for each defined mailinglist).
+
+  The subscription form includes a javascript-snippet that lets a
+  visitor select all interest groups within a particular grouping
+  using a "select all" (or subsequently none) checkbox.
+
 1.6.0 (2012-07-31)
 ------------------
 

@@ -6,7 +6,8 @@
                      items python: group[1]">
     *|INTERESTED:<span tal:replace="name" />|*
     <h2 tal:content="python: name.rsplit(':', 1)[-1]" />
-    <table>
+    <table tal:define="plone_view context/@@plone;
+                       toLocalizedTime python: plone_view.toLocalizedTime">
       <tr tal:repeat="item items">
         <tal:block define="obj item/getObject;
                            url obj/absolute_url;
@@ -24,6 +25,8 @@
                   tal:condition="category"
                   tal:content="category"
                   />
+            |
+            <span tal:content="python: toLocalizedTime(item.Date, long_format=False)" />
             <a tal:attributes="href url">
               <h3 tal:content="item/Title" />
             </a>

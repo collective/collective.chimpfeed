@@ -58,6 +58,20 @@ class IFeedSettings(Interface):
         constraint=check_api_key,
         )
 
+    mailinglist = schema.Choice(
+        title=_(u"Interest group source"),
+        description=_(u"Select the list that should be used to "
+                      u"collect interest groups. "
+                      u"This is entirely optional, but recommended "
+                      u"if you have many lists defined (to reduce "
+                      u"network latency). "
+                      u"Note that if you do not make a choice, "
+                      u"interest groups will be collected "
+                      u"from all lists."),
+        required=False,
+        vocabulary="collective.chimpfeed.vocabularies.Lists",
+        )
+
     use_moderation = schema.Bool(
         title=_(u'Require moderation'),
         description=_(u'Select this option to enable content '
@@ -185,6 +199,15 @@ class IControlPanel(IFeedSettings):
         description=_(u"For each interest group defined for your "
                       u"MailChimp-account, an RSS-feed is available "
                       u"that lists content with a matching tag."),
+        required=False,
+        value_type=schema.ASCIILine(),
+        )
+
+    lists = schema.Tuple(
+        title=_(u"Lists"),
+        description=_(u"This listing shows a link to a "
+                      u"subscription form for each of the defined "
+                      u"lists in your account."),
         required=False,
         value_type=schema.ASCIILine(),
         )

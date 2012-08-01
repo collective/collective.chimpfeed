@@ -94,9 +94,6 @@ msgstr "RSS-adresser for grupper"
 msgid "Use this field to set up your feeds. Give each feed a title such as \"News\"; one feed per line."
 msgstr "Brug dette felt til at sætte dine udsendelseslister op. På hver linie angives en kort tekst f.eks. \"Nyheder\"."
 
-msgid "Choose ${name}:"
-msgstr "Vælg ${name}:"
-
 msgid "Register"
 msgstr "Tilmeld"
 
@@ -249,3 +246,22 @@ msgstr "Der opstod et problem i forbindelse med din tilmelding til én eller fle
 
 msgid "${name} (${groups} and ${count} more)"
 msgstr "${name} (${groups} og ${count} yderligere)"
+
+msgid "Lists"
+msgstr "Tilmeldingslister"
+
+msgid "This listing shows a link to a subscription form for each of the defined lists in your account."
+msgstr "Denne oversigt viser links til tilmeldingsformularer for hver liste, der er sat op for din konto."
+
+msgid "Select subscription options and submit form."
+msgstr "Her kan du tilmelde dig til nyhedsbrevet. Vælg én eller flere emner og udfyld tilmeldingsformularen."
+
+msgid "Subscribe to: ${name}"
+msgstr "Tilmelding til nyhedsbrevet \"${name}\""
+
+msgid "Interest group source"
+msgstr "Hent kun grupper fra udvalgt tilmeldingsliste"
+
+msgid "Select the list that should be used to collect interest groups. This is entirely optional, but recommended if you have many lists defined (to reduce network latency). Note that if you do not make a choice, interest groups will be collected from all lists."
+msgstr "Hvis en tilmeldingsliste vælges i dette felt, bruges kun de interessegrupper, der er valgt for denne liste. Dette anbefales hvis der er mange lister tilknyttet kontoen (af hensyn til generel responstid). Hvis intet valg er foretaget, bruges alle tilgængelige lister."
+

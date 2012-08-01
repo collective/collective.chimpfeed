@@ -22,6 +22,7 @@ from collective.chimpfeed.interfaces import IControlPanel
 from collective.chimpfeed import MessageFactory as _
 from collective.chimpfeed.feeds import make_urls
 from collective.chimpfeed.vocabularies import interest_groups_factory
+from collective.chimpfeed.vocabularies import lists_factory
 
 from z3c.form import field
 from z3c.form import widget
@@ -44,12 +45,24 @@ class ControlPanelAdapter(object):
         vocabulary = interest_groups_factory(self.settings)
 
         # Use term's titles as the basis for the feed URLs.
-        urls = make_urls((term.title for term in vocabulary))
+        urls = make_urls(vocabulary)
 
         return tuple(
             ("%s/++chimpfeeds++/%s" % (portal_url, url), title)
-            for url, title in urls
+            for url, value, title in urls
             )
+
+    @property
+    def lists(self):
+        portal_url = getToolByName(self.settings, 'portal_url')()
+        vocabulary = lists_factory(self.settings)
+
+        return tuple(
+            ("%s/@@chimpfeed-subscribe?list_id=%s" % (
+                portal_url, term.value), term.title)
+            for term in sorted(vocabulary, key=lambda term: term.title)
+            )
+
 
 
 class UrlsWidget(widget.Widget):
@@ -77,6 +90,9 @@ class ControlPanelEditForm(controlpanel.RegistryEditForm):
 
     fields['urls'].mode = "display"
     fields['urls'].widgetFactory = UrlsWidget.factory
+
+    fields['lists'].mode = "display"
+    fields['lists'].widgetFactory = UrlsWidget.factory
 
     def updateActions(self):
         # This prevents a redirect to the main control panel page

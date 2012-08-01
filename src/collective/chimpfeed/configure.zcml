@@ -107,6 +107,13 @@
       />
 
   <browser:page
+      name="chimpfeed-subscribe"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".form.ListSubscribeForm"
+      permission="zope.Public"
+      />
+
+  <browser:page
       name="chimpfeed-campaign"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       class=".campaign.CampaignView"
@@ -197,6 +204,13 @@
   <i18n:registerTranslations directory="locales" />
 
   <!-- Forms -->
+
+  <adapter
+      for=".form.ListSubscribeForm
+           z3c.form.interfaces.IFormLayer
+           .form.SubscribeContext"
+      factory=".form.ListSubscribeFormFieldWidgets"
+      />
 
   <adapter
       for="zope.schema.ValidationError

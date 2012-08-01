@@ -49,7 +49,7 @@ class CampaignView(BrowserView):
         else:
             key = sorting.key
 
-        return sorted(groups.items(), key=key)
+        return sorted(groups.items(), key=lambda item: key(*item))
 
 
 class CampaignContentView(BrowserView):
