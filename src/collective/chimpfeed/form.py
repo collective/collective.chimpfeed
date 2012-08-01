@@ -188,9 +188,15 @@ class InterestsWidget(SequenceWidget):
     def factory(cls, field, request):
         return FieldWidget(field, cls(request))
 
+    @property
+    def vocabulary(self):
+        settings = IFeedSettings(self.context)
+        return ImplicitAcquisitionWrapper(
+            interest_groups_factory, settings)
+
     @memoizedproperty
     def groupings(self):
-        return tuple(interest_groups_factory.get_groupings())
+        return tuple(self.vocabulary.get_groupings())
 
     def renderInterestGroups(self):
         groups = create_groupings(self.context.interest_groups)
@@ -202,7 +208,7 @@ class InterestsWidget(SequenceWidget):
             for group in grouping['groups']:
                 name = group['name']
                 if name in names:
-                    terms.append(interest_groups_factory.get_term_for_group(
+                    terms.append(self.vocabulary.get_term_for_group(
                         group, grouping
                         ))
 
@@ -217,7 +223,7 @@ class InterestsWidget(SequenceWidget):
         rendered = []
 
         for grouping in filtered:
-            terms = tuple(interest_groups_factory.get_terms_for_grouping(
+            terms = tuple(self.vocabulary.get_terms_for_grouping(
                 grouping
                 ))
 
