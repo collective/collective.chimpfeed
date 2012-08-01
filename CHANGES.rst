@@ -5,6 +5,12 @@ In next release ...
 
 Features:
 
+- It's now possible to restrict the collection of interest groups to
+  those from a particular list. This can help clear up confusion about
+  which interest groups are available, but importantly, also helps
+  alleviate network latency when many lists are defined for an account
+  (because we must query the interest groups per list, in sequence).
+
 - Added a subscription form, available from the control panel (there's
   a link for each defined mailinglist).
 
