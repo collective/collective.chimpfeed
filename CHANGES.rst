@@ -1,7 +1,8 @@
 Changes
 =======
 
-In next release ...
+1.7 (2012-08-02)
+----------------
 
 Features:
 
@@ -18,8 +19,8 @@ Features:
   visitor select all interest groups within a particular grouping
   using a "select all" (or subsequently none) checkbox.
 
-1.6.0 (2012-07-31)
-------------------
+1.6 (2012-07-31)
+----------------
 
 Changes:
 
