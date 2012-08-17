@@ -3,7 +3,7 @@
  <index name="chimpfeeds" meta_type="KeywordIndex">
    <indexed_attr value="chimpfeeds"/>
  </index>
- <index name="feedSchedule" meta_type="FieldIndex">
+ <index name="feedSchedule" meta_type="DateIndex">
    <indexed_attr value="feedSchedule"/>
  </index>
  <index name="feedModerate" meta_type="FieldIndex">
