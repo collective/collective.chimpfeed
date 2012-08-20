@@ -1,6 +1,18 @@
 Changes
 =======
 
+Current (2012-08-20)
+----------------
+
+Features:
+
+- Added local utility IApiUtility (defined in interfaces) to expose methods
+  for accessing the API, to be used my third party customizations.
+
+Bugfixes:
+
+- feedSchedule is now defined as a DateIndex.
+
 1.7 (2012-08-02)
 ----------------
 

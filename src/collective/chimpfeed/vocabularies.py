@@ -8,19 +8,15 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
 from plone.i18n.normalizer.interfaces import IIDNormalizer
-from plone.memoize.ram import cache
 
-from collective.chimpfeed.interfaces import IFeedSettings
+
+from collective.chimpfeed.interfaces import IFeedSettings, IApiUtility
 from collective.chimpfeed import logger
 from collective.chimpfeed import MessageFactory as _
 
 from Products.AdvancedQuery import Indexed, Ge
 from DateTime import DateTime
 from Acquisition import ImplicitAcquisitionWrapper
-
-
-def stub_api(**kwargs):
-    return ()
 
 
 class VocabularyBase(object):
@@ -64,90 +60,20 @@ class CategoryVocabulary(SettingVocabulary):
     field = IFeedSettings['categories']
 
 
+from zope.app.component.hooks import getSite
+
 class MailChimpVocabulary(VocabularyBase):
     def __call__(self, context):
-        if not IFeedSettings.providedBy(context):
-            context = IFeedSettings(context)
 
-        wrapped = ImplicitAcquisitionWrapper(self, context)
+        try:
+            utility = getUtility(IApiUtility, context=context)
+        except:
+            utility = getUtility(IApiUtility, context=getSite())
 
+        wrapped = ImplicitAcquisitionWrapper(self, utility)
         generator = wrapped.get_terms()
         terms = tuple(generator)
         return SimpleVocabulary(terms)
-
-    def api(self, **kwargs):
-        api_key = self.mailchimp_api_key
-
-        if api_key:
-            api = greatape.MailChimp(api_key)
-
-            def api(api=api, **kwargs):
-                try:
-                    return api(**kwargs)
-                except greatape.MailChimpError, exc:
-                    # http://apidocs.mailchimp.com/api/1.3/exceptions.field.php
-                    if exc.code <= 0:
-                        logger.critical(exc.msg)
-                    elif exc.code < 120:
-                        logger.warn(exc.msg)
-                    elif exc.code < 200:
-                        logger.info(exc.msg)
-                except TypeError, exc:
-                    logger.warn(exc.msg)
-
-                return ()
-
-        else:
-            api = stub_api
-
-        return api(**kwargs)
-
-    @cache(lambda *args: time.time() // (15 * 60))
-    def get_lists(self):
-        results = []
-        for result in self.api(method="lists"):
-            results.append((result['id'], result['name']))
-
-        return results
-
-    def get_groupings(self, list_id=None):
-        if list_id is None:
-            list_id = getattr(self, 'mailinglist', None)
-        return self._get_cached_groupings(list_id)
-
-    @cache(lambda method, self, list_id: (list_id, time.time() // (60 * 60)))
-    def _get_cached_groupings(self, list_id):
-        results = []
-
-        if list_id is None:
-            list_ids = [list_id for (list_id, list_name) in self.get_lists()]
-        else:
-            list_ids = [list_id]
-
-        for list_id in list_ids:
-            groupings = self.api(
-                method="listInterestGroupings", id=list_id
-                )
-            for grouping in groupings:
-                results.append(grouping)
-
-        return results
-
-    @cache(lambda *args: time.time() // (60 * 60))
-    def get_templates(self):
-        results = []
-        for result in self.api(method="campaignTemplates"):
-            name = result['name']
-
-            if name == 'Untitled Template':
-                continue
-
-            results.append(
-                (result['id'], "%s (%s)" % (
-                    name,
-                    ", ".join(result['sections']))))
-
-        return results
 
 
 class ListVocabulary(MailChimpVocabulary):

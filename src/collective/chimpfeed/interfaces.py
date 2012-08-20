@@ -33,6 +33,9 @@ def check_api_key(api_key):
     return False
 
 
+class IApiUtility(Interface):
+    """ Api utuility """
+
 class IGroupSorter(Interface):
     def key(name, items):
         """Return sorting key for group with the provided name and
@@ -304,3 +307,4 @@ else:
             fields=['feeds'],
             label=_(u"Categorization")),
          ])
+
