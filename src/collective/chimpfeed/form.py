@@ -20,7 +20,7 @@ from plone.memoize.volatile import DontCache
 
 from zope.i18n import negotiate
 from zope.i18n import translate
-from zope.component import queryUtility
+from zope.component import queryUtility, getUtility
 from zope.interface import alsoProvides
 from zope.interface import Interface
 from zope.interface import implements
@@ -44,6 +44,7 @@ from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed.interfaces import INameSplitter
 from collective.chimpfeed.interfaces import ICampaignPortlet
 from collective.chimpfeed.interfaces import ISubscriptionFormSettings
+from collective.chimpfeed.interfaces import IApiUtility
 from collective.chimpfeed.vocabularies import interest_groups_factory
 from collective.chimpfeed.vocabularies import InterestGroupVocabulary
 from collective.chimpfeed.splitters import GenericNameSplitter
@@ -196,7 +197,8 @@ class InterestsWidget(SequenceWidget):
 
     @memoizedproperty
     def groupings(self):
-        return tuple(self.vocabulary.get_groupings())
+        utility = getUtility(IApiUtility, context=self.context)
+        return tuple(utility.get_groupings())
 
     def renderInterestGroups(self):
         groups = create_groupings(self.context.interest_groups)
