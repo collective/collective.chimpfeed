@@ -26,6 +26,7 @@ from zope.interface import Interface
 from zope.interface import implements
 from zope.schema.vocabulary import SimpleVocabulary
 from zope import schema
+from zope.app.component.hooks import getSite
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 
 from z3c.form import button
@@ -197,7 +198,8 @@ class InterestsWidget(SequenceWidget):
 
     @memoizedproperty
     def groupings(self):
-        utility = getUtility(IApiUtility, context=self.context)
+        site = getSite()
+        utility = getUtility(IApiUtility, context=site)
         return tuple(utility.get_groupings())
 
     def renderInterestGroups(self):
