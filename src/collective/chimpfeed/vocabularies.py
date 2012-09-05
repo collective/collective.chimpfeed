@@ -4,6 +4,7 @@ import time
 
 from zope.interface import implements
 from zope.component import getUtility
+from zope.component import ComponentLookupError
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
@@ -67,7 +68,7 @@ class MailChimpVocabulary(VocabularyBase):
 
         try:
             utility = getUtility(IApiUtility, context=context)
-        except:
+        except ComponentLookupError:
             utility = getUtility(IApiUtility, context=getSite())
 
         wrapped = ImplicitAcquisitionWrapper(self, utility)
