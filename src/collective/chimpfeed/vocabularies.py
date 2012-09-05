@@ -96,7 +96,9 @@ class InterestGroupVocabulary(MailChimpVocabulary):
         self.list_id = list_id
 
     def get_terms(self):
-        groupings = self.get_groupings(self.list_id)
+        groupings = self.get_groupings(
+            self.list_id or IFeedSettings(self).mailinglist
+            )
 
         for grouping in groupings:
             for term in self.get_terms_for_grouping(grouping, True):
@@ -124,14 +126,6 @@ class InterestGroupVocabulary(MailChimpVocabulary):
             name = grouping['name'] + " : " + name
 
         return SimpleTerm(value, token, name)
-
-
-class InterestGroupStringVocabulary(InterestGroupVocabulary):
-    def get_term_value(self, group, grouping):
-        return "%s:%s" % (
-            grouping['name'].replace(':', ''),
-            group['name'].replace(':', '')
-            )
 
 
 class InterestGroupingVocabulary(MailChimpVocabulary):
@@ -163,10 +157,26 @@ class InterestGroupingVocabulary(MailChimpVocabulary):
             yield SimpleTerm(value, token, name)
 
 
+class FeedVocabulary(InterestGroupVocabulary):
+    def get_terms(self):
+        terms = list(super(FeedVocabulary, self).get_terms())
+
+        for feed in IFeedSettings(self).feeds:
+            terms.append(SimpleTerm(feed, feed.encode('utf-8'), feed))
+
+        return terms
+
+    def get_term_value(self, group, grouping):
+        return "%s:%s" % (
+            grouping['name'].replace(':', ''),
+            group['name'].replace(':', '')
+            )
+
+
 lists_factory = ListVocabulary()
 interest_groupings_factory = InterestGroupingVocabulary()
 interest_groups_factory = InterestGroupVocabulary()
-interest_group_strings_factory = InterestGroupStringVocabulary()
+feeds_factory = FeedVocabulary()
 scheduled_items = ScheduledItems()
 categories_factory = CategoryVocabulary()
 templates = TemplateVocabulary()

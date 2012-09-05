@@ -185,8 +185,8 @@
       />
 
   <utility
-      component=".vocabularies.interest_group_strings_factory"
-      name="collective.chimpfeed.vocabularies.InterestGroupStrings"
+      component=".vocabularies.feeds_factory"
+      name="collective.chimpfeed.vocabularies.Feeds"
       />
 
   <utility

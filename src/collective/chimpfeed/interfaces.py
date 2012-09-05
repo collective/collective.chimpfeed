@@ -62,24 +62,32 @@ class IFeedSettings(Interface):
         )
 
     mailinglist = schema.Choice(
-        title=_(u"Interest group source"),
-        description=_(u"Select the list that should be used to "
-                      u"collect interest groups. "
-                      u"This is entirely optional, but recommended "
-                      u"if you have many lists defined (to reduce "
-                      u"network latency). "
-                      u"Note that if you do not make a choice, "
-                      u"interest groups will be collected "
-                      u"from all lists."),
+        title=_(u"Interest group list"),
+        description=_(u"Use this field to automatically "
+                      u"pull interest groups from a list. "
+                      u"The interest groups are "
+                      u"added to the list of feeds "
+                      "and kept up to date every hour."
+                      ),
         required=False,
         vocabulary="collective.chimpfeed.vocabularies.Lists",
         )
 
-    use_moderation = schema.Bool(
-        title=_(u'Require moderation'),
-        description=_(u'Select this option to enable content '
-                      u'moderation.'),
+    feeds = schema.List(
+        title=_(u"Feeds"),
+        description=_(u"The strings listed in this field "
+                      u"are available for tagging on "
+                      u"applicable site content. Please use "
+                      u"one value per line. An RSS-feed "
+                      u"is automatically available for each "
+                      u"string (links are shown below). Note "
+                      u"that it's possible to select a "
+                      u"subscription list (see above) "
+                      u"and pull additional strings from "
+                      u"its interest groups."
+                      ),
         required=False,
+        value_type=schema.TextLine(),
         )
 
     categories = schema.List(
@@ -87,6 +95,13 @@ class IFeedSettings(Interface):
         description=_(u"List the available feed categories."),
         required=False,
         value_type=schema.TextLine(),
+        )
+
+    use_moderation = schema.Bool(
+        title=_(u'Require moderation'),
+        description=_(u'Select this option to enable content '
+                      u'moderation.'),
+        required=False,
         )
 
 
@@ -198,10 +213,11 @@ class ISubscriptionPortlet(IPortletDataProvider, ISubscriptionFormSettings):
 
 class IControlPanel(IFeedSettings):
     urls = schema.Tuple(
-        title=_(u"Interest group feeds"),
-        description=_(u"For each interest group defined for your "
-                      u"MailChimp-account, an RSS-feed is available "
-                      u"that lists content with a matching tag."),
+        title=_(u"RSS"),
+        description=_(u"This field lists an RSS-feed for each of "
+                      u"the available feed strings (including "
+                      u"those that are automatically pulled from "
+                      u"interest groups."),
         required=False,
         value_type=schema.ASCIILine(),
         )
@@ -221,12 +237,11 @@ class IFeedControl(Interface):
 
     feeds = schema.Set(
         title=_(u"Feeds"),
-        description=_(u"If you want this content item published "
-                      u"to a MailChimp RSS-feed, select one or more "
-                      u"from the list below."),
+        description=_(u"Select one or more items from this list "
+                      u"to include in the corresponding feed."),
         required=False,
         value_type=schema.Choice(
-            vocabulary="collective.chimpfeed.vocabularies.InterestGroupStrings",
+            vocabulary="collective.chimpfeed.vocabularies.Feeds",
             )
         )
 

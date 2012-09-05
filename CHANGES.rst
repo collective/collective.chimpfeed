@@ -6,6 +6,10 @@ Current (2012-08-20)
 
 Features:
 
+- You can define feeds manually in addition to the ones pulled
+  automatically from a selected list. This is now also clarified in
+  the help texts.
+
 - Added local utility IApiUtility (defined in interfaces) to expose methods
   for accessing the API, to be used my third party customizations.
 

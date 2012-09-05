@@ -26,7 +26,8 @@ def make_urls(vocabulary):
 
     return tuple(
         ("%s.rss" % normalize(term.title), term.value, term.title)
-        for term in sorted(filtered, key=lambda term: term.title)
+        for term in sorted(
+            filtered, key=lambda term: (' : ' in term.title, term.title))
         )
 
 

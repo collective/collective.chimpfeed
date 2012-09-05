@@ -7,6 +7,7 @@ from Acquisition import ImplicitAcquisitionWrapper
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
 from zope.component import adapts
+from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
 from plone.z3cform import layout
 
@@ -21,13 +22,18 @@ from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed.interfaces import IControlPanel
 from collective.chimpfeed import MessageFactory as _
 from collective.chimpfeed.feeds import make_urls
-from collective.chimpfeed.vocabularies import interest_groups_factory
+from collective.chimpfeed.vocabularies import feeds_factory
 from collective.chimpfeed.vocabularies import lists_factory
 
 from z3c.form import field
 from z3c.form import widget
-
 from z3c.form.interfaces import IDataConverter
+
+try:
+    from z3c.form.browser import textlines
+except ImportError:
+    logging.warn("z3c.form library does not have textlines widget.")
+    textlines = None
 
 logger = logging.getLogger("collective.chimpfeed.controlpanel")
 
@@ -42,7 +48,8 @@ class ControlPanelAdapter(object):
     @property
     def urls(self):
         portal_url = getToolByName(self.settings, 'portal_url')()
-        vocabulary = interest_groups_factory(self.settings)
+
+        vocabulary = feeds_factory(self.settings)
 
         # Use term's titles as the basis for the feed URLs.
         urls = make_urls(vocabulary)
@@ -93,6 +100,9 @@ class ControlPanelEditForm(controlpanel.RegistryEditForm):
 
     fields['lists'].mode = "display"
     fields['lists'].widgetFactory = UrlsWidget.factory
+
+    if textlines is not None:
+        fields['feeds'].widgetFactory = textlines.TextLinesFieldWidget
 
     def updateActions(self):
         # This prevents a redirect to the main control panel page

@@ -76,8 +76,8 @@ msgstr "Tilmelding: ${title}"
 msgid "Thank you for signing up. We'll send you a confirmation message by e-mail shortly."
 msgstr "Tak for din tilmelding. Du vil om kort tid modtage en e-mail med anmodning om godkendelse."
 
-msgid "For each interest group defined for your MailChimp-account, an RSS-feed is available that lists content with a matching tag."
-msgstr "Herunder vises et link for hver gruppe, du har defineret i én eller flere tilmeldingslister under din MailChimp-konto. Du kan bruge disse adresser til at opsætte en RSS-kampagne, hvor indholdet trækkes automatisk fra Plone."
+msgid "This field lists an RSS-feed for each of the available feed strings (including those that are automatically pulled from interest groups."
+msgstr "Her vises et feed for hver udsendelsesliste (inklusive dem, der er oprettet automatisk på baggrund af interessegrupper)."
 
 msgid "This key is associated to your account with MailChimp."
 msgstr "Denne nøgle giver adgang til din MailChimp-konto."
@@ -88,8 +88,8 @@ msgstr "Denne portlet viser en tilmeldingsformular."
 msgid "Title"
 msgstr "Titel"
 
-msgid "Interest group feeds"
-msgstr "RSS-adresser for grupper"
+msgid "RSS"
+msgstr "RSS"
 
 msgid "Use this field to set up your feeds. Give each feed a title such as \"News\"; one feed per line."
 msgstr "Brug dette felt til at sætte dine udsendelseslister op. På hver linie angives en kort tekst f.eks. \"Nyheder\"."
@@ -259,9 +259,17 @@ msgstr "Her kan du tilmelde dig til nyhedsbrevet. Vælg én eller flere emner og
 msgid "Subscribe to: ${name}"
 msgstr "Tilmelding til nyhedsbrevet \"${name}\""
 
-msgid "Interest group source"
-msgstr "Hent kun grupper fra udvalgt tilmeldingsliste"
+msgid "Interest group list"
+msgstr "Hent udsendelseslister fra tilmeldingsliste"
 
 msgid "Select the list that should be used to collect interest groups. This is entirely optional, but recommended if you have many lists defined (to reduce network latency). Note that if you do not make a choice, interest groups will be collected from all lists."
 msgstr "Hvis en tilmeldingsliste vælges i dette felt, bruges kun de interessegrupper, der er valgt for denne liste. Dette anbefales hvis der er mange lister tilknyttet kontoen (af hensyn til generel responstid). Hvis intet valg er foretaget, bruges alle tilgængelige lister."
 
+msgid "Use this field to automatically pull interest groups from a list. The interest groups are added to the list of feeds and kept up to date every hour."
+msgstr "Brug dette felt til automatisk at hente interessegruppper fra en tilmeldingsliste og få dem tilføjet som udsendelseslister (se nedenfor)."
+
+msgid "The strings listed in this field are available for tagging on applicable site content. Please use one value per line. An RSS-feed is automatically available for each string (links are shown below). Note that it's possible to select a subscription list (see above) and pull additional strings from its interest groups."
+msgstr "Hver linje i dette felt skal være en tekststreng. Hermed oprettes en udsendelsesliste og man vil på et indholdsobjekt kunne markere én eller flere af disse strenge. Det anbefales dog at man i stedet opretter interessegrupper i MailChimp og henter dem ind automatisk ved hjælp af indstillingen ovenfor."
+
+msgid "Select one or more items from this list to include in the corresponding feed."
+msgstr "Vælg et eller flere emner for at tilføje indholdet til den tilsvarende udsendelsesliste."
