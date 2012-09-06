@@ -101,9 +101,6 @@ msgstr ""
 msgid "Approve"
 msgstr ""
 
-msgid "Approve schedule"
-msgstr ""
-
 msgid "Feeds"
 msgstr ""
 

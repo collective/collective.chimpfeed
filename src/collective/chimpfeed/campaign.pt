@@ -1,7 +1,8 @@
 <div tal:define="start request/start|options/start|context/start|nothing;
+                 until request/until|options/until|context/until|nothing;
                  field request/image|options/image|context/image|nothing;
                  scale request/scale|options/scale|context/scale|nothing;"
-     tal:repeat="group python: view.getGroups(start)">
+     tal:repeat="group python: view.getGroups(start, until)">
   <tal:group define="name python: group[0];
                      items python: group[1]">
     *|INTERESTED:<span tal:replace="name" />|*

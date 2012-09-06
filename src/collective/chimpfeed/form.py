@@ -68,6 +68,13 @@ def cache_on_get_for_an_hour(method, self):
 class ICampaign(ICampaignPortlet):
     """Note that most fields are inherited from the portlet."""
 
+    limit = schema.Bool(
+        title=_(u"Limit"),
+        description=_(u"Include scheduled items up until today's date only."),
+        default=True,
+        required=False,
+        )
+
     schedule = schema.Datetime(
         title=_(u"Schedule date"),
         description=_(u"If provided, item will be scheduled to be sent "
@@ -159,15 +166,15 @@ class ModerationWidget(SequenceWidget):
                 # To-Do: Use Plone's date formatters
                 if days == -1:
                     name = _(u"Today")
-                elif days < 7:
+                elif days < 0 or days >= 7:
+                    name = self._localize_time(date, False)
+                else:
                     abbr = date.strftime("%a")
                     name = translate(
                         'weekday_%s' % abbr.lower(),
                         domain="plonelocales",
                         context=self.request
                         )
-                else:
-                    name = self._localize_time(date, False)
 
                 groups.append({
                     'date': name,
@@ -337,15 +344,19 @@ class CampaignForm(BaseForm):
             self.context.start = datetime.date.today() + \
                                  datetime.timedelta(days=1)
 
-    def process(self, method, subject=None, start=None, schedule=None):
+    def process(self, method, subject=None, start=None,
+                limit=False, schedule=None):
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
 
         site = self.context.portal_url.getPortalObject()
         view = site.restrictedTraverse('chimpfeed-campaign')
 
+        today = datetime.date.today()
+
         rendered = view.template(
             start=start.isoformat(),
+            until=today.isoformat() if limit else None,
             image=self.context.image,
             scale=self.context.scale,
             ).encode('utf-8')
@@ -481,6 +492,9 @@ class ModerationForm(BaseForm):
             return
 
         catalog = self.context.portal_catalog
+        bumped = []
+        today = datetime.date.today()
+
         for rid in data['items'] or ():
             metadata = catalog.getMetadataForRID(rid)
             for brain in catalog(UID=metadata['UID']):
@@ -493,7 +507,39 @@ class ModerationForm(BaseForm):
                 else:
                     field.set(obj, True)
 
-                obj.reindexObject(['feedModerate'])
+                # Bump the scheduled date to today's date. This ensures that
+                # the item will be shown on the moderation portlet.
+                try:
+                    date = obj.getField('feedSchedule').get(obj)
+                    date = date.asdatetime().date()
+                except AttributeError:
+                    date = obj.feedSchedule
+
+                if date < today:
+                    try:
+                        field = obj.getField('feedSchedule')
+                    except AttributeError:
+                        obj.feedSchedule = today
+                    else:
+                        field.set(obj, DateTime(
+                            today.year, today.month, today.day
+                            ))
+
+                    bumped.append(obj)
+
+                # Reindex entire object (to make sure the metadata is
+                # updated, too).
+                obj.reindexObject()
+
+        if bumped:
+            IStatusMessage(self.request).addStatusMessage(
+                _(u"The scheduled date has been set to today's date "
+                  u"for the following items that were scheduled to "
+                  u"a date in the past: ${titles}.",
+                  mapping={'titles': u', '.join(
+                      [obj.Title() for obj in bumped])}),
+                "info",
+                )
 
     def update(self):
         super(ModerationForm, self).update()

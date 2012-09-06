@@ -100,9 +100,6 @@ msgstr "Tilmeld"
 msgid "Approve"
 msgstr "Godkend"
 
-msgid "Approve schedule"
-msgstr "Godkend udsendelse"
-
 msgid "Moderation"
 msgstr "Udsendelsesstyring"
 
@@ -110,7 +107,7 @@ msgid "Feed date"
 msgstr "Udsendelsesdato"
 
 msgid "Feed moderation"
-msgstr "Godkend udsendelse"
+msgstr "Indhold til udsendelse"
 
 msgid "Select this option to approve item."
 msgstr "Vælg dette for at godkende udsendelse."
@@ -119,7 +116,7 @@ msgid "If this date is set, the content will only be included in Mailchimp-based
 msgstr "Hvis denne dato er valgt, medtages indholdet kun i udsendelseslister fra den valgte dato og fremefter. I modsat fald benyttes \"Publiceringsdato\"."
 
 msgid "All items have been moderated."
-msgstr "Alt indhold er godkendt til udsendelse."
+msgstr "Alt indhold er godkendt til udsendelse. Bemærk, at der i denne oversigt kun vises allerede godkendt indhold, hvis det er sat til udsendelse i dag eller en fremtidig dato."
 
 msgid "Please review the following schedule."
 msgstr "Indhold uden markering kræver godkendelse."
@@ -179,7 +176,7 @@ msgid "Include items published after this date."
 msgstr "Medtag kun indhold fra denne dato."
 
 msgid "Use this form to moderate content."
-msgstr "Brug denne formular til at godkendelse indhold til nyhedsbrev."
+msgstr "Gennemse planlagt indhold."
 
 msgid "Preview"
 msgstr "Vis"
@@ -273,3 +270,12 @@ msgstr "Hver linje i dette felt skal være en tekststreng. Hermed oprettes en ud
 
 msgid "Select one or more items from this list to include in the corresponding feed."
 msgstr "Vælg et eller flere emner for at tilføje indholdet til den tilsvarende udsendelsesliste."
+
+msgid "The scheduled date has been set to today's date for the following items that were scheduled to a date in the past: ${titles}."
+msgstr "Udsendelsesdato ændret til dags dato for følgende indholdsobjekter, der var planlagt til udsendelse på en tidligere dato."
+
+msgid "Limit"
+msgstr "Begræns"
+
+msgid "Include scheduled items up until today's date only."
+msgstr "Medtag kun indhold planlagt til og med dags dato."

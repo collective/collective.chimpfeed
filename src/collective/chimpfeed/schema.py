@@ -139,14 +139,6 @@ class ModerationField(ExtensionField, atapi.BooleanField):
         if date is None:
             return
 
-        today = DateTime()
-        today = DateTime(today.year(), today.month(), today.day())
-
-        # Bump the scheduled date to today's date. This ensures that
-        # the item will be shown on the moderation portlet.
-        if date < today:
-            schedule.set(instance, today)
-
 
 class FeedExtender(object):
     implements(ISchemaExtender)

@@ -19,15 +19,19 @@ class CampaignView(BrowserView):
 
     title = _(u"Preview")
 
-    def getGroups(self, start):
+    def getGroups(self, start, until=None):
         today = DateTime()
         today = DateTime(today.year(), today.month(), today.day())
         start = DateTime(start)
+        start = DateTime(start.year(), start.month(), start.day())
 
         query = Indexed('chimpfeeds') & \
                 In('review_state', ('published', )) & \
-                Le('feedSchedule', today) & \
                 Ge('feedSchedule', start)
+
+        if until is not None:
+            until = DateTime(until)
+            query = query & Le('feedSchedule', until)
 
         settings = IFeedSettings(self.context)
         if settings.use_moderation:

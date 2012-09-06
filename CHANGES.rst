@@ -13,7 +13,15 @@ Features:
 - Added local utility IApiUtility (defined in interfaces) to expose methods
   for accessing the API, to be used my third party customizations.
 
+- Show unmoderated items even if they're scheduled for a past date.
+
+- Added an option to exclude items scheduled after today's date when
+  preparing a campaign.
+
 Bugfixes:
+
+- Fixed an off-by-one bug in the date comparison logic. Items are now
+  correctly included from the provided "start" date.
 
 - feedSchedule is now defined as a DateIndex.
 

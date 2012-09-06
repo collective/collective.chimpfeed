@@ -1,21 +1,19 @@
-import greatape
 import base64
-import time
 
 from zope.interface import implements
 from zope.component import getUtility
 from zope.component import ComponentLookupError
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from zope.app.component.hooks import getSite
 
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 
 
 from collective.chimpfeed.interfaces import IFeedSettings, IApiUtility
-from collective.chimpfeed import logger
 from collective.chimpfeed import MessageFactory as _
 
-from Products.AdvancedQuery import Indexed, Ge
+from Products.AdvancedQuery import Indexed, Ge, Eq
 from DateTime import DateTime
 from Acquisition import ImplicitAcquisitionWrapper
 
@@ -30,7 +28,11 @@ class ScheduledItems(VocabularyBase):
         today = DateTime()
         today = DateTime(today.year(), today.month(), today.day())
 
-        query = Indexed('chimpfeeds') & Ge('feedSchedule', today)
+        query = Indexed('chimpfeeds') & (
+            Ge('feedSchedule', today) |
+            Eq('feedModerate', False)
+            )
+
         brains = context.portal_catalog.evalAdvancedQuery(
             query, (('feedSchedule', 'desc'), ))
 
@@ -60,8 +62,6 @@ class SettingVocabulary(VocabularyBase):
 class CategoryVocabulary(SettingVocabulary):
     field = IFeedSettings['categories']
 
-
-from zope.app.component.hooks import getSite
 
 class MailChimpVocabulary(VocabularyBase):
     def __call__(self, context):
@@ -164,7 +164,7 @@ class FeedVocabulary(InterestGroupVocabulary):
         for feed in IFeedSettings(self).feeds:
             terms.append(SimpleTerm(feed, feed.encode('utf-8'), feed))
 
-        return terms
+        return sorted(terms, key=lambda term: term.title)
 
     def get_term_value(self, group, grouping):
         return "%s:%s" % (
