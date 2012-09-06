@@ -511,11 +511,12 @@ class ModerationForm(BaseForm):
                 # the item will be shown on the moderation portlet.
                 try:
                     date = obj.getField('feedSchedule').get(obj)
-                    date = date.asdatetime().date()
+                    if date is not None:
+                        date = date.asdatetime().date()
                 except AttributeError:
                     date = obj.feedSchedule
 
-                if date < today:
+                if date is not None or date < today:
                     try:
                         field = obj.getField('feedSchedule')
                     except AttributeError:
