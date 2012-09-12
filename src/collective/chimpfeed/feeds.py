@@ -17,7 +17,7 @@ from plone.i18n.normalizer.interfaces import IURLNormalizer
 
 from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed.interfaces import IBrowserLayer
-from collective.chimpfeed.vocabularies import interest_groups_factory
+from collective.chimpfeed.vocabularies import feeds_factory
 
 
 def make_urls(vocabulary):
@@ -105,7 +105,7 @@ class Feeds(Implicit):
 
     def __getitem__(self, name):
         settings = IFeedSettings(self)
-        vocabulary = interest_groups_factory(settings)
+        vocabulary = feeds_factory(settings)
 
         # Use term's titles as the basis for the feed URLs.
         for url, value, title in make_urls(vocabulary):
