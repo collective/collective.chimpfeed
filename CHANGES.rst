@@ -5,6 +5,8 @@ In next release ....
 
 Features:
 
+- The list subscribe form now validates the e-mail address input.
+
 - You can define feeds manually in addition to the ones pulled
   automatically from a selected list. This is now also clarified in
   the help texts.

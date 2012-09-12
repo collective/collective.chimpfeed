@@ -1,4 +1,5 @@
 import os
+import re
 import time
 import datetime
 import math
@@ -9,7 +10,6 @@ import urllib
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.CMFCore.utils import getToolByName
 from Acquisition import Implicit, ImplicitAcquisitionWrapper
-from ExtensionClass import Base as ExtensionBase
 from ComputedAttribute import ComputedAttribute
 from zExceptions import BadRequest
 
@@ -30,6 +30,7 @@ from zope.interface import alsoProvides
 from zope.interface import Interface
 from zope.interface import implements
 from zope.schema.vocabulary import SimpleVocabulary
+from zope.schema import ValidationError
 from zope import schema
 from zope.app.component.hooks import getSite
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
@@ -61,6 +62,9 @@ from collective.chimpfeed.vocabularies import InterestGroupVocabulary
 from collective.chimpfeed.splitters import GenericNameSplitter
 
 
+re_email = re.compile(r"^(\w&.%#$&'\*+-/=?^_`{}|~]+!)*[\w&.%#$&'\*+-/=?^_`{}|~]+@(([0-9a-z]([0-9a-z-]*[0-9a-z])?\.)+[a-z]{2,6}|([0-9]{1,3}\.){3}[0-9]{1,3})$", re.IGNORECASE)
+
+
 def create_groupings(groups):
     groupings = {}
     for grouping_id, name in groups:
@@ -73,6 +77,17 @@ def cache_on_get_for_an_hour(method, self):
         raise DontCache
 
     return time.time() // (60 * 60), self.id, self.request.get('list_id')
+
+
+def is_email(value):
+    if re_email.match(value):
+        return True
+
+    raise EmailValidationError(value)
+
+
+class EmailValidationError(ValidationError):
+    __doc__ = _(u"Not a valid e-mail address.")
 
 
 class ICampaign(ICampaignPortlet):
@@ -112,6 +127,7 @@ class ISubscription(Interface):
     email = schema.TextLine(
         title=_(u"E-mail"),
         required=True,
+        constraint=is_email,
         )
 
     interests = schema.Tuple(
