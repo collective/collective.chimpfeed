@@ -5,11 +5,11 @@ from setuptools import setup, find_packages
 def read(*pathnames):
     return open(os.path.join(os.path.dirname(__file__), *pathnames)).read()
 
-version = '1.7'
+version = '1.8-dev'
 
 setup(name='collective.chimpfeed',
       version=version,
-      description="Plone-integration for MailChimp RSS-campaigns.",
+      description="MailChimp-integration for Plone!",
       long_description='\n'.join([
           read('README.rst'),
           read('CHANGES.rst'),
