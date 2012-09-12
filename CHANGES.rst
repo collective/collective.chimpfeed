@@ -19,6 +19,12 @@ Features:
 
 Bugfixes:
 
+- Fixed an issue where the javascript template would break on
+  rendering.
+
+- Fixed an issue where KSS validation would not work properly in the
+  subscribe form.
+
 - Fixed an off-by-one bug in the date comparison logic. Items are now
   correctly included from the provided "start" date.
 

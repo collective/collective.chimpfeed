@@ -1,3 +1,4 @@
+import os
 import time
 import datetime
 import math
@@ -7,7 +8,9 @@ import urllib
 
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.CMFCore.utils import getToolByName
-from Acquisition import ImplicitAcquisitionWrapper
+from Acquisition import Implicit, ImplicitAcquisitionWrapper
+from ExtensionClass import Base as ExtensionBase
+from ComputedAttribute import ComputedAttribute
 from zExceptions import BadRequest
 
 from ZODB.utils import u64
@@ -18,9 +21,11 @@ from plone.memoize import view
 from plone.memoize.instance import memoizedproperty
 from plone.memoize.volatile import DontCache
 
+from plone.z3cform.layout import wrap_form
+
 from zope.i18n import negotiate
 from zope.i18n import translate
-from zope.component import queryUtility, getUtility
+from zope.component import queryUtility, getUtility, getMultiAdapter
 from zope.interface import alsoProvides
 from zope.interface import Interface
 from zope.interface import implements
@@ -35,6 +40,7 @@ from z3c.form import form
 from z3c.form.widget import SequenceWidget
 from z3c.form.widget import FieldWidget
 from z3c.form.interfaces import IErrorViewSnippet
+from z3c.form.interfaces import IWidgets
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.form.interfaces import IWidget
 
@@ -560,29 +566,30 @@ class ModerationForm(BaseForm):
             del self.actions['approve']
 
 
-class SubscribeContext(object):
+class SubscribeContext(Implicit):
     interest_groups = ()
 
     def __init__(self, request):
         list_id = self.mailinglist = request['list_id']
         self.factory = InterestGroupVocabulary(list_id)
 
-    @property
-    def name(self):
-        wrapped = ImplicitAcquisitionWrapper(self.factory, self)
-        for list_id, name in wrapped.get_lists():
+    def get_name(self):
+        api = getUtility(IApiUtility, context=self)
+        for list_id, name in api.get_lists():
             if list_id == self.mailinglist:
                 return name
 
         return _(u"Untitled")
 
-    @property
-    def interest_groupings(self):
+    name = ComputedAttribute(get_name, 1)
+
+    def get_interest_groupings(self):
         vocabulary = self.factory(self)
         return set(
             term.value[0] for term in vocabulary
             )
 
+    interest_groupings = ComputedAttribute(get_interest_groupings, 1)
 
 class SubscribeForm(BaseForm):
     fields = field.Fields(ISubscription)
@@ -702,7 +709,7 @@ class JavascriptWidget(field.Field):
 
     def render(self):
         return u'<script type="text/javascript">\n' + \
-               self.template() + \
+               self.body + \
                u'</script>'
 
     def update(self):
@@ -715,7 +722,9 @@ class JavascriptWidget(field.Field):
 class SelectAllGroupsJavascript(JavascriptWidget):
     """Replace the fieldset legend with a select all checkbox."""
 
-    template = ViewPageTemplateFile("select.js")
+    body = open(
+        os.path.join(os.path.dirname(__file__), "select.js"),
+        'rb').read()
 
 
 class ListSubscribeForm(SubscribeForm):
@@ -729,7 +738,7 @@ class ListSubscribeForm(SubscribeForm):
     fields += SubscribeForm.fields.select('interests', 'name', 'email')
 
     # Add mailinglist as hidden field
-    fields += field.Fields(schema.TextLine(
+    fields += field.Fields(schema.ASCII(
         __name__="list_id",
         required=True,
         ), mode="hidden")
@@ -737,9 +746,6 @@ class ListSubscribeForm(SubscribeForm):
     # Remove prefix; we want to be able to provide defaults using a
     # simple format.
     prefix = ""
-
-    # buttons = button.Buttons()
-    # handlers = SubscribeForm.handlers.copy()
 
     @property
     def label(self):
@@ -757,10 +763,27 @@ class ListSubscribeForm(SubscribeForm):
         except KeyError, exc:
             raise BadRequest(u"Missing parameter: %s." % exc)
 
-        return ImplicitAcquisitionWrapper(context, settings)
+        return context.__of__(
+            ImplicitAcquisitionWrapper(
+                settings, self.context)
+            )
 
     def nextURL(self):
         return self.context.portal_url()
+
+    def updateWidgets(self):
+        # XXX: We override this to be able to set the prefix.
+        self.widgets = getMultiAdapter(
+            (self, self.request, self.getContent()), IWidgets)
+        self.widgets.mode = self.mode
+        self.widgets.prefix = ""
+        self.widgets.ignoreContext = self.ignoreContext
+        self.widgets.ignoreRequest = self.ignoreRequest
+        self.widgets.ignoreReadonly = self.ignoreReadonly
+        self.widgets.update()
+
+
+ListSubscribeForm = wrap_form(ListSubscribeForm)
 
 
 class ListSubscribeFormFieldWidgets(field.FieldWidgets):
