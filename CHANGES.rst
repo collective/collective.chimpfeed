@@ -17,6 +17,8 @@ Features:
 - Added an option to exclude items scheduled after today's date when
   preparing a campaign.
 
+- Adding RSS publication date, formatted as RFC 822.
+
 Bugfixes:
 
 - Fixed an issue where the javascript template would break on

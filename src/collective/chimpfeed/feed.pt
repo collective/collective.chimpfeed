@@ -49,6 +49,7 @@
                         text python:has_text and obj_item.getText() or '';
                         has_effective exists:obj_item/aq_explicit/effective_date;
                         effective python:has_effective and obj_item.effective().HTML4() or '';
+                        effective_rfc822 python:has_effective and obj_item.effective().rfc822();
                         modified python:obj_item.modified().HTML4();
                         creator obj_item/Creator|nothing">
         <title tal:content="obj_item/pretty_title_or_id">Title</title>
@@ -58,6 +59,9 @@
                   tal:condition="value"
                   tal:content="value"
                   />
+        <pubDate tal:condition="effective_rfc822" tal:content="effective_rfc822">
+          Published date, if present
+        </pubDate>
         <content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"
                          tal:condition="has_text"
                          tal:content="structure python:'&lt;![CDATA[' + text + ']]&gt;'">Content</content:encoded>
