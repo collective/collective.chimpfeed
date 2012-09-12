@@ -37,7 +37,11 @@ from z3c.form.widget import FieldWidget
 from z3c.form.interfaces import IErrorViewSnippet
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.form.interfaces import IWidget
-from z3c.form.interfaces import NO_VALUE
+
+try:
+    from z3c.form.interfaces import NO_VALUE
+except ImportError:
+    from z3c.form.interfaces import NOVALUE as NO_VALUE
 
 from collective.chimpfeed import MessageFactory as _
 from collective.chimpfeed import logger
@@ -354,9 +358,14 @@ class CampaignForm(BaseForm):
 
         today = datetime.date.today()
 
+        if limit:
+            until = today.isoformat()
+        else:
+            until = None
+
         rendered = view.template(
             start=start.isoformat(),
-            until=today.isoformat() if limit else None,
+            until=until,
             image=self.context.image,
             scale=self.context.scale,
             ).encode('utf-8')
