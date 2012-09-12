@@ -591,6 +591,7 @@ class SubscribeContext(Implicit):
 
     interest_groupings = ComputedAttribute(get_interest_groupings, 1)
 
+
 class SubscribeForm(BaseForm):
     fields = field.Fields(ISubscription)
 
