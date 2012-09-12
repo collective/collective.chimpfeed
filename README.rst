@@ -1,8 +1,8 @@
 Overview
 ========
 
-This add-on provides a number of integration points between MailChimp
-and Plone:
+This add-on provides a number of integration points between `MailChimp
+<http://www.mailchimp.com>`_ and `Plone <http://www.plone.org>`_:
 
 1. Assign interest groups to existing content and
    automatically expose the result sets as RSS-feeds.
@@ -14,9 +14,8 @@ and Plone:
 
 Quick start:
 
-Define a set of interest groups for one or more `MailChimp
-<http://www.mailchimp.com>`_ lists, configure Plone with your API key
-and start tagging content.
+Define a set of interest groups for one or more lists, configure Plone
+with your API key and start tagging content.
 
 
 Compatibility
