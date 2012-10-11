@@ -184,7 +184,8 @@ class ModerationWidget(SequenceWidget):
 
         for entry in self.entries:
             date = entry['feedSchedule']
-
+            if date is None:
+                continue
             days = int(math.floor(date - today))
             if days != last:
                 entries = []

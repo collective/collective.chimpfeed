@@ -1,6 +1,17 @@
 Changes
 =======
 
+In next release ...
+
+Bugfixes:
+
+- Fixed an issue where the moderation portlet would fail when an item
+  set for moderation would not have a defined schedule date.
+
+  This shouldn't happen in practice, because the publication date is
+  used instead of a schedule date, but the catalog data might be
+  incorrect.
+
 1.8 (2012-09-12)
 ----------------
 
