@@ -29,9 +29,9 @@ class ScheduledItems(VocabularyBase):
         today = DateTime(today.year(), today.month(), today.day())
 
         query = Indexed('chimpfeeds') & (
-            Ge('feedSchedule', today) |
+            (Indexed('chimpfeeds') & Ge('feedSchedule', today)) |
             Eq('feedModerate', False)
-            )
+        )
 
         brains = context.portal_catalog.evalAdvancedQuery(
             query, (('feedSchedule', 'desc'), ))
