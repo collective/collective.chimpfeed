@@ -3,6 +3,13 @@ Changes
 
 In next release ...
 
+- Fixed an issue setting up chimpfeed on a vanilla plone site, where the
+  feeds setting is initialized to None. 
+  [sunew]
+
+1.8.1 (2012-10-12)
+----------------
+
 Bugfixes:
 
 - Fixed an issue where the moderation portlet would fail when an item
