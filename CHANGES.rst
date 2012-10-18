@@ -3,6 +3,11 @@ Changes
 
 In next release ...
 
+- Made the chimpfeed schemaextender browserlayer aware, to avoid extending
+  schemas on plone sites where collective.chimpfeed is not installed. Editing 
+  objects would fail if chimpfeed was not installed.
+  [sunew]
+
 - Fixed an issue setting up chimpfeed on a vanilla plone site, where the
   feeds setting is initialized to None. 
   [sunew]

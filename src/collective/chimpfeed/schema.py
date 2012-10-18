@@ -4,7 +4,7 @@ import weakref
 from zope.interface import implements
 from zope.interface import alsoProvides
 from zope.component import adapts
-from archetypes.schemaextender.interfaces import ISchemaExtender
+from archetypes.schemaextender.interfaces import ISchemaExtender, IBrowserLayerAwareExtender
 from archetypes.schemaextender.field import ExtensionField
 from plone.indexer.decorator import indexer
 
@@ -18,7 +18,7 @@ from DateTime import DateTime
 from collective.chimpfeed.permissions import MODERATE_PERMISSION
 from collective.chimpfeed.interfaces import IFeedControl
 from collective.chimpfeed.interfaces import IFeedSettings
-
+from collective.chimpfeed.interfaces import IBrowserLayer
 
 try:
     from plone.app.dexterity.behaviors.metadata import Categorization
@@ -141,8 +141,10 @@ class ModerationField(ExtensionField, atapi.BooleanField):
 
 
 class FeedExtender(object):
-    implements(ISchemaExtender)
+    implements(ISchemaExtender, IBrowserLayerAwareExtender)
     adapts(IBaseContent)
+
+    layer = IBrowserLayer
 
     fields = (
         LinesField(
