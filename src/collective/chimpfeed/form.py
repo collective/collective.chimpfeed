@@ -473,7 +473,8 @@ class CampaignForm(BaseForm):
 
                 except greatape.MailChimpError, exc:
                     IStatusMessage(self.request).addStatusMessage(
-                        _(u"Unable to process request."), "error"
+                        _(u"Unable to process request: ${message}",
+                          mapping={'message': exc.msg}), "error"
                         )
                     logger.warn(exc.msg)
                     return

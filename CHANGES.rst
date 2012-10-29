@@ -1,6 +1,13 @@
 Changes
 =======
 
+In next release ...
+
+Logging:
+
+- If a campaign can't be created, show the error message in the status
+  message, not just the log.
+
 1.8.2 (2012-10-29)
 ------------------
 
