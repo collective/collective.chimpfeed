@@ -3,7 +3,16 @@ Changes
 
 In next release ...
 
+Features:
+
+- Use Plone's standard identifier normalization to convert interest
+  groups into form tokens on the automatically generated subscription
+  form.
+
 Bugfixes:
+
+- Fixed issue with acquisition-wrapping such that subscription form
+  defaults actually work.
 
 - Subscription form would incorrectly load interest groupings for all
   available lists.

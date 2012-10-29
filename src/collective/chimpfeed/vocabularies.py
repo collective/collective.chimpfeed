@@ -1,5 +1,3 @@
-import base64
-
 from zope.interface import implements
 from zope.component import getUtility
 from zope.component import ComponentLookupError
@@ -8,7 +6,6 @@ from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 from zope.app.component.hooks import getSite
 
 from plone.i18n.normalizer.interfaces import IIDNormalizer
-
 
 from collective.chimpfeed.interfaces import IFeedSettings, IApiUtility
 from collective.chimpfeed import MessageFactory as _
@@ -69,11 +66,15 @@ class MailChimpVocabulary(VocabularyBase):
         try:
             utility = getUtility(IApiUtility, context=context)
         except ComponentLookupError:
-            utility = getUtility(IApiUtility, context=getSite())
+            site = getSite()
+            utility = getUtility(IApiUtility, context=site)
 
+        utility = utility.__of__(context)
         wrapped = ImplicitAcquisitionWrapper(self, utility)
+
         generator = wrapped.get_terms()
         terms = tuple(generator)
+
         return SimpleVocabulary(terms)
 
 
@@ -97,8 +98,10 @@ class InterestGroupVocabulary(MailChimpVocabulary):
 
     def get_terms(self):
         groupings = self.get_groupings(
-            self.list_id or IFeedSettings(self).mailinglist
-            )
+            self.list_id or
+            getattr(self, "mailinglist", None) or
+            IFeedSettings(self).mailinglist
+        )
 
         for grouping in groupings:
             for term in self.get_terms_for_grouping(grouping, True):
@@ -117,10 +120,8 @@ class InterestGroupVocabulary(MailChimpVocabulary):
         name = group['name']
         value = self.get_term_value(group, grouping)
 
-        token = "%s-%s" % (
-            grouping['id'],
-            base64.urlsafe_b64encode(name.encode('utf-8'))
-            )
+        normalize = getUtility(IIDNormalizer).normalize
+        token = "%s-%s" % (grouping['id'], normalize(name))
 
         if qualified:
             name = grouping['name'] + " : " + name
