@@ -33,6 +33,9 @@ class ApiUtility(Implicit):
             api = greatape.MailChimp(api_key)
 
             def api(api=api, **kwargs):
+                logger.info("mailchimp(%s)" % (", ".join(
+                    "%s=%r" % item for item in kwargs.items())))
+
                 try:
                     return api(**kwargs)
                 except greatape.MailChimpError, exc:

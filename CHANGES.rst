@@ -5,6 +5,8 @@ In next release ...
 
 Logging:
 
+- Log every API call to MailChimp.
+
 - If a campaign can't be created, show the error message in the status
   message, not just the log.
 
