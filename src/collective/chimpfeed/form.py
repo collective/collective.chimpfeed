@@ -233,9 +233,9 @@ class InterestsWidget(SequenceWidget):
 
     @memoizedproperty
     def groupings(self):
-        site = getSite()
-        utility = getUtility(IApiUtility, context=site)
-        return tuple(utility.get_groupings())
+        utility = getUtility(IApiUtility, context=self.context)
+        wrapped = utility.__of__(self.context)
+        return tuple(wrapped.get_groupings())
 
     def renderInterestGroups(self):
         groups = create_groupings(self.context.interest_groups)

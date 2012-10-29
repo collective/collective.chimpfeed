@@ -3,6 +3,11 @@ Changes
 
 In next release ...
 
+Bugfixes:
+
+- Subscription form would incorrectly load interest groupings for all
+  available lists.
+
 Logging:
 
 - Log every API call to MailChimp.
