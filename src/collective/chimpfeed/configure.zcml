@@ -22,7 +22,11 @@
 
   <!-- Schema extension -->
 
-  <adapter name="feeds" factory=".schema.FeedExtender" />
+  <adapter 
+      name="feeds" 
+      factory=".schema.FeedExtender"
+      provides="archetypes.schemaextender.interfaces.ISchemaExtender" 
+      />
 
   <!-- Archetypes -->
 

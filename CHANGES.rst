@@ -21,8 +21,17 @@ Bugfixes:
 - The previous release had a bugfix which did not address the issue
   correctly. This should be fixed now.
 
+- Made the schema extension adapter browser-layer aware, to avoid
+  extending schemas on sites where the package is not installed
+  (editing objects would fail if chimpfeed was not installed).
+  [sunew]
+
+- Fixed an issue setting up chimpfeed on a vanilla plone site, where
+  the feeds setting is initialized to None.
+  [sunew]
+
 1.8.1 (2012-10-12)
-------------------
+----------------
 
 Bugfixes:
 
