@@ -282,3 +282,6 @@ msgstr "Medtag kun indhold planlagt til og med dags dato."
 
 msgid "Not a valid e-mail address."
 msgstr "Ikke en gyldig e-mail adresse."
+
+msgid "None"
+msgstr "Ingen"

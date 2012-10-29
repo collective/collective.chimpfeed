@@ -1,6 +1,18 @@
 Changes
 =======
 
+In next release ...
+
+Features:
+
+- The subscription form now displays defined 'text' and 'dropdown'
+  merge vars as fields.
+
+Bugfixes:
+
+- The previous release had a bugfix which did not address the issue
+  correctly. This should be fixed now.
+
 1.8.1 (2012-10-12)
 ------------------
 

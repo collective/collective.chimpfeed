@@ -17,7 +17,9 @@
                              scale python: scales.scale(field, scale=scale);
                              dummy python: has_image.append(True)"
                      on-error="nothing">
-            <td tal:content="structure scale/tag" />
+            <td style="vertical-align: top"
+                tal:attributes="width string:${scale/width}px"
+                tal:content="structure scale/tag" />
           </tal:image>
           <td style="vertical-align: top"
               tal:attributes="colspan python: not any(has_image) and '2' or None">

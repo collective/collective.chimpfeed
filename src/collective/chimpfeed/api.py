@@ -11,12 +11,23 @@ from plone.memoize.ram import cache
 def stub_api(**kwargs):
     return ()
 
+def make_cache_key(minutes):
+    def cache_key(func, inst, *args):
+        api_key = inst.get_api_key()
+        return time.time() // (60 * minutes), api_key, args
+    return cache_key
+
+
 class ApiUtility(Implicit):
     implements(IApiUtility)
 
+    def get_api_key(self):
+        settings = IFeedSettings(aq_parent(self), None)
+        if settings:
+            return settings.mailchimp_api_key
+
     def api(self, **kwargs):
-        settings = IFeedSettings(aq_parent(self))
-        api_key = settings.mailchimp_api_key
+        api_key = self.get_api_key()
 
         if api_key:
             api = greatape.MailChimp(api_key)
@@ -42,7 +53,7 @@ class ApiUtility(Implicit):
 
         return api(**kwargs)
 
-    @cache(lambda method, self, list_id: (list_id, time.time() // (60 * 60)))
+    @cache(make_cache_key(60))
     def _get_cached_groupings(self, list_id):
         results = []
 
@@ -60,7 +71,7 @@ class ApiUtility(Implicit):
 
         return results
 
-    @cache(lambda *args: time.time() // (15 * 60))
+    @cache(make_cache_key(15))
     def get_lists(self):
         results = []
         for result in self.api(method="lists"):
@@ -73,7 +84,7 @@ class ApiUtility(Implicit):
             list_id = getattr(self, 'mailinglist', None)
         return self._get_cached_groupings(list_id)
 
-    @cache(lambda *args: time.time() // (60 * 60))
+    @cache(make_cache_key(60))
     def get_templates(self):
         results = []
         for result in self.api(method="campaignTemplates"):
@@ -88,3 +99,9 @@ class ApiUtility(Implicit):
                     ", ".join(result['sections']))))
 
         return results
+
+    @cache(make_cache_key(60))
+    def list_merge_vars(self, list_id):
+        return self.api(method="listMergeVars", id=list_id)
+
+

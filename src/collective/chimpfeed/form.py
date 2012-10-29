@@ -30,6 +30,7 @@ from zope.interface import alsoProvides
 from zope.interface import Interface
 from zope.interface import implements
 from zope.schema.vocabulary import SimpleVocabulary
+from zope.schema.vocabulary import SimpleTerm
 from zope.schema import ValidationError
 from zope import schema
 from zope.app.component.hooks import getSite
@@ -604,14 +605,13 @@ class SubscribeContext(Implicit):
         vocabulary = self.factory(self)
         return set(
             term.value[0] for term in vocabulary
-            )
+        )
 
     interest_groupings = ComputedAttribute(get_interest_groupings, 1)
 
 
 class SubscribeForm(BaseForm):
     fields = field.Fields(ISubscription)
-
     fields['interests'].widgetFactory = InterestsWidget.factory
 
     @button.buttonAndHandler(_(u'Register'))
@@ -624,14 +624,15 @@ class SubscribeForm(BaseForm):
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
         next_url = self.nextURL()
-        content = self.getContent()
 
         try:
-            list_id = content.mailinglist
-
-            email = data['email']
-            name = data['name']
-            interests = data['interests']
+            list_id = (
+                data.pop('list_id', None) or
+                self.getContent().mailinglist
+            )
+            name = data.pop('name')
+            email = data.pop('email')
+            interests = data.pop('interests')
 
             if api_key:
                 api = greatape.MailChimp(api_key, debug=False)
@@ -641,12 +642,35 @@ class SubscribeForm(BaseForm):
 
                 # Split full name into first (given) and last name.
                 fname, lname = queryUtility(
-                    INameSplitter, name=language, default=GenericNameSplitter
-                    ).split_name(name)
+                    INameSplitter, name=language,
+                    default=GenericNameSplitter
+                ).split_name(name)
 
                 # Log subscription attempt.
                 logger.info(("listSubscribe(%r, %r, %r, %r)" % (
                     list_id, email, fname, lname)).encode('utf-8'))
+
+                merge_vars = {
+                    'FNAME': fname.encode('utf-8'),
+                    'LNAME': lname.encode('utf-8'),
+                    'GROUPINGS': [
+                        dict(
+                            id=grouping_id,
+                            groups=",".join(
+                                group.
+                                encode('utf-8').
+                                replace(',', '\\,')
+                                for group in group_names
+                            ),
+                        )
+                        for (grouping_id, group_names) in
+                        create_groupings(interests).items()
+                    ]
+                }
+
+                for name, value in data.items():
+                    if value is not None:
+                        merge_vars[name.upper()] = value.encode('utf-8')
 
                 try:
                     result = api(
@@ -654,24 +678,8 @@ class SubscribeForm(BaseForm):
                         email_address=email,
                         update_existing=True,
                         replace_interests=False,
-                        merge_vars={
-                            'FNAME': fname.encode('utf-8'),
-                            'LNAME': lname.encode('utf-8'),
-                            'GROUPINGS': [
-                                dict(
-                                    id=grouping_id,
-                                    groups=",".join(
-                                        group.\
-                                        encode('utf-8').\
-                                        replace(',', '\\,')
-                                        for group in group_names
-                                        ),
-                                    )
-                                for (grouping_id, group_names) in
-                                create_groupings(interests).items()
-                                ]
-                            },
-                        )
+                        merge_vars=merge_vars
+                    )
                 except greatape.MailChimpError, exc:
                     logger.warn(exc.msg)
 
@@ -684,14 +692,14 @@ class SubscribeForm(BaseForm):
                               u"configured incorrectly. Please contact "
                               u"the webmaster."),
                             "error",
-                            )
+                        )
                 else:
                     if result:
                         return IStatusMessage(self.request).addStatusMessage(
                             _(u"Thank you for signing up. We'll send you a "
                               u"confirmation message by e-mail shortly."),
                             "info"
-                            )
+                        )
 
             IStatusMessage(self.request).addStatusMessage(
                 _(u"An error occurred while processing your "
@@ -748,18 +756,72 @@ class SelectAllGroupsJavascript(JavascriptWidget):
 class ListSubscribeForm(SubscribeForm):
     description = _(u"Select subscription options and submit form.")
 
-    # Add Javascript widget
-    fields = field.Fields(SelectAllGroupsJavascript(schema.Field(
-        __name__="js", required=False), mode="hidden"))
+    @property
+    def fields(self):
+        # Javascript-widget
+        fields = field.Fields(SelectAllGroupsJavascript(schema.Field(
+            __name__="js", required=False), mode="hidden"))
 
-    # Include form fields, but change the order around.
-    fields += SubscribeForm.fields.select('interests', 'name', 'email')
+        # Include form fields, but change the order around.
+        fields += SubscribeForm.fields.select('interests', 'name', 'email')
 
-    # Add mailinglist as hidden field
-    fields += field.Fields(schema.ASCII(
-        __name__="list_id",
-        required=True,
-        ), mode="hidden")
+        # Add mailinglist as hidden field
+        fields += field.Fields(schema.ASCII(
+            __name__="list_id",
+            required=True),
+            mode="hidden"
+        )
+
+        context = self.getContent()
+        api = getUtility(IApiUtility, context=self.context)
+        result = api.list_merge_vars(context.mailinglist)
+
+        for entry in result:
+            name = entry['tag'].lower()
+
+            if name in fields:
+                continue
+
+            if not entry['show']:
+                continue
+
+            field_type = entry['field_type']
+            required = entry['req']
+
+            if field_type == 'text':
+                factory = schema.TextLine
+                options = {}
+
+            elif field_type == 'dropdown':
+                factory = schema.Choice
+                choices = list(entry['choices'])
+
+                if not required:
+                    choices.append(u"")
+                    required = True
+
+                options = {
+                    'vocabulary': SimpleVocabulary([
+                        SimpleTerm(value=value,
+                                   token=value.encode(
+                                       'ascii',
+                                       'xmlcharrefreplace'),
+                                   title=value or _(u"None"))
+                        for value in choices])
+                }
+
+            else:
+                continue
+
+            fields += field.Fields(factory(
+                __name__=name.encode('utf-8'),
+                default=entry['default'],
+                required=required,
+                title=entry['name'],
+                **options
+            ))
+
+        return fields
 
     # Remove prefix; we want to be able to provide defaults using a
     # simple format.

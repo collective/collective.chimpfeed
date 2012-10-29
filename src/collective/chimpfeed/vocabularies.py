@@ -161,7 +161,7 @@ class FeedVocabulary(InterestGroupVocabulary):
     def get_terms(self):
         terms = list(super(FeedVocabulary, self).get_terms())
 
-        for feed in IFeedSettings(self).feeds:
+        for feed in IFeedSettings(self).feeds or ():
             terms.append(SimpleTerm(feed, feed.encode('utf-8'), feed))
 
         return sorted(terms, key=lambda term: term.title)
