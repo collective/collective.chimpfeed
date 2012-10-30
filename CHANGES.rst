@@ -5,6 +5,14 @@ In next release ...
 
 Bugfixes:
 
+- Update moderation items widget when one or more items have been
+  approved. This ensures that the rendered view is correctly updated.
+
+1.8.5 (2012-10-30)
+------------------
+
+Bugfixes:
+
 - Fixed encoding issue that affected the rendering of a status message
   for 'bumped items'.
 

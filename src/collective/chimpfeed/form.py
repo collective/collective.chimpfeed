@@ -566,6 +566,9 @@ class ModerationForm(BaseForm):
                 # updated, too).
                 obj.reindexObject()
 
+        if data['items']:
+            self.widgets['items'].update()
+
         if bumped:
             IStatusMessage(self.request).addStatusMessage(
                 _(u"The scheduled date has been set to today's date "
