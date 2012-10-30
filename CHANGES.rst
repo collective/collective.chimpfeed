@@ -5,6 +5,14 @@ In next release ...
 
 Bugfixes:
 
+- Fixed encoding issue that affected the rendering of a status message
+  for 'bumped items'.
+
+1.8.4 (2012-10-30)
+------------------
+
+Bugfixes:
+
 - An item which has no scheduled date, but is approved, now correctly
   gets today's date assigned. This fixes an issue where the item would
   not appear in the moderation form after approval. With this change,

@@ -572,7 +572,7 @@ class ModerationForm(BaseForm):
                   u"for the following items that were scheduled to "
                   u"a date in the past: ${titles}.",
                   mapping={'titles': u', '.join(
-                      [obj.Title() for obj in bumped])}),
+                      [obj.Title().decode('utf-8') for obj in bumped])}),
                 "info",
                 )
 
