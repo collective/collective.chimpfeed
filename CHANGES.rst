@@ -1,6 +1,15 @@
 Changes
 =======
 
+In next release ...
+
+Bugfixes:
+
+- An item which has no scheduled date, but is approved, now correctly
+  gets today's date assigned. This fixes an issue where the item would
+  not appear in the moderation form after approval. With this change,
+  it will appear at least on the day of approval.
+
 1.8.3 (2012-10-29)
 ------------------
 

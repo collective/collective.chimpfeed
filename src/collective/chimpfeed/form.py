@@ -550,7 +550,7 @@ class ModerationForm(BaseForm):
                 except AttributeError:
                     date = obj.feedSchedule
 
-                if date is not None and date < today:
+                if date is None or date < today:
                     try:
                         field = obj.getField('feedSchedule')
                     except AttributeError:
