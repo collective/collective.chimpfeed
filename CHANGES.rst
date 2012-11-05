@@ -1,6 +1,12 @@
 Changes
 =======
 
+In next release ...
+
+Features:
+
+- The subscription form now includes a "Select all" checkbox.
+
 1.8.6 (2012-10-30)
 ------------------
 

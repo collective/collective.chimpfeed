@@ -166,3 +166,6 @@ msgstr ""
 
 msgid "Campaign scheduling"
 msgstr ""
+
+msgid "Select all"
+msgstr ""

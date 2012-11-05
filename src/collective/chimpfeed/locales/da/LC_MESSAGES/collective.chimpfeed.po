@@ -285,3 +285,6 @@ msgstr "Ikke en gyldig e-mail adresse."
 
 msgid "None"
 msgstr "Ingen"
+
+msgid "Select all"
+msgstr "Alle nyheder"

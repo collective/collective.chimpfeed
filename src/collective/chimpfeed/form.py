@@ -20,11 +20,13 @@ from plone.memoize.ram import cache
 from plone.memoize import view
 from plone.memoize.instance import memoizedproperty
 from plone.memoize.volatile import DontCache
+from plone.memoize.forever import memoize as forever
 
 from plone.z3cform.layout import wrap_form
 
 from zope.i18n import negotiate
 from zope.i18n import translate
+from zope.i18n.interfaces import ITranslationDomain
 from zope.component import queryUtility, getUtility, getMultiAdapter
 from zope.interface import alsoProvides
 from zope.interface import Interface
@@ -752,9 +754,21 @@ class JavascriptWidget(field.Field):
 class SelectAllGroupsJavascript(JavascriptWidget):
     """Replace the fieldset legend with a select all checkbox."""
 
-    body = open(
-        os.path.join(os.path.dirname(__file__), "select.js"),
-        'rb').read()
+    path = os.path.join(os.path.dirname(__file__), "select.js")
+
+    @property
+    @forever
+    def body(self):
+        body = open(self.path, 'rb').read()
+
+        # Extract and translate strings by heuristic:
+        td = getUtility(ITranslationDomain, name="collective.chimpfeed")
+        for string in re.compile(r'>([\w\s]+)<').findall(body):
+            msg_id = string.decode('utf-8')
+            translation = td.translate(msg_id, context=self.request)
+            body = body.replace(string, translation)
+
+        return body
 
 
 class ListSubscribeForm(SubscribeForm):
