@@ -369,7 +369,7 @@ class CampaignForm(BaseForm):
             url + "/@@chimpfeed-preview?%s" % urllib.urlencode(params))
 
     def makeParams(self, start=None, limit=False,
-                   filtering=False, schedule=None, **extra):
+                   filtering=False, **extra):
         today = datetime.date.today()
 
         return dict(
@@ -399,7 +399,7 @@ class CampaignForm(BaseForm):
             self.context.start = datetime.date.today() + \
                                  datetime.timedelta(days=1)
 
-    def process(self, method, subject=None, **data):
+    def process(self, method, subject=None, schedule=None, **data):
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
 
