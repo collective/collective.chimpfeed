@@ -168,7 +168,8 @@ class ModerationWidget(SequenceWidget):
         for term in self.terms:
             rid = term.value
             entry = catalog.getMetadataForRID(rid)
-            entries.append(entry)
+            if entry['feedSchedule'] is not None:
+                entries.append(entry)
 
         return entries
 
@@ -187,8 +188,6 @@ class ModerationWidget(SequenceWidget):
 
         for entry in self.entries:
             date = entry['feedSchedule']
-            if date is None:
-                continue
             days = int(math.floor(date - today))
             if days != last:
                 entries = []
@@ -531,42 +530,46 @@ class ModerationForm(BaseForm):
         bumped = []
         today = datetime.date.today()
 
+        uids = []
         for rid in data['items'] or ():
             metadata = catalog.getMetadataForRID(rid)
-            for brain in catalog(UID=metadata['UID']):
-                obj = brain.getObject()
+            uids.append(metadata['UID'])
 
+        brains = catalog.unrestrictedSearchResults(UID=uids)
+        for brain in brains:
+            obj = brain.getObject()
+
+            try:
+                field = obj.getField('feedModerate')
+            except AttributeError:
+                obj.feedModerate = True
+            else:
+                field.set(obj, True)
+
+            # Bump the scheduled date to today's date. This ensures that
+            # the item will be shown on the moderation portlet.
+            try:
+                date = obj.getField('feedSchedule').get(obj)
+                if date is not None:
+                    date = date.asdatetime().date()
+            except AttributeError:
+                date = obj.feedSchedule
+
+            if date is None or date < today:
                 try:
-                    field = obj.getField('feedModerate')
+                    field = obj.getField('feedSchedule')
                 except AttributeError:
-                    obj.feedModerate = True
+                    obj.feedSchedule = today
                 else:
-                    field.set(obj, True)
+                    field.set(obj, DateTime(
+                        today.year, today.month, today.day
+                        ))
 
-                # Bump the scheduled date to today's date. This ensures that
-                # the item will be shown on the moderation portlet.
-                try:
-                    date = obj.getField('feedSchedule').get(obj)
-                    if date is not None:
-                        date = date.asdatetime().date()
-                except AttributeError:
-                    date = obj.feedSchedule
+                bumped.append(obj)
 
-                if date is None or date < today:
-                    try:
-                        field = obj.getField('feedSchedule')
-                    except AttributeError:
-                        obj.feedSchedule = today
-                    else:
-                        field.set(obj, DateTime(
-                            today.year, today.month, today.day
-                            ))
-
-                    bumped.append(obj)
-
-                # Reindex entire object (to make sure the metadata is
-                # updated, too).
-                obj.reindexObject()
+            # Reindex entire object (to make sure the metadata is
+            # updated, too).
+            obj.reindexObject()
 
         if data['items']:
             self.widgets['items'].update()
