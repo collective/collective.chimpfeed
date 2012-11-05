@@ -30,8 +30,12 @@ class CampaignView(BrowserView):
                 Ge('feedSchedule', start)
 
         if until:
-            until = DateTime(until)
-            query = query & Le('feedSchedule', until)
+            try:
+                until = DateTime(until)
+            except DateTime.SyntaxError:
+                pass
+            else:
+                query = query & Le('feedSchedule', until)
 
         settings = IFeedSettings(self.context)
         if settings.use_moderation:
