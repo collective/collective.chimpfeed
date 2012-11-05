@@ -3,6 +3,11 @@ Changes
 
 In next release ...
 
+Bugfixes:
+
+- "System" fields (those in all-caps) are now no longer shown on the
+  subscription form.
+
 Features:
 
 - The subscription form now includes a "Select all" checkbox.

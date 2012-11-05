@@ -803,6 +803,10 @@ class ListSubscribeForm(SubscribeForm):
             if not entry['show']:
                 continue
 
+            # Skip all-uppercase:
+            if entry['name'] == entry['name'].upper():
+                continue
+
             field_type = entry['field_type']
             required = entry['req']
 
