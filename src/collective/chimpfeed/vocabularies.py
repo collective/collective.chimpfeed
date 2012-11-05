@@ -10,7 +10,7 @@ from plone.i18n.normalizer.interfaces import IIDNormalizer
 from collective.chimpfeed.interfaces import IFeedSettings, IApiUtility
 from collective.chimpfeed import MessageFactory as _
 
-from Products.AdvancedQuery import Indexed, Ge, Eq
+from Products.AdvancedQuery import Indexed, Ge, Eq, In
 from DateTime import DateTime
 from Acquisition import ImplicitAcquisitionWrapper
 
@@ -25,7 +25,9 @@ class ScheduledItems(VocabularyBase):
         today = DateTime()
         today = DateTime(today.year(), today.month(), today.day())
 
-        query = Indexed('chimpfeeds') & (
+        query = (
+            Indexed('chimpfeeds') &
+            Eq('allowedRolesAndUsers', 'Anonymous') &
             (Indexed('chimpfeeds') & Ge('feedSchedule', today)) |
             Eq('feedModerate', False)
         )
@@ -36,8 +38,8 @@ class ScheduledItems(VocabularyBase):
         for brain in brains:
             rid = brain.getRID()
             terms.append(
-                SimpleTerm(rid, brain.UID, brain.Title)
-                )
+                SimpleTerm(rid, rid, brain.Title)
+            )
 
         return SimpleVocabulary(terms)
 

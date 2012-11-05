@@ -10,6 +10,8 @@ Bugfixes:
 
 Features:
 
+- Require that 'Anonymous' is included in allowed roles and groups.
+
 - The subscription form now includes a "Select all" checkbox.
 
 1.8.6 (2012-10-30)
