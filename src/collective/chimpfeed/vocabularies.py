@@ -68,8 +68,9 @@ class MailChimpVocabulary(VocabularyBase):
         except ComponentLookupError:
             site = getSite()
             utility = getUtility(IApiUtility, context=site)
-
-        utility = utility.__of__(context)
+        else:
+            utility = utility.__of__(context)
+            
         wrapped = ImplicitAcquisitionWrapper(self, utility)
 
         generator = wrapped.get_terms()
