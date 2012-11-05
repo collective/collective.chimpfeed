@@ -275,10 +275,10 @@ msgid "The scheduled date has been set to today's date for the following items t
 msgstr "Udsendelsesdato ændret til dags dato for følgende indholdsobjekter, der var planlagt til udsendelse på en tidligere dato."
 
 msgid "Limit"
-msgstr "Begræns"
+msgstr "Begræns til dags dato"
 
 msgid "Include scheduled items up until today's date only."
-msgstr "Medtag kun indhold planlagt til og med dags dato."
+msgstr "Definér øvre grænse"
 
 msgid "Not a valid e-mail address."
 msgstr "Ikke en gyldig e-mail adresse."

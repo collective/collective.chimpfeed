@@ -35,7 +35,6 @@ from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema import ValidationError
 from zope import schema
-from zope.app.component.hooks import getSite
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 
 from z3c.form import button
@@ -46,6 +45,7 @@ from z3c.form.widget import FieldWidget
 from z3c.form.interfaces import IErrorViewSnippet
 from z3c.form.interfaces import IWidgets
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
+from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 from z3c.form.interfaces import IWidget
 
 try:
@@ -332,10 +332,12 @@ class BaseForm(form.Form):
 class CampaignForm(BaseForm):
     fields = field.Fields(
         ICampaign['start'],
+        ICampaign['limit'],
         ICampaign['subject'],
         ICampaign['schedule'],
         )
 
+    fields['limit'].widgetFactory = SingleCheckBoxFieldWidget
     ignoreContext = True
 
     @button.buttonAndHandler(_(u'Preview'))
