@@ -103,6 +103,15 @@ class ICampaign(ICampaignPortlet):
         required=False,
         )
 
+    filtering = schema.Bool(
+        title=_(u"Apply filtering markup"),
+        description=_(u"Select this option to apply the markup "
+                      u"required for automatic interest group "
+                      u"filtering."),
+        default=True,
+        required=False,
+        )
+
     schedule = schema.Datetime(
         title=_(u"Schedule date"),
         description=_(u"If provided, item will be scheduled to be sent "
@@ -168,8 +177,12 @@ class ModerationWidget(SequenceWidget):
         for term in self.terms:
             rid = term.value
             entry = catalog.getMetadataForRID(rid)
-            if entry['feedSchedule'] is not None:
-                entries.append(entry)
+            date = entry['feedSchedule']
+            if date is not None:
+                # Must be a `DateTime`, even for Dexterity-based
+                # content.
+                if isinstance(date, DateTime):
+                    entries.append(entry)
 
         return entries
 
@@ -333,11 +346,14 @@ class CampaignForm(BaseForm):
     fields = field.Fields(
         ICampaign['start'],
         ICampaign['limit'],
+        ICampaign['filtering'],
         ICampaign['subject'],
         ICampaign['schedule'],
         )
 
     fields['limit'].widgetFactory = SingleCheckBoxFieldWidget
+    fields['filtering'].widgetFactory = SingleCheckBoxFieldWidget
+
     ignoreContext = True
 
     @button.buttonAndHandler(_(u'Preview'))
@@ -348,13 +364,21 @@ class CampaignForm(BaseForm):
             return
 
         url = self.context.portal_url()
-
+        params = self.makeParams(**data)
         return self.request.response.redirect(
-            url + "/@@chimpfeed-preview?%s" % urllib.urlencode({
-                'start': data['start'].isoformat(),
-                'image': self.context.image,
-                'scale': self.context.scale
-                }))
+            url + "/@@chimpfeed-preview?%s" % urllib.urlencode(params))
+
+    def makeParams(self, start=None, limit=False,
+                   filtering=False, schedule=None, **extra):
+        today = datetime.date.today()
+
+        return dict(
+            start=start.isoformat(),
+            filtering='1' if filtering else "",
+            until=today.isoformat() if limit else "",
+            image=self.context.image,
+            scale=self.context.scale,
+        )
 
     @button.buttonAndHandler(_(u'Create'))
     def handleCreate(self, action):
@@ -375,27 +399,15 @@ class CampaignForm(BaseForm):
             self.context.start = datetime.date.today() + \
                                  datetime.timedelta(days=1)
 
-    def process(self, method, subject=None, start=None,
-                limit=False, schedule=None):
+    def process(self, method, subject=None, **data):
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
 
         site = self.context.portal_url.getPortalObject()
         view = site.restrictedTraverse('chimpfeed-campaign')
 
-        today = datetime.date.today()
-
-        if limit:
-            until = today.isoformat()
-        else:
-            until = None
-
-        rendered = view.template(
-            start=start.isoformat(),
-            until=until,
-            image=self.context.image,
-            scale=self.context.scale,
-            ).encode('utf-8')
+        params = self.makeParams(**data)
+        rendered = view.template(**params).encode('utf-8')
 
         next_url = self.request.get('HTTP_REFERER') or self.action
 

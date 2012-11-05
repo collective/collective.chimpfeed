@@ -29,7 +29,7 @@ class CampaignView(BrowserView):
                 In('review_state', ('published', )) & \
                 Ge('feedSchedule', start)
 
-        if until is not None:
+        if until:
             until = DateTime(until)
             query = query & Le('feedSchedule', until)
 

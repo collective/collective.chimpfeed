@@ -116,7 +116,7 @@ msgid "If this date is set, the content will only be included in Mailchimp-based
 msgstr "Hvis denne dato er valgt, medtages indholdet kun i udsendelseslister fra den valgte dato og fremefter. I modsat fald benyttes \"Publiceringsdato\"."
 
 msgid "All items have been moderated."
-msgstr "Alt indhold er godkendt til udsendelse. Bemærk, at der i denne oversigt kun vises allerede godkendt indhold, hvis det er sat til udsendelse i dag eller en fremtidig dato."
+msgstr "Alt publiceret indhold er godkendt til udsendelse. Bemærk, at der i denne oversigt kun vises allerede godkendt indhold, hvis det er sat til udsendelse i dag eller en fremtidig dato."
 
 msgid "Please review the following schedule."
 msgstr "Indhold uden markering kræver godkendelse."
@@ -288,3 +288,9 @@ msgstr "Ingen"
 
 msgid "Select all"
 msgstr "Alle nyheder"
+
+msgid "Apply filtering markup"
+msgstr "Anvend opmærkning"
+
+msgid "Select this option to apply the markup required for automatic interest group filtering."
+msgstr "Personligt nyhedsbrev."

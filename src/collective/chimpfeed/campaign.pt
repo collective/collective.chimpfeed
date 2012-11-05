@@ -1,11 +1,14 @@
 <div tal:define="start request/start|options/start|context/start|nothing;
                  until request/until|options/until|context/until|nothing;
                  field request/image|options/image|context/image|nothing;
-                 scale request/scale|options/scale|context/scale|nothing;"
+                 scale request/scale|options/scale|context/scale|nothing;
+                 filtering request/filtering|options/filtering|context/filtering|nothing;"
      tal:repeat="group python: view.getGroups(start, until)">
   <tal:group define="name python: group[0];
                      items python: group[1]">
+    <tal:filtering condition="filtering">
     *|INTERESTED:<span tal:replace="name" />|*
+    </tal:filtering>
     <h2 tal:content="python: name.rsplit(':', 1)[-1]" />
     <table tal:define="plone_view context/@@plone;
                        toLocalizedTime python: plone_view.toLocalizedTime">
@@ -24,7 +27,7 @@
           <td style="vertical-align: top"
               tal:attributes="colspan python: not any(has_image) and '2' or None">
             <span class="category"
-                  tal:define="category item/feedCategory"
+                  tal:define="category item/feedCategory|nothing"
                   tal:condition="category"
                   tal:content="category"
                   />
@@ -38,6 +41,8 @@
         </tal:block>
       </tr>
     </table>
+    <tal:filtering condition="filtering">
     *|END:INTERESTED|*
+    </tal:filtering>
   </tal:group>
 </div>
