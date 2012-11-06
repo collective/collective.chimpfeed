@@ -1,6 +1,13 @@
 Changes
 =======
 
+In next release ...
+
+Bugfixes:
+
+- Fixed issue where the moderation portlet would incorrectly return
+  items that would not need moderation.
+
 1.8.7 (2012-11-05)
 ------------------
 
