@@ -294,3 +294,9 @@ msgstr "Anvend opmærkning"
 
 msgid "Select this option to apply the markup required for automatic interest group filtering."
 msgstr "Personligt nyhedsbrev."
+
+msgid "Repair"
+msgstr "Reparér"
+
+msgid "Repaired ${count} items."
+msgstr "${count} indholdsobjekter opdateret."

@@ -8,6 +8,10 @@ Bugfixes:
 - Fixed issue where the moderation portlet would incorrectly return
   items that would not need moderation.
 
+Features:
+
+- Added control panel action to remove non-existing feeds from content.
+
 1.8.7 (2012-11-05)
 ------------------
 

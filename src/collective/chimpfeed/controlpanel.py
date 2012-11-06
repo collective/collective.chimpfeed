@@ -1,12 +1,14 @@
 import logging
 
 from Products.CMFCore.utils import getToolByName
+from Products.statusmessages.interfaces import IStatusMessage
 
 from Acquisition import ImplicitAcquisitionWrapper
 
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
 from zope.component import adapts
+from zope.lifecycleevent import modified
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
 from plone.z3cform import layout
@@ -25,9 +27,12 @@ from collective.chimpfeed.feeds import make_urls
 from collective.chimpfeed.vocabularies import feeds_factory
 from collective.chimpfeed.vocabularies import lists_factory
 
+from z3c.form import button
 from z3c.form import field
 from z3c.form import widget
 from z3c.form.interfaces import IDataConverter
+
+from Products.AdvancedQuery import Indexed
 
 try:
     from z3c.form.browser import textlines
@@ -104,6 +109,10 @@ class ControlPanelEditForm(controlpanel.RegistryEditForm):
     if textlines is not None:
         fields['feeds'].widgetFactory = textlines.TextLinesFieldWidget
 
+    buttons = button.Buttons()
+    buttons += controlpanel.RegistryEditForm.buttons
+    handlers = controlpanel.RegistryEditForm.handlers.copy()
+
     def updateActions(self):
         # This prevents a redirect to the main control panel page
         self.request.response.setStatus(200, lock=True)
@@ -125,6 +134,66 @@ class ControlPanelEditForm(controlpanel.RegistryEditForm):
     def getContent(self):
         content = super(ControlPanelEditForm, self).getContent()
         return ImplicitAcquisitionWrapper(content, self.context)
+
+    @button.buttonAndHandler(_(u"Repair"), name='repair')
+    def handleRepair(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+
+        query = Indexed('chimpfeeds')
+        brains = self.context.portal_catalog.evalAdvancedQuery(query)
+
+        context = self.getContent()
+        vocabulary = feeds_factory(context)
+        all_feeds = set(term.value for term in vocabulary)
+
+        count = 0
+        bad = set()
+
+        changed = []
+        for i, brain in enumerate(brains):
+            try:
+                feeds = set(brain.chimpfeeds)
+            except TypeError:
+                continue
+
+            missing = feeds - all_feeds
+            bad |= missing
+
+            if missing:
+                count += 1
+                obj = brain.getObject()
+                try:
+                    field = obj.getField('feeds')
+                except AttributeError:
+                    feeds = obj.feeds
+                    field = None
+                else:
+                    feeds = set(field.get(obj))
+
+                fixed = feeds - missing
+
+                if field is None:
+                    obj.feeds = fixed
+                else:
+                    field.set(obj, fixed)
+
+                changed.append(obj)
+
+        for obj in changed:
+            modified(obj)
+            obj.reindexObject()
+
+        logger.info("Repair complete; %d items updated." % count)
+        if bad:
+            logger.info("Feeds removed: %s." % (", ".join(bad).encode('utf-8')))
+
+        IStatusMessage(self.request).addStatusMessage(
+            _(u"Repaired ${count} items.", mapping={'count': count}),
+            "info"
+        )
 
 
 ControlPanel = layout.wrap_form(
