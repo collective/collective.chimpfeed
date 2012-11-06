@@ -198,6 +198,7 @@ class ModerationWidget(SequenceWidget):
         groups = []
         entries = []
         today = DateTime()
+        today = DateTime(today.year(), today.month(), today.day())
 
         for entry in self.entries:
             date = entry['feedSchedule']
@@ -223,6 +224,7 @@ class ModerationWidget(SequenceWidget):
                     'entries': entries,
                     })
 
+            last = days
             entries.append(entry)
 
         return groups
