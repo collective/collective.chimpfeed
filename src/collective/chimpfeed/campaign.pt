@@ -9,7 +9,7 @@
     <tal:filtering condition="filtering">
     *|INTERESTED:<span tal:replace="name" />|*
     </tal:filtering>
-    <h2 tal:content="python: name.rsplit(':', 1)[-1]" />
+    <h2 tal:content="python: name.rsplit(':', 1)[0]" />
     <table tal:define="plone_view context/@@plone;
                        toLocalizedTime python: plone_view.toLocalizedTime">
       <tr tal:repeat="item items">

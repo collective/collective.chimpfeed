@@ -1,6 +1,11 @@
 Changes
 =======
 
+Bugfixes:
+
+- Use the interest grouping title intead of the group title in the
+  campaign template.
+
 Features:
 
 - The default subject line now includes the date.
