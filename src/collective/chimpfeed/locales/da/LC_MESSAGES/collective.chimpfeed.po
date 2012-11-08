@@ -251,10 +251,10 @@ msgid "This listing shows a link to a subscription form for each of the defined 
 msgstr "Denne oversigt viser links til tilmeldingsformularer for hver liste, der er sat op for din konto."
 
 msgid "Select subscription options and submit form."
-msgstr "Her kan du tilmelde dig til nyhedsbrevet. Vælg én eller flere emner og udfyld tilmeldingsformularen."
+msgstr "Få besked, når vi har nyheder om emner, der særligt interesserer dig. Vælg emner:"
 
 msgid "Subscribe to: ${name}"
-msgstr "Tilmelding til nyhedsbrevet \"${name}\""
+msgstr "Abonnér på nyheder fra Socialstyrelsen"
 
 msgid "Interest group list"
 msgstr "Hent udsendelseslister fra tilmeldingsliste"
