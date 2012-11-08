@@ -26,7 +26,7 @@
           </tal:image>
           <td style="vertical-align: top"
               tal:attributes="colspan python: not any(has_image) and '2' or None">
-            <span class="category"
+            <span style="text-transform: uppercase"
                   tal:define="category item/feedCategory|nothing"
                   tal:condition="category"
                   tal:content="string:${category} |"
