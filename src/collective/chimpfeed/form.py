@@ -783,7 +783,7 @@ class ListSubscribeForm(SubscribeForm):
             if name in fields:
                 continue
 
-            if not entry['show']:
+            if not entry['public']:
                 continue
 
             field_type = entry['field_type']
