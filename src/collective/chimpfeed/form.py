@@ -169,7 +169,7 @@ class ModerationWidget(SequenceWidget):
             time, long_format=long_format,
             context=self.context, request=self.request,
             domain='plonelocales'
-            )
+        ).lstrip('0')
 
     @memoizedproperty
     def entries(self):
@@ -211,15 +211,19 @@ class ModerationWidget(SequenceWidget):
                 # To-Do: Use Plone's date formatters
                 if days == -1:
                     name = _(u"Today")
-                elif days < 0 or days >= 7:
-                    name = self._localize_time(date, False)
                 else:
                     abbr = date.strftime("%a")
                     name = translate(
                         'weekday_%s' % abbr.lower(),
                         domain="plonelocales",
                         context=self.request
-                        )
+                    ).capitalize()
+
+                    if days < 0 or days >= 7:
+                        name = _(u"${subject} ${date}", mapping={
+                            'subject': name,
+                            'date': self._localize_time(date, False),
+                        })
 
                 groups.append({
                     'date': name,
