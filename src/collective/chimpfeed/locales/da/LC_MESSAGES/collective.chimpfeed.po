@@ -107,7 +107,7 @@ msgid "Feed date"
 msgstr "Udsendelsesdato"
 
 msgid "Feed moderation"
-msgstr "Indhold til udsendelse"
+msgstr "Indhold til godkendelse"
 
 msgid "Select this option to approve item."
 msgstr "Vælg dette for at godkende udsendelse."
@@ -278,7 +278,7 @@ msgid "Limit"
 msgstr "Begræns til dags dato"
 
 msgid "Include scheduled items up until today's date only."
-msgstr "Definér øvre grænse"
+msgstr "Definér øvre grænse."
 
 msgid "Not a valid e-mail address."
 msgstr "Ikke en gyldig e-mail adresse."
