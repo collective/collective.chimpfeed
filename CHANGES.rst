@@ -1,6 +1,11 @@
 Changes
 =======
 
+Features:
+
+- Attempt to translate field names.
+
+
 1.8.8 (2012-11-06)
 ------------------
 

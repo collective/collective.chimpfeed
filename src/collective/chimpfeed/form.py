@@ -9,6 +9,7 @@ import urllib
 
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.CMFCore.utils import getToolByName
+
 from Acquisition import Implicit, ImplicitAcquisitionWrapper
 from ComputedAttribute import ComputedAttribute
 from zExceptions import BadRequest
@@ -858,7 +859,7 @@ class ListSubscribeForm(SubscribeForm):
                 __name__=name.encode('utf-8'),
                 default=entry['default'],
                 required=required,
-                title=entry['name'],
+                title=_(entry['name']),
                 **options
             ))
 

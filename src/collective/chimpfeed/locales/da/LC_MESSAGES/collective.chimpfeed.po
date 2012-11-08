@@ -300,3 +300,9 @@ msgstr "Reparér"
 
 msgid "Repaired ${count} items."
 msgstr "${count} indholdsobjekter opdateret."
+
+msgid "First Name"
+msgstr "Fornavn"
+
+msgid "Last Name"
+msgstr "Efternavn"
