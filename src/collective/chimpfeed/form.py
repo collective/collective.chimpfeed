@@ -528,7 +528,7 @@ class CampaignForm(BaseForm):
                     DateTime(),
                     context=self.context,
                     request=self.request
-                )}
+                ).lstrip('0')}
             )
 
         schedule = self.widgets['schedule']
