@@ -29,9 +29,8 @@
             <span class="category"
                   tal:define="category item/feedCategory|nothing"
                   tal:condition="category"
-                  tal:content="category"
+                  tal:content="string:${category} |"
                   />
-            |
             <span tal:content="python: toLocalizedTime(item.Date, long_format=False)" />
             <a tal:attributes="href url">
               <h3 tal:content="item/Title" />
