@@ -3,8 +3,9 @@ Changes
 
 Features:
 
-- Attempt to translate field names.
+- The default subject line now includes the date.
 
+- Attempt to translate field names.
 
 1.8.8 (2012-11-06)
 ------------------

@@ -306,3 +306,6 @@ msgstr "Fornavn"
 
 msgid "Last Name"
 msgstr "Efternavn"
+
+msgid "${subject} ${date}"
+msgstr "${subject}, d. ${date}"

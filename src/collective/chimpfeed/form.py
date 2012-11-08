@@ -9,6 +9,7 @@ import urllib
 
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.i18nl10n import ulocalized_time
 
 from Acquisition import Implicit, ImplicitAcquisitionWrapper
 from ComputedAttribute import ComputedAttribute
@@ -447,7 +448,10 @@ class CampaignForm(BaseForm):
                         method=method,
                         type="regular",
                         options={
-                            'subject': subject or entry['default_subject'],
+                            'subject': (
+                                subject.encode('utf-8') or
+                                entry['default_subject']
+                            ),
                             'from_email': entry['default_from_email'],
                             'from_name': entry['default_from_name'],
                             'to_email': 0,
@@ -515,8 +519,17 @@ class CampaignForm(BaseForm):
 
         subject = self.widgets['subject']
         if not subject.value:
-            subject.value = self.context.subject or \
-                            self.context.Title().decode('utf-8')
+            value = self.context.subject or \
+                self.context.Title().decode('utf-8')
+
+            subject.value = _(
+                u"${subject} ${date}", mapping={
+                'subject': value, 'date': ulocalized_time(
+                    DateTime(),
+                    context=self.context,
+                    request=self.request
+                )}
+            )
 
         schedule = self.widgets['schedule']
         assert isinstance(schedule.value, tuple)
