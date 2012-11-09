@@ -80,4 +80,4 @@ class CampaignContentView(BrowserView):
                 )
             return
 
-        return content['html'].decode('utf-8')
+        return content['html']
