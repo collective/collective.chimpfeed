@@ -6,42 +6,51 @@
      tal:repeat="group python: view.getGroups(start, until)">
   <tal:group define="name python: group[0];
                      items python: group[1]">
-    <tal:filtering condition="filtering">
-    *|INTERESTED:<span tal:replace="name" />|*
-    </tal:filtering>
-    <h2 tal:content="python: name.rsplit(':', 1)[0]" />
-    <table tal:define="plone_view context/@@plone;
-                       toLocalizedTime python: plone_view.toLocalizedTime">
-      <tr tal:repeat="item items">
-        <tal:block define="obj item/getObject;
-                           url obj/absolute_url;
-                           has_image python: []">
-          <tal:image define="scales obj/@@images;
-                             scale python: scales.scale(field, scale=scale);
-                             dummy python: has_image.append(True)"
-                     on-error="nothing">
+    <h2 tal:content="name" />
+    <tal:row repeat="item items">
+      <tal:filtering condition="filtering">
+        <tal:condition define="pairs python: [feed.split(':', 1) for feed in item.chimpfeeds];
+                               parts python: [pair[1] for pair in pairs if
+                                              pair[0] == name];
+                               condition python:','.join(parts)">
+          *|INTERESTED:<span tal:replace="name" />:<span tal:replace="condition" />|*
+        </tal:condition>
+      </tal:filtering>
+
+      <table tal:define="plone_view context/@@plone;
+                         toLocalizedTime python: plone_view.toLocalizedTime">
+
+        <tr>
+          <tal:block define="obj item/getObject;
+                             url obj/absolute_url;
+                             has_image python: []">
+            <tal:image define="scales obj/@@images;
+                               scale python: scales.scale(field, scale=scale);
+                               dummy python: has_image.append(True)"
+                       on-error="nothing">
+              <td style="vertical-align: top"
+                  tal:attributes="width string:${scale/width}px"
+                  tal:content="structure scale/tag" />
+            </tal:image>
             <td style="vertical-align: top"
-                tal:attributes="width string:${scale/width}px"
-                tal:content="structure scale/tag" />
-          </tal:image>
-          <td style="vertical-align: top"
-              tal:attributes="colspan python: not any(has_image) and '2' or None">
-            <span style="text-transform: uppercase"
-                  tal:define="category item/feedCategory|nothing"
-                  tal:condition="category"
-                  tal:content="string:${category} |"
-                  />
-            <span tal:content="python: toLocalizedTime(item.Date, long_format=False)" />
-            <a tal:attributes="href url">
-              <h3 tal:content="item/Title" />
-            </a>
-            <p tal:content="item/Description" />
-          </td>
-        </tal:block>
-      </tr>
-    </table>
-    <tal:filtering condition="filtering">
-    *|END:INTERESTED|*
-    </tal:filtering>
+                tal:attributes="colspan python: not any(has_image) and '2' or None">
+              <span style="text-transform: uppercase"
+                    tal:define="category item/feedCategory|nothing"
+                    tal:condition="category"
+                    tal:content="string:${category} |"
+                    />
+              <span tal:content="python: toLocalizedTime(item.Date, long_format=False)" />
+              <a tal:attributes="href url">
+                <h3 tal:content="item/Title" />
+              </a>
+              <p tal:content="item/Description" />
+            </td>
+          </tal:block>
+        </tr>
+      </table>
+      <tal:filtering condition="filtering">
+        *|END:INTERESTED|*
+      </tal:filtering>
+    </tal:row>
   </tal:group>
 </div>

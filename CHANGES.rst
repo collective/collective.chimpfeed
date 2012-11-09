@@ -1,6 +1,14 @@
 Changes
 =======
 
+In next release ...
+
+Bugfixes:
+
+- Fixed issue where interest group filtering would incorrectly get
+  applied on the outer level which would then be repeated
+  unnecessarily.
+
 1.9.1 (2012-11-09)
 ------------------
 

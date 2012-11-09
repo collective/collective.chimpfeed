@@ -47,8 +47,9 @@ class CampaignView(BrowserView):
             query, (('feedSchedule', 'desc'), )):
 
             # Note that an item can appear in more than one group.
-            for name in brain.chimpfeeds:
-                items = groups.setdefault(name, [])
+            categories = [name.rsplit(':', 1)[0] for name in brain.chimpfeeds]
+            for category in set(categories):
+                items = groups.setdefault(category, [])
                 items.append(brain)
 
         sorting = queryUtility(IGroupSorter)
