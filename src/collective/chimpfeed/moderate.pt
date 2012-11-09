@@ -22,7 +22,7 @@
                      tal:define="moderated entry/feedModerate"
                      tal:attributes="id id;
                                      name string:${view/name}:list;
-                                     value entry/UID;
+                                     value entry/id;
                                      checked python: moderated and 'checked' or None;
                                      disabled python: moderated and 'disabled' or None;"
                      />

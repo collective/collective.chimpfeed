@@ -184,6 +184,7 @@ class ModerationWidget(SequenceWidget):
                 # Must be a `DateTime`, even for Dexterity-based
                 # content.
                 if isinstance(date, DateTime):
+                    entry['id'] = rid
                     entries.append(entry)
 
         return entries
@@ -573,13 +574,6 @@ class ModerationForm(BaseForm):
         for brain in brains:
             obj = brain.getObject()
 
-            try:
-                field = obj.getField('feedModerate')
-            except AttributeError:
-                obj.feedModerate = True
-            else:
-                field.set(obj, True)
-
             # Bump the scheduled date to today's date. This ensures that
             # the item will be shown on the moderation portlet.
             try:
@@ -600,6 +594,13 @@ class ModerationForm(BaseForm):
                         ))
 
                 bumped.append(obj)
+
+            try:
+                field = obj.getField('feedModerate')
+            except AttributeError:
+                obj.feedModerate = True
+            else:
+                field.set(obj, True)
 
             # Reindex entire object (to make sure the metadata is
             # updated, too).
