@@ -3,6 +3,13 @@ Changes
 
 Bugfixes:
 
+- Hidden field corresponds to 'public', 'show' is something else.
+
+1.8.9 (2012-11-09)
+------------------
+
+Bugfixes:
+
 - Use the interest grouping title intead of the group title in the
   campaign template.
 
