@@ -1,7 +1,8 @@
 Changes
 =======
 
-Bugfixes:
+1.9.0 (2012-11-09)
+------------------
 
 - Hidden field corresponds to 'public', 'show' is something else.
 
