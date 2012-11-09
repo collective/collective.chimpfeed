@@ -36,7 +36,7 @@
                    tal:content="python: pview.cropText(description, 30, u'…')" />
               <div class="feeds">
                 <span tal:repeat="feed entry/chimpfeeds"
-                      tal:content="feed"
+                      tal:content="python: feed.replace(':', ' - ')"
                       tal:attributes="class string:feed-marker-${repeat/feed/number};
                                       style string:font-weight: bold;; font-size: 75%;; margin-right: 5px"
                       />
