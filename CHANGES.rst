@@ -8,7 +8,6 @@ Bugfixes:
 
 - Fixed encoding issue.
 
-
 1.9.0 (2012-11-09)
 ------------------
 
