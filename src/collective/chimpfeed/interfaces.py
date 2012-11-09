@@ -133,6 +133,16 @@ class ISubscriptionFormSettings(Interface):
         required=False,
         )
 
+    static_interest_groups = schema.Tuple(
+        title=_(u"Static interests"),
+        description=_(u"If interests is selected here, interest groups will not be selectable by"
+                      u"the user, but the preselected interest groups will be used."),
+        value_type=schema.Choice(
+            vocabulary="collective.chimpfeed.vocabularies.InterestGroups",
+            ),
+        required=False,
+        )
+
 
 class ICampaignPortlet(IPortletDataProvider):
     mailinglist = schema.Choice(
