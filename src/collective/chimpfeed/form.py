@@ -637,6 +637,8 @@ class SubscribeForm(BaseForm):
 
             if not interests and self.getContent().static_interest_groups:
                 interests = self.getContent().static_interest_groups
+            elif interests and self.getContent().static_interest_groups:
+                interests = interests + self.getContent().static_interest_groups
 
             if api_key:
                 api = greatape.MailChimp(api_key, debug=False)
