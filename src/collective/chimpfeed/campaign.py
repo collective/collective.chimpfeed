@@ -3,6 +3,7 @@ import greatape
 from Products.AdvancedQuery import Indexed, Ge, Le, Eq, In
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
+from Products.CMFCore.utils import getToolByName
 
 from DateTime import DateTime
 
@@ -11,7 +12,7 @@ from collective.chimpfeed.interfaces import IGroupSorter
 from collective.chimpfeed import MessageFactory as _
 
 from zope.component import queryUtility
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class CampaignView(BrowserView):
@@ -37,13 +38,15 @@ class CampaignView(BrowserView):
             else:
                 query = query & Le('feedSchedule', until)
 
-        settings = IFeedSettings(self.context)
+        site = getToolByName(self.context, "portal_url").getPortalObject()
+        settings = IFeedSettings(site)
         if settings.use_moderation:
             query = query & Eq('feedModerate', True)
 
         groups = {}
+        catalog = getToolByName(self.context, "portal_catalog")
 
-        for brain in self.context.portal_catalog.evalAdvancedQuery(
+        for brain in catalog.evalAdvancedQuery(
             query, (('feedSchedule', 'desc'), )):
 
             # Note that an item can appear in more than one group.
@@ -65,7 +68,8 @@ class CampaignContentView(BrowserView):
     title = _(u"Campaign created")
 
     def template(self):
-        settings = IFeedSettings(self.context)
+        site = getToolByName(self.context, "portal_url").getPortalObject()
+        settings = IFeedSettings(site)
         api_key = settings.mailchimp_api_key
 
         if not api_key:

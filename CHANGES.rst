@@ -5,6 +5,19 @@ In next release ...
 
 Bugfixes:
 
+- Use Five-based template class such that e.g. `z3c.jbot
+  <http://pypi.python.org/pypi/z3c.jbot>`_ can override the template.
+
+Changes:
+
+- The campaign preview view is now adapted to the current context
+  instead of the site.
+
+1.9.2 (2012-11-12)
+------------------
+
+Bugfixes:
+
 - Fixed issue where interest group filtering would incorrectly get
   applied on the outer level which would then be repeated
   unnecessarily.
