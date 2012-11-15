@@ -10,6 +10,8 @@ Bugfixes:
 
 Changes:
 
+- The feed schedule field is now set up with its own write permission.
+
 - The subscription form handler now redirects to itself, with all
   widgets removed (but displaying a status message).
 

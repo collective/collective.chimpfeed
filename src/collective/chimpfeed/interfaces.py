@@ -11,6 +11,7 @@ except ImportError:
 from plone.portlets.interfaces import IPortletDataProvider
 
 from collective.chimpfeed.permissions import MODERATE_PERMISSION
+from collective.chimpfeed.permissions import SCHEDULE_PERMISSION
 from collective.chimpfeed import MessageFactory as _
 from collective.chimpfeed import logger
 
@@ -298,7 +299,8 @@ else:
 
     IFeedControl.setTaggedValue(
         WRITE_PERMISSIONS_KEY, {
-            'feedModerate': MODERATE_PERMISSION
+            'feedModerate': MODERATE_PERMISSION,
+            'feedSchedule': SCHEDULE_PERMISSION
             },
         )
 

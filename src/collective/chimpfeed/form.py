@@ -23,7 +23,6 @@ from plone.memoize import view
 from plone.memoize.instance import memoizedproperty
 from plone.memoize.volatile import DontCache
 from plone.memoize.forever import memoize as forever
-
 from plone.z3cform.layout import wrap_form
 
 from zope.i18n import negotiate
@@ -45,10 +44,12 @@ from z3c.form import form
 from z3c.form.widget import SequenceWidget
 from z3c.form.widget import FieldWidget
 from z3c.form.interfaces import IErrorViewSnippet
+from z3c.form.interfaces import IActions
 from z3c.form.interfaces import IWidgets
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 from z3c.form.interfaces import IWidget
+from z3c.form.interfaces import HIDDEN_MODE
 
 try:
     from z3c.form.interfaces import NO_VALUE
@@ -81,7 +82,12 @@ def cache_on_get_for_an_hour(method, self):
     if self.request['REQUEST_METHOD'] != 'GET':
         raise DontCache
 
-    return time.time() // (60 * 60), self.id, self.request.get('list_id')
+    return (
+        time.time() // (60 * 60),
+        self.id,
+        self.request.get('list_id'),
+        self.request.get('success')
+    )
 
 
 def is_email(value):
@@ -305,6 +311,7 @@ class InterestsWidget(SequenceWidget):
         field.value_type = choice
 
         widget = CheckBoxFieldWidget(field, self.request)
+        widget.mode = self.mode
         widget.name = self.name
         widget.id = self.id
 
@@ -314,7 +321,7 @@ class InterestsWidget(SequenceWidget):
         widget.update()
         result = widget.render()
 
-        if label is not None:
+        if label is not None and self.mode != HIDDEN_MODE:
             result = (
                 u'<fieldset class="interest-group">'
                 u'<legend>%s</legend>%s</fieldset>') % (
@@ -740,6 +747,7 @@ class SubscribeForm(BaseForm):
                         )
                 else:
                     if result:
+                        next_url += '&success=yes'
                         return IStatusMessage(self.request).addStatusMessage(
                             _(u"Thank you for signing up. We'll send you a "
                               u"confirmation message by e-mail shortly."),
@@ -784,7 +792,7 @@ class JavascriptWidget(field.Field):
                u'</script>'
 
     def update(self):
-        pass
+        assert self.mode == HIDDEN_MODE
 
     def extract(self):
         return NO_VALUE
@@ -811,8 +819,6 @@ class SelectAllGroupsJavascript(JavascriptWidget):
 
 
 class ListSubscribeForm(SubscribeForm):
-    description = _(u"Select subscription options and submit form.")
-
     @property
     def fields(self):
         # Javascript-widget
@@ -889,7 +895,15 @@ class ListSubscribeForm(SubscribeForm):
     prefix = ""
 
     @property
+    def description(self):
+        if not self.request.get('success'):
+            return _(u"Select subscription options and submit form.")
+
+    @property
     def label(self):
+        if self.request.get('success'):
+            return _(u"Request processed")
+
         name = self.getContent().name
         return _(u"Subscribe to: ${name}", mapping={'name': name})
 
@@ -910,19 +924,40 @@ class ListSubscribeForm(SubscribeForm):
             )
 
     def nextURL(self):
-        return self.context.portal_url()
+        list_id = self.request.get('list_id', '')
+        return self.action + "?list_id=%s" % list_id
+
+    def updateActions(self):
+        self.actions = getMultiAdapter(
+            (self, self.request, self.getContent()), IActions)
+
+        self.actions.update()
+
+        if self.request.get('success'):
+            for name in self.actions:
+                del self.actions[name]
 
     def updateWidgets(self):
-        # XXX: We override this to be able to set the prefix.
         self.widgets = getMultiAdapter(
-            (self, self.request, self.getContent()), IWidgets)
-        self.widgets.mode = self.mode
+            (self, self.request, self.getContent()), IWidgets
+        )
+
+        if self.request.get('success'):
+            mode = HIDDEN_MODE
+
+            for name, widget in self.widgets.items():
+                if isinstance(widget, JavascriptWidget):
+                    del self.widgets[name]
+        else:
+            mode = self.mode
+
+
+        self.widgets.mode = mode
         self.widgets.prefix = ""
         self.widgets.ignoreContext = self.ignoreContext
         self.widgets.ignoreRequest = self.ignoreRequest
         self.widgets.ignoreReadonly = self.ignoreReadonly
         self.widgets.update()
-
 
 ListSubscribeForm = wrap_form(ListSubscribeForm)
 

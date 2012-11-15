@@ -77,6 +77,11 @@
       />
 
   <permission
+      id="chimpfeed.Schedule"
+      title="collective.chimpfeed: Schedule"
+      />
+
+  <permission
       id="chimpfeed.Campaign"
       title="collective.chimpfeed: Send or schedule campaign"
       />
