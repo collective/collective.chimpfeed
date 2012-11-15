@@ -412,8 +412,9 @@ class CampaignForm(BaseForm):
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
 
-        site = self.context.portal_url.getPortalObject()
-        view = site.restrictedTraverse('chimpfeed-campaign')
+        view = getMultiAdapter(
+            (self.context, self.request), name="chimpfeed-campaign"
+        )
 
         params = self.makeParams(**data)
         rendered = view.template(**params).encode('utf-8')

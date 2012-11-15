@@ -1,6 +1,13 @@
 Changes
 =======
 
+In next release ...
+
+Changes:
+
+- The campaign preview view is now adapted to the current context
+  instead of the site.
+
 1.9.2 (2012-11-12)
 ------------------
 
