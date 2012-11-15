@@ -10,6 +10,9 @@ Bugfixes:
 
 Changes:
 
+- The subscription form handler now redirects to itself, with all
+  widgets removed (but displaying a status message).
+
 - The campaign preview view is now adapted to the current context
   instead of the site.
 
