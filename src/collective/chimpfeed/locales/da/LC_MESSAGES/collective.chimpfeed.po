@@ -107,7 +107,7 @@ msgid "Feed date"
 msgstr "Udsendelsesdato"
 
 msgid "Feed moderation"
-msgstr "Indhold til udsendelse"
+msgstr "Indhold til godkendelse"
 
 msgid "Select this option to approve item."
 msgstr "Vælg dette for at godkende udsendelse."
@@ -116,7 +116,7 @@ msgid "If this date is set, the content will only be included in Mailchimp-based
 msgstr "Hvis denne dato er valgt, medtages indholdet kun i udsendelseslister fra den valgte dato og fremefter. I modsat fald benyttes \"Publiceringsdato\"."
 
 msgid "All items have been moderated."
-msgstr "Alt indhold er godkendt til udsendelse. Bemærk, at der i denne oversigt kun vises allerede godkendt indhold, hvis det er sat til udsendelse i dag eller en fremtidig dato."
+msgstr "Alt publiceret indhold er godkendt til udsendelse. Bemærk, at der i denne oversigt kun vises allerede godkendt indhold, hvis det er sat til udsendelse i dag eller en fremtidig dato."
 
 msgid "Please review the following schedule."
 msgstr "Indhold uden markering kræver godkendelse."
@@ -251,10 +251,10 @@ msgid "This listing shows a link to a subscription form for each of the defined 
 msgstr "Denne oversigt viser links til tilmeldingsformularer for hver liste, der er sat op for din konto."
 
 msgid "Select subscription options and submit form."
-msgstr "Her kan du tilmelde dig til nyhedsbrevet. Vælg én eller flere emner og udfyld tilmeldingsformularen."
+msgstr "Få besked, når vi har nyheder om emner, der særligt interesserer dig. Vælg emner:"
 
 msgid "Subscribe to: ${name}"
-msgstr "Tilmelding til nyhedsbrevet \"${name}\""
+msgstr "Abonnér på nyheder fra Socialstyrelsen"
 
 msgid "Interest group list"
 msgstr "Hent udsendelseslister fra tilmeldingsliste"
@@ -275,13 +275,37 @@ msgid "The scheduled date has been set to today's date for the following items t
 msgstr "Udsendelsesdato ændret til dags dato for følgende indholdsobjekter, der var planlagt til udsendelse på en tidligere dato."
 
 msgid "Limit"
-msgstr "Begræns"
+msgstr "Begræns til dags dato"
 
 msgid "Include scheduled items up until today's date only."
-msgstr "Medtag kun indhold planlagt til og med dags dato."
+msgstr "Definér øvre grænse."
 
 msgid "Not a valid e-mail address."
 msgstr "Ikke en gyldig e-mail adresse."
 
 msgid "None"
 msgstr "Ingen"
+
+msgid "Select all"
+msgstr "Alle nyheder"
+
+msgid "Apply filtering markup"
+msgstr "Anvend opmærkning"
+
+msgid "Select this option to apply the markup required for automatic interest group filtering."
+msgstr "Personligt nyhedsbrev."
+
+msgid "Repair"
+msgstr "Reparér"
+
+msgid "Repaired ${count} items."
+msgstr "${count} indholdsobjekter opdateret."
+
+msgid "First Name"
+msgstr "Fornavn"
+
+msgid "Last Name"
+msgstr "Efternavn"
+
+msgid "${subject} ${date}"
+msgstr "${subject}, d. ${date}"

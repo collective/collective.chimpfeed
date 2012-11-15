@@ -29,9 +29,13 @@ class CampaignView(BrowserView):
                 In('review_state', ('published', )) & \
                 Ge('feedSchedule', start)
 
-        if until is not None:
-            until = DateTime(until)
-            query = query & Le('feedSchedule', until)
+        if until:
+            try:
+                until = DateTime(until)
+            except DateTime.SyntaxError:
+                pass
+            else:
+                query = query & Le('feedSchedule', until)
 
         settings = IFeedSettings(self.context)
         if settings.use_moderation:
@@ -43,8 +47,9 @@ class CampaignView(BrowserView):
             query, (('feedSchedule', 'desc'), )):
 
             # Note that an item can appear in more than one group.
-            for name in brain.chimpfeeds:
-                items = groups.setdefault(name, [])
+            categories = [name.rsplit(':', 1)[0] for name in brain.chimpfeeds]
+            for category in set(categories):
+                items = groups.setdefault(category, [])
                 items.append(brain)
 
         sorting = queryUtility(IGroupSorter)
@@ -76,4 +81,4 @@ class CampaignContentView(BrowserView):
                 )
             return
 
-        return content['html'].decode('utf-8')
+        return content['html']

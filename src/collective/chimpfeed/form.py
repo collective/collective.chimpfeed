@@ -9,6 +9,8 @@ import urllib
 
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.i18nl10n import ulocalized_time
+
 from Acquisition import Implicit, ImplicitAcquisitionWrapper
 from ComputedAttribute import ComputedAttribute
 from zExceptions import BadRequest
@@ -20,11 +22,13 @@ from plone.memoize.ram import cache
 from plone.memoize import view
 from plone.memoize.instance import memoizedproperty
 from plone.memoize.volatile import DontCache
+from plone.memoize.forever import memoize as forever
 
 from plone.z3cform.layout import wrap_form
 
 from zope.i18n import negotiate
 from zope.i18n import translate
+from zope.i18n.interfaces import ITranslationDomain
 from zope.component import queryUtility, getUtility, getMultiAdapter
 from zope.interface import alsoProvides
 from zope.interface import Interface
@@ -33,7 +37,6 @@ from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema import ValidationError
 from zope import schema
-from zope.app.component.hooks import getSite
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 
 from z3c.form import button
@@ -44,6 +47,7 @@ from z3c.form.widget import FieldWidget
 from z3c.form.interfaces import IErrorViewSnippet
 from z3c.form.interfaces import IWidgets
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
+from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 from z3c.form.interfaces import IWidget
 
 try:
@@ -97,6 +101,15 @@ class ICampaign(ICampaignPortlet):
     limit = schema.Bool(
         title=_(u"Limit"),
         description=_(u"Include scheduled items up until today's date only."),
+        default=True,
+        required=False,
+        )
+
+    filtering = schema.Bool(
+        title=_(u"Apply filtering markup"),
+        description=_(u"Select this option to apply the markup "
+                      u"required for automatic interest group "
+                      u"filtering."),
         default=True,
         required=False,
         )
@@ -156,7 +169,7 @@ class ModerationWidget(SequenceWidget):
             time, long_format=long_format,
             context=self.context, request=self.request,
             domain='plonelocales'
-            )
+        ).lstrip('0')
 
     @memoizedproperty
     def entries(self):
@@ -166,7 +179,13 @@ class ModerationWidget(SequenceWidget):
         for term in self.terms:
             rid = term.value
             entry = catalog.getMetadataForRID(rid)
-            entries.append(entry)
+            date = entry['feedSchedule']
+            if date is not None:
+                # Must be a `DateTime`, even for Dexterity-based
+                # content.
+                if isinstance(date, DateTime):
+                    entry['id'] = rid
+                    entries.append(entry)
 
         return entries
 
@@ -182,11 +201,10 @@ class ModerationWidget(SequenceWidget):
         groups = []
         entries = []
         today = DateTime()
+        today = DateTime(today.year(), today.month(), today.day())
 
         for entry in self.entries:
             date = entry['feedSchedule']
-            if date is None:
-                continue
             days = int(math.floor(date - today))
             if days != last:
                 entries = []
@@ -194,21 +212,26 @@ class ModerationWidget(SequenceWidget):
                 # To-Do: Use Plone's date formatters
                 if days == -1:
                     name = _(u"Today")
-                elif days < 0 or days >= 7:
-                    name = self._localize_time(date, False)
                 else:
                     abbr = date.strftime("%a")
                     name = translate(
                         'weekday_%s' % abbr.lower(),
                         domain="plonelocales",
                         context=self.request
-                        )
+                    ).capitalize()
+
+                    if days < 0 or days >= 7:
+                        name = _(u"${subject} ${date}", mapping={
+                            'subject': name,
+                            'date': self._localize_time(date, False),
+                        })
 
                 groups.append({
                     'date': name,
                     'entries': entries,
                     })
 
+            last = days
             entries.append(entry)
 
         return groups
@@ -331,9 +354,14 @@ class BaseForm(form.Form):
 class CampaignForm(BaseForm):
     fields = field.Fields(
         ICampaign['start'],
+        ICampaign['limit'],
+        ICampaign['filtering'],
         ICampaign['subject'],
         ICampaign['schedule'],
         )
+
+    fields['limit'].widgetFactory = SingleCheckBoxFieldWidget
+    fields['filtering'].widgetFactory = SingleCheckBoxFieldWidget
 
     ignoreContext = True
 
@@ -345,13 +373,21 @@ class CampaignForm(BaseForm):
             return
 
         url = self.context.portal_url()
-
+        params = self.makeParams(**data)
         return self.request.response.redirect(
-            url + "/@@chimpfeed-preview?%s" % urllib.urlencode({
-                'start': data['start'].isoformat(),
-                'image': self.context.image,
-                'scale': self.context.scale
-                }))
+            url + "/@@chimpfeed-preview?%s" % urllib.urlencode(params))
+
+    def makeParams(self, start=None, limit=False,
+                   filtering=False, **extra):
+        today = datetime.date.today()
+
+        return dict(
+            start=start.isoformat(),
+            filtering='1' if filtering else "",
+            until=today.isoformat() if limit else "",
+            image=self.context.image,
+            scale=self.context.scale,
+        )
 
     @button.buttonAndHandler(_(u'Create'))
     def handleCreate(self, action):
@@ -372,27 +408,15 @@ class CampaignForm(BaseForm):
             self.context.start = datetime.date.today() + \
                                  datetime.timedelta(days=1)
 
-    def process(self, method, subject=None, start=None,
-                limit=False, schedule=None):
+    def process(self, method, subject=None, schedule=None, **data):
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
 
         site = self.context.portal_url.getPortalObject()
         view = site.restrictedTraverse('chimpfeed-campaign')
 
-        today = datetime.date.today()
-
-        if limit:
-            until = today.isoformat()
-        else:
-            until = None
-
-        rendered = view.template(
-            start=start.isoformat(),
-            until=until,
-            image=self.context.image,
-            scale=self.context.scale,
-            ).encode('utf-8')
+        params = self.makeParams(**data)
+        rendered = view.template(**params).encode('utf-8')
 
         next_url = self.request.get('HTTP_REFERER') or self.action
 
@@ -429,7 +453,10 @@ class CampaignForm(BaseForm):
                         method=method,
                         type="regular",
                         options={
-                            'subject': subject or entry['default_subject'],
+                            'subject': (
+                                subject.encode('utf-8') or
+                                entry['default_subject']
+                            ),
                             'from_email': entry['default_from_email'],
                             'from_name': entry['default_from_name'],
                             'to_email': 0,
@@ -497,8 +524,17 @@ class CampaignForm(BaseForm):
 
         subject = self.widgets['subject']
         if not subject.value:
-            subject.value = self.context.subject or \
-                            self.context.Title().decode('utf-8')
+            value = self.context.subject or \
+                self.context.Title().decode('utf-8')
+
+            subject.value = _(
+                u"${subject} ${date}", mapping={
+                'subject': value, 'date': ulocalized_time(
+                    DateTime(),
+                    context=self.context,
+                    request=self.request
+                ).lstrip('0')}
+            )
 
         schedule = self.widgets['schedule']
         assert isinstance(schedule.value, tuple)
@@ -529,42 +565,49 @@ class ModerationForm(BaseForm):
         bumped = []
         today = datetime.date.today()
 
+        uids = []
         for rid in data['items'] or ():
             metadata = catalog.getMetadataForRID(rid)
-            for brain in catalog(UID=metadata['UID']):
-                obj = brain.getObject()
+            uids.append(metadata['UID'])
 
+        brains = catalog.unrestrictedSearchResults(UID=uids)
+        for brain in brains:
+            obj = brain.getObject()
+
+            # Bump the scheduled date to today's date. This ensures that
+            # the item will be shown on the moderation portlet.
+            try:
+                date = obj.getField('feedSchedule').get(obj)
+                if date is not None:
+                    date = date.asdatetime().date()
+            except AttributeError:
+                date = obj.feedSchedule
+
+            if date is None or date < today:
                 try:
-                    field = obj.getField('feedModerate')
+                    field = obj.getField('feedSchedule')
                 except AttributeError:
-                    obj.feedModerate = True
+                    obj.feedSchedule = today
                 else:
-                    field.set(obj, True)
+                    field.set(obj, DateTime(
+                        today.year, today.month, today.day
+                        ))
 
-                # Bump the scheduled date to today's date. This ensures that
-                # the item will be shown on the moderation portlet.
-                try:
-                    date = obj.getField('feedSchedule').get(obj)
-                    if date is not None:
-                        date = date.asdatetime().date()
-                except AttributeError:
-                    date = obj.feedSchedule
+                bumped.append(obj)
 
-                if date is None or date < today:
-                    try:
-                        field = obj.getField('feedSchedule')
-                    except AttributeError:
-                        obj.feedSchedule = today
-                    else:
-                        field.set(obj, DateTime(
-                            today.year, today.month, today.day
-                            ))
+            try:
+                field = obj.getField('feedModerate')
+            except AttributeError:
+                obj.feedModerate = True
+            else:
+                field.set(obj, True)
 
-                    bumped.append(obj)
+            # Reindex entire object (to make sure the metadata is
+            # updated, too).
+            obj.reindexObject()
 
-                # Reindex entire object (to make sure the metadata is
-                # updated, too).
-                obj.reindexObject()
+        if data['items']:
+            self.widgets['items'].update()
 
         if bumped:
             IStatusMessage(self.request).addStatusMessage(
@@ -572,7 +615,7 @@ class ModerationForm(BaseForm):
                   u"for the following items that were scheduled to "
                   u"a date in the past: ${titles}.",
                   mapping={'titles': u', '.join(
-                      [obj.Title() for obj in bumped])}),
+                      [obj.Title().decode('utf-8') for obj in bumped])}),
                 "info",
                 )
 
@@ -754,9 +797,21 @@ class JavascriptWidget(field.Field):
 class SelectAllGroupsJavascript(JavascriptWidget):
     """Replace the fieldset legend with a select all checkbox."""
 
-    body = open(
-        os.path.join(os.path.dirname(__file__), "select.js"),
-        'rb').read()
+    path = os.path.join(os.path.dirname(__file__), "select.js")
+
+    @property
+    @forever
+    def body(self):
+        body = open(self.path, 'rb').read()
+
+        # Extract and translate strings by heuristic:
+        td = getUtility(ITranslationDomain, name="collective.chimpfeed")
+        for string in re.compile(r'>([\w\s]+)<').findall(body):
+            msg_id = string.decode('utf-8')
+            translation = td.translate(msg_id, context=self.request)
+            body = body.replace(string, translation)
+
+        return body
 
 
 class ListSubscribeForm(SubscribeForm):
@@ -791,6 +846,10 @@ class ListSubscribeForm(SubscribeForm):
             if not entry['public']:
                 continue
 
+            # Skip all-uppercase:
+            if entry['name'] == entry['name'].upper():
+                continue
+
             field_type = entry['field_type']
             required = entry['req']
 
@@ -823,7 +882,7 @@ class ListSubscribeForm(SubscribeForm):
                 __name__=name.encode('utf-8'),
                 default=entry['default'],
                 required=required,
-                title=entry['name'],
+                title=_(entry['name']),
                 **options
             ))
 

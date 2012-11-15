@@ -5,6 +5,83 @@ In next release ...
 
 Bugfixes:
 
+- Fixed issue where interest group filtering would incorrectly get
+  applied on the outer level which would then be repeated
+  unnecessarily.
+
+1.9.1 (2012-11-09)
+------------------
+
+Bugfixes:
+
+- Fixed encoding issue.
+
+1.9.0 (2012-11-09)
+------------------
+
+- Hidden field corresponds to 'public', 'show' is something else.
+
+1.8.9 (2012-11-09)
+------------------
+
+Bugfixes:
+
+- Use the interest grouping title intead of the group title in the
+  campaign template.
+
+Features:
+
+- The default subject line now includes the date.
+
+- Attempt to translate field names.
+
+1.8.8 (2012-11-06)
+------------------
+
+Bugfixes:
+
+- Fixed issue where the moderation portlet would incorrectly return
+  items that would not need moderation.
+
+Features:
+
+- Added control panel action to remove non-existing feeds from content.
+
+1.8.7 (2012-11-05)
+------------------
+
+Bugfixes:
+
+- "System" fields (those in all-caps) are now no longer shown on the
+  subscription form.
+
+Features:
+
+- Require that 'Anonymous' is included in allowed roles and groups.
+
+- The subscription form now includes a "Select all" checkbox.
+
+1.8.6 (2012-10-30)
+------------------
+
+Bugfixes:
+
+- Update moderation items widget when one or more items have been
+  approved. This ensures that the rendered view is correctly updated.
+
+1.8.5 (2012-10-30)
+------------------
+
+Bugfixes:
+
+- Fixed encoding issue that affected the rendering of a status message
+  for 'bumped items'.
+
+1.8.4 (2012-10-30)
+------------------
+
+Bugfixes:
+
 - An item which has no scheduled date, but is approved, now correctly
   gets today's date assigned. This fixes an issue where the item would
   not appear in the moderation form after approval. With this change,

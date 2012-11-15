@@ -25,9 +25,10 @@ class ScheduledItems(VocabularyBase):
         today = DateTime()
         today = DateTime(today.year(), today.month(), today.day())
 
-        query = Indexed('chimpfeeds') & (
-            (Indexed('chimpfeeds') & Ge('feedSchedule', today)) |
-            Eq('feedModerate', False)
+        query = (
+            Indexed('chimpfeeds') &
+            Eq('allowedRolesAndUsers', 'Anonymous') &
+            (Ge('feedSchedule', today) | Eq('feedModerate', False))
         )
 
         brains = context.portal_catalog.evalAdvancedQuery(
@@ -36,8 +37,8 @@ class ScheduledItems(VocabularyBase):
         for brain in brains:
             rid = brain.getRID()
             terms.append(
-                SimpleTerm(rid, brain.UID, brain.Title)
-                )
+                SimpleTerm(rid, rid, brain.Title)
+            )
 
         return SimpleVocabulary(terms)
 
