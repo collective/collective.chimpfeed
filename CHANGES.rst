@@ -3,6 +3,11 @@ Changes
 
 In next release ...
 
+Bugfixes:
+
+- Use Five-based template class such that e.g. `z3c.jbot
+  <http://pypi.python.org/pypi/z3c.jbot>`_ can override the template.
+
 Changes:
 
 - The campaign preview view is now adapted to the current context

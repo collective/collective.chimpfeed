@@ -12,7 +12,7 @@ from collective.chimpfeed.interfaces import IGroupSorter
 from collective.chimpfeed import MessageFactory as _
 
 from zope.component import queryUtility
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class CampaignView(BrowserView):
