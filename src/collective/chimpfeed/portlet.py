@@ -29,16 +29,33 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFDefault.interfaces import ICMFDefaultSkin
 
 from collective.chimpfeed.form import CampaignForm
+from collective.chimpfeed.form import NewsletterForm
 from collective.chimpfeed.form import SubscribeForm
 from collective.chimpfeed.form import ModerationForm
 from collective.chimpfeed.interfaces import ISubscriptionPortlet
 from collective.chimpfeed.interfaces import IModerationPortlet
 from collective.chimpfeed.interfaces import ICampaignPortlet
+from collective.chimpfeed.interfaces import INewsletterPortlet
 from collective.chimpfeed import MessageFactory as _
 
 
 class CampaignPortletAssignment(base.Assignment):
     implements(ICampaignPortlet)
+
+    heading = _(u"Campaign scheduling")
+    description = _(u"Send or schedule a newsletter campaign.")
+
+    title = _(u"Campaign portlet")
+
+    start = None
+    section = u"std_content00"
+
+    def __init__(self, **kwargs):
+        for name, value in kwargs.items():
+            self.__dict__[name] = value
+
+class NewsletterPortletAssignment(base.Assignment):
+    implements(INewsletterPortlet)
 
     heading = _(u"Campaign scheduling")
     description = _(u"Send or schedule a newsletter campaign.")
@@ -123,6 +140,11 @@ class CampaignPortletRenderer(FormPortletRenderer):
         context = self.data.__of__(self.context)
         return CampaignForm(context, self.request)
 
+class NewsletterPortletRenderer(FormPortletRenderer):
+    def create_form(self):
+        context = self.data.__of__(self.context)
+        return NewsletterForm(context, self.request)
+
 
 class CampaignPortletAddForm(base.AddForm):
     label = _(u"Add campaign portlet")
@@ -139,6 +161,19 @@ class CampaignPortletAddForm(base.AddForm):
 class CampaignPortletEditForm(base.EditForm):
     label = _(u"Edit campaign portlet")
     form_fields = form.Fields(ICampaignPortlet)
+
+
+class NewsletterPortletAddForm(base.AddForm):
+    label = _(u"Add newsletter portlet")
+    form_fields = form.Fields(INewsletterPortlet)
+
+    def create(self, data):
+        return NewsletterPortletAssignment(**data)
+
+
+class NewsletterPortletEditForm(base.EditForm):
+    label = _(u"Edit newsletter portlet")
+    form_fields = form.Fields(INewsletterPortlet)
 
 
 class ModerationPortletAddForm(base.NullAddForm):
