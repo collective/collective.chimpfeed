@@ -1,6 +1,14 @@
 Changes
 =======
 
+In next release ...
+
+Bugfixes:
+
+- Correctly hide form fields that have the 'show' attribute set to
+  false.
+
+
 1.9.4 (2012-11-16)
 ------------------
 

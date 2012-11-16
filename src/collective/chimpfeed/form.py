@@ -846,7 +846,7 @@ class ListSubscribeForm(SubscribeForm):
             if name in fields:
                 continue
 
-            if not entry['public']:
+            if not entry['show']:
                 continue
 
             # Skip all-uppercase:
