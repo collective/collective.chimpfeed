@@ -1,6 +1,12 @@
 Changes
 =======
 
+In next release ...
+
+Bugfixes:
+
+- The campaign preview view is adapted to the parent context.
+
 1.9.3 (2012-11-16)
 ------------------
 
