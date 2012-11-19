@@ -2,12 +2,16 @@ from zope.component import getMultiAdapter
 from Products.Five.browser import BrowserView
 from ZODB.POSException import ConflictError
 
+# This code is "stolen" from singing and dancing, see https://svn.plone.org/svn/collective/collective.dancing/
+
+import logging
+logger = logging.getLogger("Plone")
+
 try:
     from BeautifulSoup import BeautifulSoup
     HAS_SOUP = True
 except:
     HAS_SOUP = False
-
 
 plone_html_strip_not_likey = [
     {'id': 'review-history'},
@@ -63,7 +67,12 @@ class Newsletter(BrowserView):
         return self.context.aq_parent.Title()
 
     def template(self):
+        if not HAS_SOUP:
+            logger.info("BeautifulSoup is not installed, not processing of contents is done.")
+            return ''
+
         context = self.context.aq_parent
+        # Hack to avoid infinite loop due to request parameters
         context.REQUEST.set('restricted_traverse', True)
 
         try:
