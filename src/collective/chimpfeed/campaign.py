@@ -11,6 +11,8 @@ from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed.interfaces import IGroupSorter
 from collective.chimpfeed import MessageFactory as _
 
+from collective.chimpfeed.vocabularies import InterestGroupVocabulary
+
 from zope.component import queryUtility
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -20,7 +22,7 @@ class CampaignView(BrowserView):
 
     title = _(u"Preview")
 
-    def getGroups(self, start, until=None):
+    def results(self, start, until=None):
         today = DateTime()
         today = DateTime(today.year(), today.month(), today.day())
         start = DateTime(start)
@@ -43,16 +45,20 @@ class CampaignView(BrowserView):
         if settings.use_moderation:
             query = query & Eq('feedModerate', True)
 
-        groups = {}
         catalog = getToolByName(self.context, "portal_catalog")
 
-        for brain in catalog.evalAdvancedQuery(
-            query, (('feedSchedule', 'desc'), )):
+        return catalog.evalAdvancedQuery(
+            query, (('feedSchedule', 'desc'), ))
+        
+
+    def getGroupings(self, start, until=None):
+        groupings = {}
+        for brain in self.results(start, until=until):
 
             # Note that an item can appear in more than one group.
             categories = [name.rsplit(':', 1)[0] for name in brain.chimpfeeds]
             for category in set(categories):
-                items = groups.setdefault(category, [])
+                items = groupings.setdefault(category, [])
                 items.append(brain)
 
         sorting = queryUtility(IGroupSorter)
@@ -61,8 +67,22 @@ class CampaignView(BrowserView):
         else:
             key = sorting.key
 
-        return sorted(groups.items(), key=lambda item: key(*item))
+        return sorted(groupings.items(), key=lambda item: key(*item))
 
+    def getSegments(self, start, until=None, **kwargs):
+        chimpfeeds = set()
+        for brain in self.results(start, until=until):
+            chimpfeeds.update(brain.chimpfeeds)
+
+        segments = {}
+        
+        for term in InterestGroupVocabulary()(self.context):
+            if term.title in chimpfeeds:
+                groupingid, grouptitle, groupid = term.value
+                items = segments.setdefault(groupingid, [])
+                items.append(groupid)
+                
+        return segments
 
 class CampaignContentView(BrowserView):
     title = _(u"Campaign created")

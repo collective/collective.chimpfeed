@@ -10,6 +10,10 @@ Bugfixes:
 
 Changes:
 
+- When creating new campaigns, we now specify a segment that filters
+  away any subscribers who are not interested in anything we're sending.
+  [tmog]
+
 - The subscription form handler now redirects to itself, with all
   widgets removed (but displaying a status message).
 

@@ -3,9 +3,9 @@
                  field request/image|options/image|context/image|nothing;
                  scale request/scale|options/scale|context/scale|nothing;
                  filtering request/filtering|options/filtering|context/filtering|nothing;"
-     tal:repeat="group python: view.getGroups(start, until)">
-  <tal:group define="name python: group[0];
-                     items python: group[1]">
+     tal:repeat="groupings python: view.getGroupings(start, until)">
+  <tal:group define="name python: groupings[0];
+                     items python: groupings[1]">
     <h2 tal:content="name" />
     <tal:row repeat="item items">
       <tal:filtering condition="filtering">

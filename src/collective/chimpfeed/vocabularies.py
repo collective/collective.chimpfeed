@@ -116,7 +116,7 @@ class InterestGroupVocabulary(MailChimpVocabulary):
         return sorted(terms, key=lambda term: term.title)
 
     def get_term_value(self, group, grouping):
-        return (grouping['id'], group['name'])
+        return (grouping['id'], group['name'], group['bit'])
 
     def get_term_for_group(self, group, grouping, qualified=False):
         name = group['name']
