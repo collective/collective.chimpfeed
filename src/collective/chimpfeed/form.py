@@ -372,7 +372,11 @@ class CampaignForm(BaseForm):
             self.status = self.formErrorsMessage
             return
 
-        url = self.context.absolute_url()
+        try:
+            url = self.context.absolute_url()
+        except AttributeError:
+            url = self.context.aq_parent.absolute_url()
+        
         params = self.makeParams(**data)
         return self.request.response.redirect(
             url + "/@@chimpfeed-preview?%s" % urllib.urlencode(params))
