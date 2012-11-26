@@ -71,7 +71,6 @@
         <tal:block tal:repeat="item obj_item/Subject">
           <dc:subject tal:content="item">Item</dc:subject>
         </tal:block>
-        <dc:date tal:content="python: has_effective and effective or modified">Published or last modified date if no published date</dc:date>
         <dc:type tal:content="obj_item/Type">Type</dc:type>
       </item>
     </tal:block>

@@ -1,6 +1,15 @@
 Changes
 =======
 
+In next release ..
+
+Bugfixes:
+
+- The RSS-feed now defines only ``pubDate` for each entry and not also
+  ``dc:date``. According to the w3 validation service, "An item should
+  not include both pubDate and dc:date".
+
+
 1.9.5 (2012-11-16)
 ------------------
 
