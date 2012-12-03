@@ -208,6 +208,15 @@ class INewsletterPortlet(IPortletDataProvider):
         required=True,
         )
 
+    interest_groups = schema.Tuple(
+        title=_(u"Interests"),
+        description=_(u"Select interests."),
+        value_type=schema.Choice(
+            vocabulary="collective.chimpfeed.vocabularies.InterestGroups",
+            ),
+        required=False,
+        )
+
     template = schema.Choice(
         title=_(u"Template"),
         description=_(u"Select a campaign template."),

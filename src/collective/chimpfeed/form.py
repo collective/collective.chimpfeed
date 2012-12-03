@@ -395,6 +395,24 @@ class BaseCampaignForm(BaseForm):
                     else:
                         section = 'html'
 
+                    segment_opts = {}
+
+                    if hasattr(self.context, 'interest_groups'):
+                        (interest_id, interest_description) = \
+                            self.context.interest_groups[0]
+
+                        interests = {'field': 'interests-' + str(interest_id),
+                                     'op': 'one',
+                                     'value': ','.join([interest[1]
+                                                        for interest
+                                                        in self.context.interest_groups])
+                                     }
+
+                        segment_opts = {
+                            'match': 'all',
+                            'conditions': [interests]
+                        }
+
                     result = api(
                         method=method,
                         type="regular",
@@ -413,6 +431,7 @@ class BaseCampaignForm(BaseForm):
                         content={
                             section: rendered,
                         },
+                        segment_opts=segment_opts,
                     )
 
                     if result:
