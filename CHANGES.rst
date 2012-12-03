@@ -9,6 +9,12 @@ Bugfixes:
   ``dc:date``. According to the w3 validation service, "An item should
   not include both pubDate and dc:date".
 
+Changes:
+
+- When creating new campaigns, we now specify a segment that filters
+  away any subscribers who are not interested in anything we're sending.
+  [tmog]
+
 
 1.9.5 (2012-11-16)
 ------------------

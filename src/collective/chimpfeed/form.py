@@ -458,6 +458,13 @@ class CampaignForm(BaseForm):
                     else:
                         section = 'html'
 
+                    segment_conditions = [
+                        {'field':'interests-%s'%groupingid,
+                         'op':'one',
+                         'value':groupids} for groupingid, groupids \
+                        in view.getSegments(**params).items()
+                        ]
+
                     result = api(
                         method=method,
                         type="regular",
@@ -473,6 +480,8 @@ class CampaignForm(BaseForm):
                             'template_id': self.context.template or None,
                             'generate_text': True,
                             },
+                        segment_opts={'match': 'any',
+                                      'conditions': segment_conditions},
                         content={
                             section: rendered,
                             },
