@@ -309,3 +309,6 @@ msgstr "Efternavn"
 
 msgid "${subject} ${date}"
 msgstr "${subject}, d. ${date}"
+
+msgid "Request processed"
+msgstr "Tilmelding modtaget"

@@ -1,7 +1,39 @@
 Changes
 =======
 
-In next release ...
+In next release ..
+
+Bugfixes:
+
+- The RSS-feed now defines only ``pubDate` for each entry and not also
+  ``dc:date``. According to the w3 validation service, "An item should
+  not include both pubDate and dc:date".
+
+Changes:
+
+- When creating new campaigns, we now specify a segment that filters
+  away any subscribers who are not interested in anything we're sending.
+  [tmog]
+
+
+1.9.5 (2012-11-16)
+------------------
+
+Bugfixes:
+
+- Correctly hide form fields that have the 'show' attribute set to
+  false.
+
+1.9.4 (2012-11-16)
+------------------
+
+Bugfixes:
+
+- The campaign preview view is adapted to the parent context.
+
+
+1.9.3 (2012-11-16)
+------------------
 
 Bugfixes:
 
@@ -10,9 +42,7 @@ Bugfixes:
 
 Changes:
 
-- When creating new campaigns, we now specify a segment that filters
-  away any subscribers who are not interested in anything we're sending.
-  [tmog]
+- The feed schedule field is now set up with its own write permission.
 
 - The subscription form handler now redirects to itself, with all
   widgets removed (but displaying a status message).

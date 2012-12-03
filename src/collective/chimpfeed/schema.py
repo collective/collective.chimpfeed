@@ -16,6 +16,7 @@ from Products.Archetypes.interfaces import IBaseContent
 from DateTime import DateTime
 
 from collective.chimpfeed.permissions import MODERATE_PERMISSION
+from collective.chimpfeed.permissions import SCHEDULE_PERMISSION
 from collective.chimpfeed.interfaces import IFeedControl
 from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed.interfaces import IBrowserLayer
@@ -178,6 +179,7 @@ class FeedExtender(object):
             languageIndependent=True,
             required=False,
             default=None,
+            write_permission=SCHEDULE_PERMISSION,
             widget=atapi.CalendarWidget(
                 show_hm=False,
                 starting_year=2012,
