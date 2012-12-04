@@ -137,6 +137,21 @@
       permission="chimpfeed.Campaign"
       />
 
+  <browser:page
+      name="chimpfeed-newsletter-campaign"
+      for="*"
+      class=".newsletter.Newsletter"
+      permission="chimpfeed.Campaign"
+      />
+
+  <browser:page
+      name="chimpfeed-newsletter-content"
+      for="*"
+      class=".newsletter.Newsletter"
+      template="preview.pt"
+      permission="chimpfeed.Campaign"
+      />
+
   <!-- Portlets -->
 
   <plone:portlet
@@ -169,6 +184,16 @@
       edit_permission="cmf.ManagePortal"
       renderer=".portlet.ModerationPortletRenderer"
       addview=".portlet.ModerationPortletAddForm"
+      />
+
+  <plone:portlet
+      name="collective.chimpfeed.NewsletterPortlet"
+      interface=".interfaces.INewsletterPortlet"
+      assignment=".portlet.NewsletterPortletAssignment"
+      view_permission="zope2.View"
+      edit_permission="cmf.ManagePortal"
+      renderer=".portlet.NewsletterPortletRenderer"
+      addview=".portlet.NewsletterPortletAddForm"
       />
 
   <!-- Vocabularies -->

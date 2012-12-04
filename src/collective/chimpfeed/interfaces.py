@@ -134,6 +134,16 @@ class ISubscriptionFormSettings(Interface):
         required=False,
         )
 
+    preselected_interest_groups = schema.Tuple(
+        title=_(u"Preselected interests."),
+        description=_(u"If interests is selected here, the interests groups will be preselected, "
+                      u"and the user will not be able to select these."),
+        value_type=schema.Choice(
+            vocabulary="collective.chimpfeed.vocabularies.InterestGroups",
+            ),
+        required=False,
+        )
+
 
 class ICampaignPortlet(IPortletDataProvider):
     mailinglist = schema.Choice(
@@ -190,6 +200,49 @@ class ICampaignPortlet(IPortletDataProvider):
         required=False,
         default=u"thumb",
         )
+
+class INewsletterPortlet(IPortletDataProvider):
+    mailinglist = schema.Choice(
+        title=_(u"Mailinglist"),
+        description=_(u"Select a mailinglist for this portlet."),
+        vocabulary="collective.chimpfeed.vocabularies.Lists",
+        required=True,
+        )
+
+    interest_groups = schema.Tuple(
+        title=_(u"Interests"),
+        description=_(u"Select interests."),
+        value_type=schema.Choice(
+            vocabulary="collective.chimpfeed.vocabularies.InterestGroups",
+            ),
+        required=False,
+        )
+
+    template = schema.Choice(
+        title=_(u"Template"),
+        description=_(u"Select a campaign template."),
+        required=False,
+        default=u"",
+        vocabulary="collective.chimpfeed.vocabularies.Templates",
+        )
+
+    section = schema.TextLine(
+        title=_(u"Section"),
+        description=_(u"In MailChimp, templates have multiple sections, "
+                      u"each identified by a string. When the "
+                      u"campaign is created, we need to know where to "
+                      u"put the dynamically created newsletter content."),
+        default=u"std_content00",
+        required=True,
+        )
+
+    subject = schema.TextLine(
+        title=_(u"Subject"),
+        description=_(u"The newsletter subject."),
+        required=False,
+        default=u"",
+        )
+
 
 
 class IModerationPortlet(IPortletDataProvider):

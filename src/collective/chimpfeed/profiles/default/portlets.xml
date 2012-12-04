@@ -10,6 +10,12 @@
       />
 
   <portlet
+      addview="collective.chimpfeed.NewsletterPortlet"
+      title="Newsletter portlet"
+      description="Send or schedule single element newsletters."
+      />
+
+  <portlet
       addview="collective.chimpfeed.SubscriptionPortlet"
       title="Subscription portlet"
       description="Sign up form to join a mailinglist."

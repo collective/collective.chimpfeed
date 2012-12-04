@@ -61,6 +61,7 @@ from collective.chimpfeed import logger
 from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed.interfaces import INameSplitter
 from collective.chimpfeed.interfaces import ICampaignPortlet
+from collective.chimpfeed.interfaces import INewsletterPortlet
 from collective.chimpfeed.interfaces import ISubscriptionFormSettings
 from collective.chimpfeed.interfaces import IApiUtility
 from collective.chimpfeed.vocabularies import interest_groups_factory
@@ -68,7 +69,9 @@ from collective.chimpfeed.vocabularies import InterestGroupVocabulary
 from collective.chimpfeed.splitters import GenericNameSplitter
 
 
-re_email = re.compile(r"^(\w&.%#$&'\*+-/=?^_`{}|~]+!)*[\w&.%#$&'\*+-/=?^_`{}|~]+@(([0-9a-z]([0-9a-z-]*[0-9a-z])?\.)+[a-z]{2,6}|([0-9]{1,3}\.){3}[0-9]{1,3})$", re.IGNORECASE)
+re_email = re.compile(r"^(\w&.%#$&'\*+-/=?^_`{}|~]+!)*[\w&.%#$&'\*+-/=?^_"
+                      r"`{}|~]+@(([0-9a-z]([0-9a-z-]*[0-9a-z])?\.)+[a-z]{2,6}"
+                      r"|([0-9]{1,3}\.){3}[0-9]{1,3})$", re.IGNORECASE)
 
 
 def create_groupings(groups):
@@ -109,7 +112,7 @@ class ICampaign(ICampaignPortlet):
         description=_(u"Include scheduled items up until today's date only."),
         default=True,
         required=False,
-        )
+    )
 
     filtering = schema.Bool(
         title=_(u"Apply filtering markup"),
@@ -118,7 +121,7 @@ class ICampaign(ICampaignPortlet):
                       u"filtering."),
         default=True,
         required=False,
-        )
+    )
 
     schedule = schema.Datetime(
         title=_(u"Schedule date"),
@@ -126,36 +129,47 @@ class ICampaign(ICampaignPortlet):
                       u"at this time."),
         required=False,
         default=None,
-        )
+    )
+
+
+class INewsletter(INewsletterPortlet):
+    """Note that most fields are inherited from the portlet."""
+    schedule = schema.Datetime(
+        title=_(u"Schedule date"),
+        description=_(u"If provided, item will be scheduled to be sent "
+                      u"at this time."),
+        required=False,
+        default=None,
+    )
 
 
 class IModeration(Interface):
     items = schema.Tuple(
         value_type=schema.Choice(
             vocabulary="collective.chimpfeed.vocabularies.ScheduledItems",
-            ),
+        ),
         required=False,
-        )
+    )
 
 
 class ISubscription(Interface):
     name = schema.TextLine(
         title=_(u"Name"),
         required=True,
-        )
+    )
 
     email = schema.TextLine(
         title=_(u"E-mail"),
         required=True,
         constraint=is_email,
-        )
+    )
 
     interests = schema.Tuple(
         value_type=schema.Choice(
             vocabulary="collective.chimpfeed.vocabularies.InterestGroups",
-            ),
+        ),
         required=False,
-        )
+    )
 
 
 class ModerationWidget(SequenceWidget):
@@ -235,7 +249,7 @@ class ModerationWidget(SequenceWidget):
                 groups.append({
                     'date': name,
                     'entries': entries,
-                    })
+                })
 
             last = days
             entries.append(entry)
@@ -278,7 +292,7 @@ class InterestsWidget(SequenceWidget):
                 if name in names:
                     terms.append(self.vocabulary.get_term_for_group(
                         group, grouping
-                        ))
+                    ))
 
         return self.renderChoices(terms)
 
@@ -286,14 +300,14 @@ class InterestsWidget(SequenceWidget):
         filtered = (
             grouping for grouping in self.groupings
             if grouping['id'] in self.context.interest_groupings
-            )
+        )
 
         rendered = []
 
         for grouping in filtered:
             terms = tuple(self.vocabulary.get_terms_for_grouping(
                 grouping
-                ))
+            ))
 
             # Create label from the grouping name
             label = cgi.escape(grouping['name'])
@@ -305,7 +319,7 @@ class InterestsWidget(SequenceWidget):
     def renderChoices(self, terms, label=None, grouping_id=None):
         choice = schema.Choice(
             vocabulary=SimpleVocabulary(terms),
-            )
+        )
 
         field = self.field.bind(self.context)
         field.value_type = choice
@@ -324,9 +338,7 @@ class InterestsWidget(SequenceWidget):
         if label is not None and self.mode != HIDDEN_MODE:
             result = (
                 u'<fieldset class="interest-group">'
-                u'<legend>%s</legend>%s</fieldset>') % (
-                label, result
-                )
+                u'<legend>%s</legend>%s</fieldset>') % (label, result)
 
         return result
 
@@ -355,17 +367,113 @@ class BaseForm(form.Form):
         return 'form-%d-%d.' % (
             u64(self.context._p_oid),
             int(self.context._p_mtime) % 10000
-            )
+        )
 
 
-class CampaignForm(BaseForm):
+class BaseCampaignForm(BaseForm):
+    def createCampaign(self, api_key, method, subject,
+                       schedule, rendered, next_url, segment_opts={}):
+        try:
+            if not rendered.strip():
+                IStatusMessage(self.request).addStatusMessage(
+                    _(u"No content found; newsletter not created."),
+                    "info"
+                )
+
+                return
+
+            if api_key:
+                api = greatape.MailChimp(api_key, debug=False)
+
+                try:
+                    for entry in api(method="lists"):
+                        if entry['id'] == self.context.mailinglist:
+                            break
+                    else:
+                        IStatusMessage(self.request).addStatusMessage(
+                            _(u"Mailinglist not found."),
+                            "error"
+                        )
+
+                        return
+
+                    if self.context.template:
+                        section = 'html_%s' % self.context.section
+                    else:
+                        section = 'html'
+
+                    args = {}
+
+                    args['method'] = method
+                    args['type'] = 'regular'
+                    args['content'] = {section: rendered}
+                    if segment_opts:
+                        args['segment_opts'] = segment_opts
+
+                    options = {}
+                    options['subject'] = subject.encode('utf-8') or\
+                        entry['default_subject']
+                    options['from_email'] = entry['default_from_email']
+                    options['from_name'] = entry['default_from_name']
+                    options['to_email'] = 0
+                    options['list_id'] = self.context.mailinglist
+                    options['template_id'] = self.context.template or None
+                    options['generate_text'] = True
+
+                    args['options'] = options
+
+                    result = api(**args)
+
+                    if result:
+                        if schedule:
+                            # Apply local time zone to get GMT
+                            schedule = schedule + datetime.timedelta(
+                                seconds=time.timezone
+                            )
+
+                            # Format time
+                            schedule_time = time.strftime(
+                                "%Y-%m-%d %H:%M:%S", schedule.utctimetuple()
+                            )
+
+                            schedule = api(
+                                method="campaignSchedule",
+                                cid=result,
+                                schedule_time=schedule_time,
+                            )
+
+                            if not schedule:
+                                IStatusMessage(self.request).addStatusMessage(
+                                    _(u"Campaign created, but not scheduled."),
+                                    "error"
+                                )
+
+                                return
+
+                        next_url = self.context.portal_url() + \
+                            "/@@chimpfeed-content?cid=%s" % result
+
+                except greatape.MailChimpError, exc:
+                    IStatusMessage(self.request).addStatusMessage(
+                        _(u"Unable to process request: ${message}",
+                          mapping={'message': exc.msg}), "error"
+                    )
+                    logger.warn(exc.msg)
+                    return
+
+                return bool(result)
+        finally:
+            self.request.response.redirect(next_url)
+
+
+class CampaignForm(BaseCampaignForm):
     fields = field.Fields(
         ICampaign['start'],
         ICampaign['limit'],
         ICampaign['filtering'],
         ICampaign['subject'],
         ICampaign['schedule'],
-        )
+    )
 
     fields['limit'].widgetFactory = SingleCheckBoxFieldWidget
     fields['filtering'].widgetFactory = SingleCheckBoxFieldWidget
@@ -380,7 +488,6 @@ class CampaignForm(BaseForm):
             return
 
         url = self.context.aq_parent.absolute_url()
-
         params = self.makeParams(**data)
         return self.request.response.redirect(
             url + "/@@chimpfeed-preview?%s" % urllib.urlencode(params))
@@ -410,123 +517,35 @@ class CampaignForm(BaseForm):
             IStatusMessage(self.request).addStatusMessage(
                 _(u"Campaign created."),
                 "info"
-                )
+            )
 
             # Set date to tomorrow's date.
             self.context.start = datetime.date.today() + \
-                                 datetime.timedelta(days=1)
+                datetime.timedelta(days=1)
 
     def process(self, method, subject=None, schedule=None, **data):
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
 
         view = getMultiAdapter(
-            (self.context, self.request), name="chimpfeed-campaign"
+            (self.context.aq_parent, self.request), name="chimpfeed-campaign"
         )
 
         params = self.makeParams(**data)
         rendered = view.template(**params).encode('utf-8')
-
         next_url = self.request.get('HTTP_REFERER') or self.action
 
-        try:
-            if not rendered.strip():
-                IStatusMessage(self.request).addStatusMessage(
-                    _(u"No content found; newsletter not created."),
-                    "info"
-                    )
+        segment_opts = {'match': 'all',
+                        'conditions':
+                        [{'field': 'interests-%s' % groupingid,
+                          'op':'one',
+                          'value': groupids}
+                         for groupingid, groupids
+                         in view.getSegments(**params).items()
+                         ]}
 
-                return
-
-            if api_key:
-                api = greatape.MailChimp(api_key, debug=False)
-
-                try:
-                    for entry in api(method="lists"):
-                        if entry['id'] == self.context.mailinglist:
-                            break
-                    else:
-                        IStatusMessage(self.request).addStatusMessage(
-                            _(u"Mailinglist not found."),
-                            "error"
-                            )
-
-                        return
-
-                    if self.context.template:
-                        section = 'html_%s' % self.context.section
-                    else:
-                        section = 'html'
-
-                    segment_conditions = [
-                        {'field':'interests-%s'%groupingid,
-                         'op':'one',
-                         'value':groupids} for groupingid, groupids \
-                        in view.getSegments(**params).items()
-                        ]
-
-                    result = api(
-                        method=method,
-                        type="regular",
-                        options={
-                            'subject': (
-                                subject.encode('utf-8') or
-                                entry['default_subject']
-                            ),
-                            'from_email': entry['default_from_email'],
-                            'from_name': entry['default_from_name'],
-                            'to_email': 0,
-                            'list_id': self.context.mailinglist,
-                            'template_id': self.context.template or None,
-                            'generate_text': True,
-                            },
-                        segment_opts={'match': 'any',
-                                      'conditions': segment_conditions},
-                        content={
-                            section: rendered,
-                            },
-                        )
-
-                    if result:
-                        if schedule:
-                            # Apply local time zone to get GMT
-                            schedule = schedule + datetime.timedelta(
-                                seconds=time.timezone
-                                )
-
-                            # Format time
-                            schedule_time = time.strftime(
-                                "%Y-%m-%d %H:%M:%S", schedule.utctimetuple()
-                                )
-
-                            schedule = api(
-                                method="campaignSchedule",
-                                cid=result,
-                                schedule_time=schedule_time,
-                                )
-
-                            if not schedule:
-                                IStatusMessage(self.request).addStatusMessage(
-                                    _(u"Campaign created, but not scheduled."),
-                                    "error"
-                                    )
-
-                                return
-
-                        next_url = self.context.portal_url() + \
-                                   "/@@chimpfeed-content?cid=%s" % result
-
-                except greatape.MailChimpError, exc:
-                    IStatusMessage(self.request).addStatusMessage(
-                        _(u"Unable to process request: ${message}",
-                          mapping={'message': exc.msg}), "error"
-                        )
-                    logger.warn(exc.msg)
-                    return
-
-                return bool(result)
-        finally:
-            self.request.response.redirect(next_url)
+        return self.createCampaign(api_key, method, subject,
+                                   schedule, rendered, next_url, segment_opts)
 
     def update(self):
         super(CampaignForm, self).update()
@@ -562,7 +581,111 @@ class CampaignForm(BaseForm):
 
             schedule.value = (
                 tomorrow.year, tomorrow.month, tomorrow.day, "09", "00"
-                )
+            )
+
+
+class NewsletterForm(BaseCampaignForm):
+    fields = field.Fields(
+        ICampaign['subject'],
+        ICampaign['schedule'],
+    )
+
+    ignoreContext = True
+
+    def getSegmentConditions(self):
+        if hasattr(self.context, 'interest_groups'):
+            (interest_id, interest_description) = \
+                self.context.interest_groups[0]
+
+            return [{'field': 'interests-' + str(interest_id),
+                     'op': 'one',
+                     'value': ','.join([interest[1]
+                                        for interest
+                                        in self.context.interest_groups])
+                     }]
+        else:
+            return {}
+
+    @button.buttonAndHandler(_(u'Preview'))
+    def handlePreview(self, action):
+        if self.context.REQUEST.get('restricted_traverse', False):
+            return
+
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+
+        url = self.context.aq_parent.absolute_url()
+        return self.request.response.redirect(
+            url + "/@@chimpfeed-newsletter-content")
+
+    @button.buttonAndHandler(_(u'Create'))
+    def handleCreate(self, action):
+        if self.context.REQUEST.get('restricted_traverse', False):
+            return
+
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+
+        success = self.process("campaignCreate", **data)
+
+        if success:
+            IStatusMessage(self.request).addStatusMessage(
+                _(u"Campaign created."),
+                "info"
+            )
+
+    def process(self, method, subject=None, schedule=None, **data):
+        settings = IFeedSettings(self.context)
+        api_key = settings.mailchimp_api_key
+
+        view = getMultiAdapter(
+            (self.context, self.request),
+            name="chimpfeed-newsletter-campaign"
+        )
+
+        rendered = view.template().encode('utf-8')
+        next_url = self.request.get('HTTP_REFERER') or self.action
+        return self.createCampaign(api_key, method, subject,
+                                   schedule, rendered, next_url,
+                                   self.getSegmentConditions())
+
+    def update(self):
+        super(NewsletterForm, self).update()
+
+        today = datetime.date.today()
+
+        subject = self.widgets['subject']
+        if not subject.value:
+            value = self.context.subject or \
+                self.context.Title().decode('utf-8')
+
+            subject.value = _(
+                u"${subject} ${date}", mapping={
+                'subject': value, 'date': ulocalized_time(
+                    DateTime(),
+                    context=self.context,
+                    request=self.request
+                ).lstrip('0')}
+            )
+
+        schedule = self.widgets['schedule']
+        assert isinstance(schedule.value, tuple)
+
+        if not schedule.value[0]:
+            tomorrow = today + datetime.timedelta(days=1)
+
+            schedule.value = (
+                tomorrow.year, tomorrow.month, tomorrow.day, "09", "00"
+            )
+
+    def render(self):
+        if self.context.REQUEST.get('restricted_traverse', False):
+            return ''
+        return BaseCampaignForm.render(self)
 
 
 class ModerationForm(BaseForm):
@@ -609,7 +732,7 @@ class ModerationForm(BaseForm):
                 else:
                     field.set(obj, DateTime(
                         today.year, today.month, today.day
-                        ))
+                    ))
 
                 bumped.append(obj)
 
@@ -635,7 +758,7 @@ class ModerationForm(BaseForm):
                   mapping={'titles': u', '.join(
                       [obj.Title().decode('utf-8') for obj in bumped])}),
                 "info",
-                )
+            )
 
     def update(self):
         super(ModerationForm, self).update()
@@ -695,6 +818,13 @@ class SubscribeForm(BaseForm):
             name = data.pop('name')
             email = data.pop('email')
             interests = data.pop('interests')
+
+            content = self.getContent()
+
+            if not interests and content.preselected_interest_groups:
+                interests = content.preselected_interest_groups
+            elif interests and content.preselected_interest_groups:
+                interests = interests + content.preselected_interest_groups
 
             if api_key:
                 api = greatape.MailChimp(api_key, debug=False)
@@ -931,7 +1061,7 @@ class ListSubscribeForm(SubscribeForm):
         return context.__of__(
             ImplicitAcquisitionWrapper(
                 settings, self.context)
-            )
+        )
 
     def nextURL(self):
         list_id = self.request.get('list_id', '')
@@ -960,7 +1090,6 @@ class ListSubscribeForm(SubscribeForm):
                     del self.widgets[name]
         else:
             mode = self.mode
-
 
         self.widgets.mode = mode
         self.widgets.prefix = ""
