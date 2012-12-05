@@ -498,8 +498,8 @@ class CampaignForm(BaseCampaignForm):
 
         return dict(
             start=start.isoformat(),
-            filtering='1' if filtering else "",
-            until=today.isoformat() if limit else "",
+            filtering=filtering and '1' or "",
+            until=limit and today.isoformat() or "",
             image=self.context.image,
             scale=self.context.scale,
         )
