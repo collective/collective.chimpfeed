@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 def read(*pathnames):
     return open(os.path.join(os.path.dirname(__file__), *pathnames)).read()
 
-version = '1.9.5'
+version = '1.9.6'
 
 setup(name='collective.chimpfeed',
       version=version,
