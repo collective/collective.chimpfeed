@@ -1,6 +1,10 @@
 Changes
 =======
 
+
+1.9.7 (2012-12-07)
+------------------
+
 Bugfixes:
 
 - Sort items for RSS-feed by publication date.
