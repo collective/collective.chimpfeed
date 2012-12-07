@@ -90,7 +90,7 @@ class Feed(Implicit):
         if settings.use_moderation:
             query = query & Eq('feedModerate', True)
 
-        brains = catalog.evalAdvancedQuery(query)
+        brains = catalog.evalAdvancedQuery(query, (('Date', 'desc'), ))
         objects = tuple(brain.getObject() for brain in brains)
         return tuple(ItemProxy(obj).__of__(obj) for obj in objects)
 
