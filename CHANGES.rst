@@ -1,6 +1,10 @@
 Changes
 =======
 
+
+1.9.7 (2012-12-07)
+------------------
+
 Bugfixes:
 
 - moved catalog indexes to setuphandlers to avoid indexes being emptied
