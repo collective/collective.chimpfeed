@@ -5,7 +5,13 @@ Bugfixes:
 
 - Sort items for RSS-feed by publication date.
 
+Changes:
 
+- Added control panel option to ignore interest groupings.
+  Ignored groupings will be filtered from the feed vocabulary.
+  [tmog]
+
+  
 1.9.6 (2012-12-05)
 ------------------
 
