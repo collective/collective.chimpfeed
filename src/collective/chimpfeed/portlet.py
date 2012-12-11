@@ -136,11 +136,19 @@ class SubscriptionPortletRenderer(FormPortletRenderer):
 
 
 class CampaignPortletRenderer(FormPortletRenderer):
+    @property
+    def available(self):
+        return checkPermission('chimpfeed.Campaign', self.context)
+
     def create_form(self):
         context = self.data.__of__(self.context)
         return CampaignForm(context, self.request)
 
 class NewsletterPortletRenderer(FormPortletRenderer):
+    @property
+    def available(self):
+        return checkPermission('chimpfeed.Campaign', self.context)
+
     def create_form(self):
         context = self.data.__of__(self.context)
         return NewsletterForm(context, self.request)
