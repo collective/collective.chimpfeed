@@ -123,6 +123,13 @@ class ICampaign(ICampaignPortlet):
         required=False,
     )
 
+    no_schedule = schema.Bool(
+        title=_(u"Do not schedule campaign"),
+        description=_(u"Select this option to avoid automatic"
+                      u"scheduling of the campaign"),
+        required=False
+    )
+
     schedule = schema.Datetime(
         title=_(u"Schedule date"),
         description=_(u"If provided, item will be scheduled to be sent "
@@ -134,6 +141,13 @@ class ICampaign(ICampaignPortlet):
 
 class INewsletter(INewsletterPortlet):
     """Note that most fields are inherited from the portlet."""
+    no_schedule = schema.Bool(
+        title=_(u"Do not schedule campaign"),
+        description=_(u"Select this option to avoid automatic "
+                      u"scheduling of the campaign"),
+        required=False
+    )
+
     schedule = schema.Datetime(
         title=_(u"Schedule date"),
         description=_(u"If provided, item will be scheduled to be sent "
@@ -372,7 +386,8 @@ class BaseForm(form.Form):
 
 class BaseCampaignForm(BaseForm):
     def createCampaign(self, api_key, method, subject,
-                       schedule, rendered, next_url, segment_opts={}):
+                       no_schedule, schedule, rendered, next_url,
+                       segment_opts={}):
         try:
             if not rendered.strip():
                 IStatusMessage(self.request).addStatusMessage(
@@ -425,7 +440,7 @@ class BaseCampaignForm(BaseForm):
                     result = api(**args)
 
                     if result:
-                        if schedule:
+                        if not no_schedule and schedule:
                             # Apply local time zone to get GMT
                             schedule = schedule + datetime.timedelta(
                                 seconds=time.timezone
@@ -472,6 +487,7 @@ class CampaignForm(BaseCampaignForm):
         ICampaign['limit'],
         ICampaign['filtering'],
         ICampaign['subject'],
+        ICampaign['no_schedule'],
         ICampaign['schedule'],
     )
 
@@ -523,7 +539,7 @@ class CampaignForm(BaseCampaignForm):
             self.context.start = datetime.date.today() + \
                 datetime.timedelta(days=1)
 
-    def process(self, method, subject=None, schedule=None, **data):
+    def process(self, method, subject=None, no_schedule=False, schedule=None, **data):
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
 
@@ -544,7 +560,7 @@ class CampaignForm(BaseCampaignForm):
                          in view.getSegments(**params).items()
                          ]}
 
-        return self.createCampaign(api_key, method, subject,
+        return self.createCampaign(api_key, method, subject, no_schedule,
                                    schedule, rendered, next_url, segment_opts)
 
     def update(self):
@@ -587,6 +603,7 @@ class CampaignForm(BaseCampaignForm):
 class NewsletterForm(BaseCampaignForm):
     fields = field.Fields(
         ICampaign['subject'],
+        ICampaign['no_schedule'],
         ICampaign['schedule'],
     )
 
@@ -638,7 +655,7 @@ class NewsletterForm(BaseCampaignForm):
                 "info"
             )
 
-    def process(self, method, subject=None, schedule=None, **data):
+    def process(self, method, subject=None, no_schedule=False, schedule=None, **data):
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
 
@@ -650,7 +667,7 @@ class NewsletterForm(BaseCampaignForm):
         rendered = view.template().encode('utf-8')
         next_url = self.request.get('HTTP_REFERER') or self.action
         return self.createCampaign(api_key, method, subject,
-                                   schedule, rendered, next_url,
+                                   no_schedule, schedule, rendered, next_url,
                                    self.getSegmentConditions())
 
     def update(self):
