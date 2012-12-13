@@ -74,6 +74,18 @@ class IFeedSettings(Interface):
         vocabulary="collective.chimpfeed.vocabularies.Lists",
         )
 
+    ignored_groupings = schema.Tuple(
+        title=_(u"Ignored interest groupings"),
+        description=_(u"Use this field to limit the interest "
+                      u"groups pulled automatically from the list "
+                      u"to specific groupings."
+                      ),
+        required=False,
+        value_type=schema.Choice(
+            vocabulary="collective.chimpfeed.vocabularies.InterestGroupings",
+            ),
+        )
+
     feeds = schema.List(
         title=_(u"Feeds"),
         description=_(u"The strings listed in this field "

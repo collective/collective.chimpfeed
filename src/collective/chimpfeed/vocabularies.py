@@ -159,23 +159,33 @@ class InterestGroupingVocabulary(MailChimpVocabulary):
 
             yield SimpleTerm(value, token, name)
 
-
 class FeedVocabulary(InterestGroupVocabulary):
-    def get_terms(self):
-        terms = list(super(FeedVocabulary, self).get_terms())
-
-        feeds = IFeedSettings(self).feeds
-        if feeds:
-            for feed in feeds:
-                terms.append(SimpleTerm(feed, feed.encode('utf-8'), feed))
-
-        return sorted(terms, key=lambda term: term.title)
 
     def get_term_value(self, group, grouping):
         return "%s:%s" % (
             grouping['name'].replace(':', ''),
             group['name'].replace(':', '')
             )
+    
+    def get_terms(self):
+        terms = list(super(FeedVocabulary, self).get_terms())
+
+        feeds = IFeedSettings(self).feeds
+
+        if feeds:
+            for feed in feeds:
+                terms.append(SimpleTerm(feed, feed.encode('utf-8'), feed))
+
+        return sorted(terms, key=lambda term: term.title)
+    
+    def get_groupings(self, list_id=None):
+        groupings = self.aq_parent.get_groupings(list_id=list_id)
+
+        if IFeedSettings(self).ignored_groupings:
+            return [g for g in groupings if g['id'] not in \
+                    IFeedSettings(self).ignored_groupings]
+        return groupings
+
 
 
 lists_factory = ListVocabulary()
