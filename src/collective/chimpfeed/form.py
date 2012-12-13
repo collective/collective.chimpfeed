@@ -125,9 +125,10 @@ class ICampaign(ICampaignPortlet):
 
     no_schedule = schema.Bool(
         title=_(u"Do not schedule campaign"),
-        description=_(u"Select this option to avoid automatic"
+        description=_(u"Select this option to avoid automatic "
                       u"scheduling of the campaign"),
-        required=False
+        required=False,
+        default=False
     )
 
     schedule = schema.Datetime(
@@ -145,7 +146,8 @@ class INewsletter(INewsletterPortlet):
         title=_(u"Do not schedule campaign"),
         description=_(u"Select this option to avoid automatic "
                       u"scheduling of the campaign"),
-        required=False
+        required=False,
+        default=False
     )
 
     schedule = schema.Datetime(
