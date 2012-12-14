@@ -613,10 +613,10 @@ class NewsletterForm(BaseCampaignForm):
 
     def getSegmentConditions(self):
         if hasattr(self.context, 'interest_groups'):
-            (interest_id, interest_description) = \
+            (grouping_id, interest_description, group_id) = \
                 self.context.interest_groups[0]
 
-            return [{'field': 'interests-' + str(interest_id),
+            return [{'field': 'interests-' + str(grouping_id),
                      'op': 'one',
                      'value': ','.join([interest[1]
                                         for interest
@@ -670,7 +670,8 @@ class NewsletterForm(BaseCampaignForm):
         next_url = self.request.get('HTTP_REFERER') or self.action
         return self.createCampaign(api_key, method, subject,
                                    no_schedule, schedule, rendered, next_url,
-                                   self.getSegmentConditions())
+                                   {'match': 'all',
+                                    'conditions': self.getSegmentConditions()})
 
     def update(self):
         super(NewsletterForm, self).update()
