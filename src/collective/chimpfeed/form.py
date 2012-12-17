@@ -662,7 +662,7 @@ class NewsletterForm(BaseCampaignForm):
         api_key = settings.mailchimp_api_key
 
         view = getMultiAdapter(
-            (self.context, self.request),
+            (self.context.aq_parent, self.request),
             name="chimpfeed-newsletter-campaign"
         )
 
