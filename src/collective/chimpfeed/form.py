@@ -76,7 +76,7 @@ re_email = re.compile(r"^(\w&.%#$&'\*+-/=?^_`{}|~]+!)*[\w&.%#$&'\*+-/=?^_"
 
 def create_groupings(groups):
     groupings = {}
-    for grouping_id, name in groups:
+    for grouping_id, name, group_id in groups:
         groupings.setdefault(grouping_id, []).append(name)
     return groupings
 
@@ -837,14 +837,11 @@ class SubscribeForm(BaseForm):
             )
             name = data.pop('name')
             email = data.pop('email')
-            interests = data.pop('interests')
+            interests = data.pop('interests', ())
 
             content = self.getContent()
-
-            if not interests and content.preselected_interest_groups:
-                interests = content.preselected_interest_groups
-            elif interests and content.preselected_interest_groups:
-                interests = interests + content.preselected_interest_groups
+            preselected = getattr(content, 'preselected_interest_groups', ())
+            interests = interests + preselected
 
             if api_key:
                 api = greatape.MailChimp(api_key, debug=False)
