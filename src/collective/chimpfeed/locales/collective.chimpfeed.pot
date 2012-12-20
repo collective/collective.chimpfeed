@@ -35,6 +35,9 @@ msgstr ""
 msgid "Interests"
 msgstr ""
 
+msgid "Show name on subscription form"
+msgstr ""
+
 msgid "MailChimp API key"
 msgstr ""
 
