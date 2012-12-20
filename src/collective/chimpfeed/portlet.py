@@ -2,6 +2,8 @@ from zope.formlib import form
 from zope.interface import implements
 from zope.interface import alsoProvides
 from zope.interface import noLongerProvides
+from zope.component import getUtility
+from plone.i18n.normalizer.interfaces import IIDNormalizer
 
 try:
     from plone.z3cform.interfaces import IWrappedForm
@@ -98,6 +100,17 @@ class FormPortletRenderer(base.Renderer):
 
     name = ""
 
+    @property
+    def css_class(self):
+        """Generate a CSS class from the portlet header
+        """
+        try:
+            header = self.data.heading
+            normalizer = getUtility(IIDNormalizer)
+            return "portlet-%s" % normalizer.normalize(header)
+        except AttributeError:
+            return ''
+
     def render_form(self):
         provided = IPloneFormLayer.providedBy(self.request)
         noLongerProvides(self.request, IPloneFormLayer)
@@ -130,12 +143,16 @@ class ModerationPortletRenderer(FormPortletRenderer):
 
 
 class SubscriptionPortletRenderer(FormPortletRenderer):
+    name = "Subscription"
+
     def create_form(self):
         context = self.data.__of__(self.context)
         return SubscribeForm(context, self.request)
 
 
 class CampaignPortletRenderer(FormPortletRenderer):
+    name = "Campaign"
+
     @property
     def available(self):
         return checkPermission('chimpfeed.Campaign', self.context)
@@ -145,6 +162,8 @@ class CampaignPortletRenderer(FormPortletRenderer):
         return CampaignForm(context, self.request)
 
 class NewsletterPortletRenderer(FormPortletRenderer):
+    name = "Newsletter"
+
     @property
     def available(self):
         return checkPermission('chimpfeed.Campaign', self.context)
