@@ -907,7 +907,8 @@ class SubscribeForm(BaseForm):
                         )
                 else:
                     if result:
-                        next_url += '&success=yes'
+                        next_url += ('?' in next_url and '&' or '?') + 'success=yes'
+
                         return IStatusMessage(self.request).addStatusMessage(
                             _(u"Thank you for signing up. We'll send you a "
                               u"confirmation message by e-mail shortly."),
