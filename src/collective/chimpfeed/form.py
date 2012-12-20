@@ -76,7 +76,7 @@ re_email = re.compile(r"^(\w&.%#$&'\*+-/=?^_`{}|~]+!)*[\w&.%#$&'\*+-/=?^_"
 
 def create_groupings(groups):
     groupings = {}
-    for grouping_id, name in groups:
+    for grouping_id, name, interest_id in groups:
         groupings.setdefault(grouping_id, []).append(name)
     return groupings
 
