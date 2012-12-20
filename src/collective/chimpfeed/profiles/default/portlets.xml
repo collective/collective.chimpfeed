@@ -5,7 +5,7 @@
 
   <portlet
       addview="collective.chimpfeed.CampaignPortlet"
-      title="Campaign portlet"
+      title="Mailchimp campaign portlet"
       description="Send or schedule newsletter campaigns."
       />
 
@@ -17,13 +17,13 @@
 
   <portlet
       addview="collective.chimpfeed.SubscriptionPortlet"
-      title="Subscription portlet"
+      title="Mailchimp subscription portlet"
       description="Sign up form to join a mailinglist."
       />
 
   <portlet
       addview="collective.chimpfeed.ModerationPortlet"
-      title="Moderation portlet"
+      title="Mailchimp moderation portlet"
       description="Moderate newsletter feed content."
       />
 
