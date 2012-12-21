@@ -257,7 +257,7 @@ msgid "Select subscription options and submit form."
 msgstr "Få besked, når vi har nyheder om emner, der særligt interesserer dig. Vælg emner:"
 
 msgid "Subscribe to: ${name}"
-msgstr "Abonnér på nyheder fra Socialstyrelsen"
+msgstr "Abonnér på ${name}"
 
 msgid "Interest group list"
 msgstr "Hent udsendelseslister fra tilmeldingsliste"
