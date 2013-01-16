@@ -156,6 +156,7 @@ class FeedExtender(object):
             widget=atapi.MultiSelectionWidget(
                 label=IFeedControl['feeds'].title,
                 description=IFeedControl['feeds'].description,
+                visible={ "view" : "invisible" },
                 ),
             vocabulary_factory=IFeedControl['feeds'].value_type.vocabularyName,
             ),
@@ -168,7 +169,8 @@ class FeedExtender(object):
             default=None,
             widget=atapi.SelectionWidget(
                 label=IFeedControl['feedCategory'].title,
-                description=IFeedControl['feedCategory'].description
+                description=IFeedControl['feedCategory'].description,
+                visible={ "view" : "invisible" },
                 ),
             vocabulary_factory=IFeedControl['feedCategory'].vocabularyName,
             ),
@@ -185,7 +187,8 @@ class FeedExtender(object):
                 starting_year=2012,
                 ending_year=2015,
                 label=IFeedControl['feedSchedule'].title,
-                description=IFeedControl['feedSchedule'].description
+                description=IFeedControl['feedSchedule'].description,
+                visible={ "view" : "invisible" },
                 ),
             ),
 
@@ -198,6 +201,7 @@ class FeedExtender(object):
             widget=atapi.BooleanWidget(
                 label=IFeedControl['feedModerate'].title,
                 description=IFeedControl['feedModerate'].description,
+                visible={ "view" : "invisible" },
                 ),
             ),
         )

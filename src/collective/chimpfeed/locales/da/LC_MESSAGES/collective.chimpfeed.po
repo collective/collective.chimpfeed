@@ -34,6 +34,9 @@ msgstr "Grupper"
 msgid "Interests"
 msgstr "Interesser"
 
+msgid "Show name on subscription form"
+msgstr "Vis navn på tilmeldingsformular"
+
 msgid "MailChimp API key"
 msgstr "MailChimp API-nøgle"
 

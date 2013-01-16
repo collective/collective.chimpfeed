@@ -116,6 +116,11 @@ class IFeedSettings(Interface):
                       u'moderation.'),
         required=False,
         )
+    show_name = schema.Bool(
+        title=_(u'Show name on subscription form'),
+        required=False,
+        default=True,
+        )
 
 
 class ISubscriptionFormSettings(Interface):

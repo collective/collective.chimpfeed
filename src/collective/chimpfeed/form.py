@@ -169,11 +169,6 @@ class IModeration(Interface):
 
 
 class ISubscription(Interface):
-    name = schema.TextLine(
-        title=_(u"Name"),
-        required=True,
-    )
-
     email = schema.TextLine(
         title=_(u"E-mail"),
         required=True,
@@ -816,8 +811,20 @@ class SubscribeContext(Implicit):
 
 
 class SubscribeForm(BaseForm):
-    fields = field.Fields(ISubscription)
-    fields['interests'].widgetFactory = InterestsWidget.factory
+
+    @property
+    def fields(self):
+        fields = field.Fields()
+        settings = IFeedSettings(self.context)
+        if settings.show_name:
+            fields += field.Fields(
+                schema.TextLine(__name__="name",
+                title=_(u"Name"),
+                required=False,
+                ))
+        fields += field.Fields(ISubscription)
+        fields['interests'].widgetFactory = InterestsWidget.factory
+        return fields
 
     @button.buttonAndHandler(_(u'Register'))
     def handleApply(self, action):
@@ -835,7 +842,10 @@ class SubscribeForm(BaseForm):
                 data.pop('list_id', None) or
                 self.getContent().mailinglist
             )
-            name = data.pop('name')
+            try:
+                name = data.pop('name')
+            except KeyError:
+                name = ''
             email = data.pop('email')
             interests = data.pop('interests')
 
@@ -987,7 +997,18 @@ class ListSubscribeForm(SubscribeForm):
             __name__="js", required=False), mode="hidden"))
 
         # Include form fields, but change the order around.
-        fields += SubscribeForm.fields.select('interests', 'name', 'email')
+        fields += field.Fields(ISubscription).select('interests')
+        fields['interests'].widgetFactory = InterestsWidget.factory
+
+        settings = IFeedSettings(self.context)
+        if settings.show_name:
+            fields += field.Fields(
+                schema.TextLine(__name__="name",
+                title=_(u"Name"),
+                required=False,
+                ))
+
+        fields += field.Fields(ISubscription).select('email')
 
         # Add mailinglist as hidden field
         fields += field.Fields(schema.ASCII(
