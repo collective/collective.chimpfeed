@@ -155,7 +155,7 @@ msgid "Mailchimp subscription portlet"
 msgstr "Mailchimp tilmeldingsportlet"
 
 msgid "Mailchimp campaign portlet"
-msgstr "Mailchimp nyhedsbrevsportlet"
+msgstr "Mailchimp kampagneportlet"
 
 msgid "Mailchimp moderation portlet"
 msgstr "Mailchimp udsendelsesstyring"
