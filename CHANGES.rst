@@ -7,6 +7,10 @@ Bugfixes:
 
 Changes:
 
+- Ensure campaign template does not fail if items have no getObject.
+  This adds flexibility when customising.
+  [tmog]
+
 - Added control panel option to ignore interest groupings.
   Ignored groupings will be filtered from the feed vocabulary.
   [tmog]
