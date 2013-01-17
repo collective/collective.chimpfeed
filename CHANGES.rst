@@ -7,6 +7,10 @@ Bugfixes:
 
 Changes:
 
+- Added hook to register named IGroupExtras utilities. Can be used
+  in custom code to inject results into a feed.
+  [tmog]
+
 - Ensure campaign template does not fail if items have no getObject.
   This adds flexibility when customising.
   [tmog]
