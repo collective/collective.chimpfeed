@@ -194,6 +194,7 @@
       edit_permission="cmf.ManagePortal"
       renderer=".portlet.NewsletterPortletRenderer"
       addview=".portlet.NewsletterPortletAddForm"
+      editview=".portlet.NewsletterPortletEditForm"
       />
 
   <!-- Vocabularies -->

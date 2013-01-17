@@ -139,6 +139,18 @@ class ICampaign(ICampaignPortlet):
 
 class INewsletter(INewsletterPortlet):
     """Note that most fields are inherited from the portlet."""
+
+    interests = schema.Tuple(
+        title=_(u"Select interest groups"),
+        description=_(u"If no interest groups are selected the predefined "
+                      u"groups will be used, which were specified during the "
+                      u"creation of the portlet"),
+        value_type=schema.Choice(
+            vocabulary="collective.chimpfeed.vocabularies.InterestGroups",
+        ),
+        required=False,
+    )
+
     no_schedule = schema.Bool(
         title=_(u"Do not schedule campaign"),
         required=False,
@@ -418,10 +430,11 @@ class BaseCampaignForm(BaseForm):
                         args['segment_opts'] = segment_opts
 
                     options = {}
-                    options['subject'] = subject.encode('utf-8') or\
+                    options['subject'] = subject.encode("utf-8") or \
                         entry['default_subject']
                     options['from_email'] = entry['default_from_email']
-                    options['from_name'] = entry['default_from_name']
+                    options['from_name'] = \
+                        entry['default_from_name'].encode("utf-8")
                     options['to_email'] = 0
                     options['list_id'] = self.context.mailinglist
                     options['template_id'] = self.context.template or None
@@ -532,7 +545,8 @@ class CampaignForm(BaseCampaignForm):
             self.context.start = datetime.date.today() + \
                 datetime.timedelta(days=1)
 
-    def process(self, method, subject=None, no_schedule=False, schedule=None, **data):
+    def process(self, method, subject=None,
+                no_schedule=False, schedule=None, **data):
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
 
@@ -595,28 +609,31 @@ class CampaignForm(BaseCampaignForm):
 
 class NewsletterForm(BaseCampaignForm):
     fields = field.Fields(
-        ICampaign['subject'],
-        ICampaign['no_schedule'],
-        ICampaign['schedule'],
+        INewsletter['subject'],
+        INewsletter['interests'],
+        INewsletter['schedule'],
+        INewsletter['no_schedule'],
     )
 
     fields['no_schedule'].widgetFactory = SingleCheckBoxFieldWidget
+    fields['interests'].widgetFactory = CheckBoxFieldWidget
 
     ignoreContext = True
 
-    def getSegmentConditions(self):
-        if hasattr(self.context, 'interest_groups'):
-            (grouping_id, interest_description, group_id) = \
-                self.context.interest_groups[0]
+    def getSegmentConditions(self, interest_groups):
+        if not interest_groups and hasattr(self.context, 'interest_groups'):
+            interest_groups = self.context.interest_groups
+        elif not interest_groups:
+            return
 
-            return [{'field': 'interests-' + str(grouping_id),
-                     'op': 'one',
-                     'value': ','.join([interest[1]
-                                        for interest
-                                        in self.context.interest_groups])
-                     }]
-        else:
-            return {}
+        (grouping_id, interest_description, group_id) = interest_groups[0]
+
+        return [{'field': 'interests-' + str(grouping_id),
+                 'op': 'one',
+                 'value': ','.join([interest[1].encode("utf-8")
+                                    for interest
+                                    in interest_groups])
+                 }]
 
     @button.buttonAndHandler(_(u'Preview'))
     def handlePreview(self, action):
@@ -650,7 +667,9 @@ class NewsletterForm(BaseCampaignForm):
                 "info"
             )
 
-    def process(self, method, subject=None, no_schedule=False, schedule=None, **data):
+    def process(self, method, subject=None,
+                no_schedule=False, schedule=None, interests=None,
+                **data):
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
 
@@ -661,10 +680,12 @@ class NewsletterForm(BaseCampaignForm):
 
         rendered = view.template().encode('utf-8')
         next_url = self.request.get('HTTP_REFERER') or self.action
-        return self.createCampaign(api_key, method, subject,
-                                   no_schedule, schedule, rendered, next_url,
-                                   {'match': 'all',
-                                    'conditions': self.getSegmentConditions()})
+        return self.createCampaign(
+            api_key, method, subject,
+            no_schedule, schedule, rendered, next_url,
+            {'match': 'all',
+             'conditions': self.getSegmentConditions(interests)}
+        )
 
     def update(self):
         super(NewsletterForm, self).update()
@@ -816,10 +837,12 @@ class SubscribeForm(BaseForm):
         settings = IFeedSettings(self.context)
         if settings.show_name:
             fields += field.Fields(
-                schema.TextLine(__name__="name",
-                title=_(u"Name"),
-                required=False,
-                ))
+                schema.TextLine(
+                    __name__="name",
+                    title=_(u"Name"),
+                    required=False,
+                )
+            )
         fields += field.Fields(ISubscription)
         fields['interests'].widgetFactory = InterestsWidget.factory
         return fields
@@ -915,7 +938,8 @@ class SubscribeForm(BaseForm):
                         )
                 else:
                     if result:
-                        next_url += ('?' in next_url and '&' or '?') + 'success=yes'
+                        next_url += ('?' in next_url
+                                     and '&' or '?') + 'success=yes'
 
                         return IStatusMessage(self.request).addStatusMessage(
                             _(u"Thank you for signing up. We'll send you a "
@@ -1001,10 +1025,12 @@ class ListSubscribeForm(SubscribeForm):
         settings = IFeedSettings(self.context)
         if settings.show_name:
             fields += field.Fields(
-                schema.TextLine(__name__="name",
-                title=_(u"Name"),
-                required=False,
-                ))
+                schema.TextLine(
+                    __name__="name",
+                    title=_(u"Name"),
+                    required=False,
+                )
+            )
 
         fields += field.Fields(ISubscription).select('email')
 

@@ -71,7 +71,11 @@ class Newsletter(BrowserView):
             logger.info("BeautifulSoup is not installed, not processing of contents is done.")
             return ''
 
-        context = self.context.aq_parent
+        if hasattr(self.context, 'REQUEST'):
+            context = self.context
+        else:
+            context = self.context.aq_parent
+
         # Hack to avoid infinite loop due to request parameters
         context.REQUEST.set('restricted_traverse', True)
 
