@@ -68,7 +68,6 @@ from collective.chimpfeed.vocabularies import interest_groups_factory
 from collective.chimpfeed.vocabularies import InterestGroupVocabulary
 from collective.chimpfeed.splitters import GenericNameSplitter
 
-
 re_email = re.compile(r"^(\w&.%#$&'\*+-/=?^_`{}|~]+!)*[\w&.%#$&'\*+-/=?^_"
                       r"`{}|~]+@(([0-9a-z]([0-9a-z-]*[0-9a-z])?\.)+[a-z]{2,6}"
                       r"|([0-9]{1,3}\.){3}[0-9]{1,3})$", re.IGNORECASE)
@@ -125,10 +124,8 @@ class ICampaign(ICampaignPortlet):
 
     no_schedule = schema.Bool(
         title=_(u"Do not schedule campaign"),
-        description=_(u"Select this option to avoid automatic "
-                      u"scheduling of the campaign"),
         required=False,
-        default=False
+        default=True
     )
 
     schedule = schema.Datetime(
@@ -144,10 +141,8 @@ class INewsletter(INewsletterPortlet):
     """Note that most fields are inherited from the portlet."""
     no_schedule = schema.Bool(
         title=_(u"Do not schedule campaign"),
-        description=_(u"Select this option to avoid automatic "
-                      u"scheduling of the campaign"),
         required=False,
-        default=False
+        default=True
     )
 
     schedule = schema.Datetime(
@@ -490,6 +485,7 @@ class CampaignForm(BaseCampaignForm):
 
     fields['limit'].widgetFactory = SingleCheckBoxFieldWidget
     fields['filtering'].widgetFactory = SingleCheckBoxFieldWidget
+    fields['no_schedule'].widgetFactory = SingleCheckBoxFieldWidget
 
     ignoreContext = True
 
@@ -603,6 +599,8 @@ class NewsletterForm(BaseCampaignForm):
         ICampaign['no_schedule'],
         ICampaign['schedule'],
     )
+
+    fields['no_schedule'].widgetFactory = SingleCheckBoxFieldWidget
 
     ignoreContext = True
 
