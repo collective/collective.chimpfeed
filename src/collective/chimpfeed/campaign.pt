@@ -21,17 +21,19 @@
                          toLocalizedTime python: plone_view.toLocalizedTime">
 
         <tr>
-          <tal:block define="obj item/getObject;
-                             url obj/absolute_url;
+          <tal:block define="obj item/getObject|nothing;
+                             url item/getURL;
                              has_image python: []">
-            <tal:image define="scales obj/@@images;
-                               scale python: scales.scale(field, scale=scale);
-                               dummy python: has_image.append(True)"
-                       on-error="nothing">
-              <td style="vertical-align: top"
-                  tal:attributes="width string:${scale/width}px"
-                  tal:content="structure scale/tag" />
-            </tal:image>
+	    <tal:object condition="obj">
+	      <tal:image define="scales obj/@@images;
+				 scale python: scales.scale(field, scale=scale);
+				 dummy python: has_image.append(True)"
+			 on-error="nothing">
+		<td style="vertical-align: top"
+		    tal:attributes="width string:${scale/width}px"
+		    tal:content="structure scale/tag" />
+	      </tal:image>
+	    </tal:object>
             <td style="vertical-align: top"
                 tal:attributes="colspan python: not any(has_image) and '2' or None">
               <span style="text-transform: uppercase"

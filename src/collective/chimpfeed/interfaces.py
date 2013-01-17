@@ -395,3 +395,9 @@ else:
             label=_(u"Categorization")),
          ])
 
+
+class IGroupExtras(Interface):
+    """ """
+    def items(self, group, start, until=None):
+        """ return extra items to include in feed.
+        """

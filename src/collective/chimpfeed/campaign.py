@@ -1,5 +1,7 @@
 import greatape
 
+from zope.component import getUtilitiesFor
+
 from Products.AdvancedQuery import Indexed, Ge, Le, Eq, In
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
@@ -9,6 +11,7 @@ from DateTime import DateTime
 
 from collective.chimpfeed.interfaces import IFeedSettings
 from collective.chimpfeed.interfaces import IGroupSorter
+from collective.chimpfeed.interfaces import IGroupExtras
 from collective.chimpfeed import MessageFactory as _
 
 from collective.chimpfeed.vocabularies import InterestGroupVocabulary
@@ -47,8 +50,15 @@ class CampaignView(BrowserView):
 
         catalog = getToolByName(self.context, "portal_catalog")
 
-        return catalog.evalAdvancedQuery(
-            query, (('feedSchedule', 'desc'), ))
+        extras = []
+        utilities = getUtilitiesFor(IGroupExtras)
+        groups = InterestGroupVocabulary()(self.context)
+        for name, util in utilities:
+            for group in groups:
+                extras.extend(util.items(group.title, start, until))
+
+        return list(catalog.evalAdvancedQuery(
+            query, (('feedSchedule', 'desc'), ))) + extras
         
 
     def getGroupings(self, start, until=None):
