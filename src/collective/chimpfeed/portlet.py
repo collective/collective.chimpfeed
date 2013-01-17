@@ -64,8 +64,12 @@ class NewsletterPortletAssignment(base.Assignment):
 
     title = _(u"Campaign portlet")
 
-    start = None
+    maillinglist = ''
+    interest_groups = tuple()
+    select_interest_groups = False
+    template = ''
     section = u"std_content00"
+    subject = ''
 
     def __init__(self, **kwargs):
         for name, value in kwargs.items():
