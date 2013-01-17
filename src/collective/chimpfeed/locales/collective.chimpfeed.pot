@@ -149,13 +149,13 @@ msgstr ""
 msgid "List the available feed categories."
 msgstr ""
 
-msgid "Subscription portlet"
+msgid "Mailchimp subscription portlet"
 msgstr ""
 
-msgid "Campaign portlet"
+msgid "Mailchimp campaign portlet"
 msgstr ""
 
-msgid "Moderation portlet"
+msgid "Mailchimp moderation portlet"
 msgstr ""
 
 msgid "Send or schedule newsletter campaigns."

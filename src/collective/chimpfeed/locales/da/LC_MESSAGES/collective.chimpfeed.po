@@ -151,14 +151,14 @@ msgstr "Kategorier"
 msgid "List the available feed categories."
 msgstr "Til udsendt indhold kan der knyttes en kategori. Indskriv i dette felt de tilgængelige kategorier."
 
-msgid "Subscription portlet"
-msgstr "Tilmeldingsportlet"
+msgid "Mailchimp subscription portlet"
+msgstr "Mailchimp tilmeldingsportlet"
 
-msgid "Campaign portlet"
-msgstr "Nyhedsbrevsportlet"
+msgid "Mailchimp campaign portlet"
+msgstr "Mailchimp kampagneportlet"
 
-msgid "Moderation portlet"
-msgstr "Udsendelsesstyring"
+msgid "Mailchimp moderation portlet"
+msgstr "Mailchimp udsendelsesstyring"
 
 msgid "Send or schedule a newsletter campaign."
 msgstr "Send eller planlæg et nyhedsbrev."
