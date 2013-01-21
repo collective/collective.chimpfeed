@@ -3,6 +3,9 @@ Changes
 
 Bugfixes:
 
+- Add dependency on BeautifulSoup. It's required for the default
+  static newsletter renderer.
+
 - Update title and description of newsletter portlet.
   So we can tell the difference between newsletter and campaign.
 
