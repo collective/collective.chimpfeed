@@ -324,3 +324,9 @@ msgstr "${subject}, d. ${date}"
 
 msgid "Request processed"
 msgstr "Tilmelding modtaget"
+
+msgid "Select interest groups before sending"
+msgstr "Vælg interesse grupper før afsendelse"
+
+msgid "Select this option if the interest groups should be selected before the newsletter is sent."
+msgstr "Vælg denne indstilling hvis du ønsker at vælge interesse grupper før afsendelse."

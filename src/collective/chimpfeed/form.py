@@ -716,6 +716,9 @@ class NewsletterForm(BaseCampaignForm):
                 tomorrow.year, tomorrow.month, tomorrow.day, "09", "00"
             )
 
+        if not self.context.select_interest_groups:
+            self.widgets['interests'].mode = HIDDEN_MODE
+
     def render(self):
         if self.context.REQUEST.get('restricted_traverse', False):
             return ''

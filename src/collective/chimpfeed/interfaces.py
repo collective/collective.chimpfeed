@@ -37,6 +37,7 @@ def check_api_key(api_key):
 class IApiUtility(Interface):
     """ Api utuility """
 
+
 class IGroupSorter(Interface):
     def key(name, items):
         """Return sorting key for group with the provided name and
@@ -60,7 +61,7 @@ class IFeedSettings(Interface):
         required=False,
         default=u"",
         constraint=check_api_key,
-        )
+    )
 
     mailinglist = schema.Choice(
         title=_(u"Interest group list"),
@@ -72,7 +73,7 @@ class IFeedSettings(Interface):
                       ),
         required=False,
         vocabulary="collective.chimpfeed.vocabularies.Lists",
-        )
+    )
 
     ignored_groupings = schema.Tuple(
         title=_(u"Ignored interest groupings"),
@@ -83,8 +84,8 @@ class IFeedSettings(Interface):
         required=False,
         value_type=schema.Choice(
             vocabulary="collective.chimpfeed.vocabularies.InterestGroupings",
-            ),
-        )
+        ),
+    )
 
     feeds = schema.List(
         title=_(u"Feeds"),
@@ -101,26 +102,27 @@ class IFeedSettings(Interface):
                       ),
         required=False,
         value_type=schema.TextLine(),
-        )
+    )
 
     categories = schema.List(
         title=_(u"Categories"),
         description=_(u"List the available feed categories."),
         required=False,
         value_type=schema.TextLine(),
-        )
+    )
 
     use_moderation = schema.Bool(
         title=_(u'Require moderation'),
         description=_(u'Select this option to enable content '
                       u'moderation.'),
         required=False,
-        )
+    )
+
     show_name = schema.Bool(
         title=_(u'Show name on subscription form'),
         required=False,
         default=True,
-        )
+    )
 
 
 class ISubscriptionFormSettings(Interface):
@@ -129,7 +131,7 @@ class ISubscriptionFormSettings(Interface):
         description=_(u"Select a mailinglist for this portlet."),
         vocabulary="collective.chimpfeed.vocabularies.Lists",
         required=True,
-        )
+    )
 
     interest_groupings = schema.Tuple(
         title=_(u"Interest groups"),
@@ -138,18 +140,18 @@ class ISubscriptionFormSettings(Interface):
                       u"groups will appear in the portlet."),
         value_type=schema.Choice(
             vocabulary="collective.chimpfeed.vocabularies.InterestGroupings",
-            ),
+        ),
         required=False,
-        )
+    )
 
     interest_groups = schema.Tuple(
         title=_(u"Interests"),
         description=_(u"Select interests."),
         value_type=schema.Choice(
             vocabulary="collective.chimpfeed.vocabularies.InterestGroups",
-            ),
+        ),
         required=False,
-        )
+    )
 
     preselected_interest_groups = schema.Tuple(
         title=_(u"Preselected interests."),
@@ -157,9 +159,9 @@ class ISubscriptionFormSettings(Interface):
                       u"and the user will not be able to select these."),
         value_type=schema.Choice(
             vocabulary="collective.chimpfeed.vocabularies.InterestGroups",
-            ),
+        ),
         required=False,
-        )
+    )
 
 
 class ICampaignPortlet(IPortletDataProvider):
@@ -168,7 +170,7 @@ class ICampaignPortlet(IPortletDataProvider):
         description=_(u"Select a mailinglist for this portlet."),
         vocabulary="collective.chimpfeed.vocabularies.Lists",
         required=True,
-        )
+    )
 
     template = schema.Choice(
         title=_(u"Template"),
@@ -176,7 +178,7 @@ class ICampaignPortlet(IPortletDataProvider):
         required=False,
         default=u"",
         vocabulary="collective.chimpfeed.vocabularies.Templates",
-        )
+    )
 
     section = schema.TextLine(
         title=_(u"Section"),
@@ -186,21 +188,21 @@ class ICampaignPortlet(IPortletDataProvider):
                       u"put the dynamically created newsletter content."),
         default=u"std_content00",
         required=True,
-        )
+    )
 
     subject = schema.TextLine(
         title=_(u"Subject"),
         description=_(u"The newsletter subject."),
         required=False,
         default=u"",
-        )
+    )
 
     start = schema.Date(
         title=_(u"Start date"),
         description=_(u"Include items published after this date."),
         required=False,
         default=None,
-        )
+    )
 
     image = schema.TextLine(
         title=_(u"Image field"),
@@ -209,14 +211,15 @@ class ICampaignPortlet(IPortletDataProvider):
                       u"need to exist for all content."),
         required=False,
         default=u"image",
-        )
+    )
 
     scale = schema.TextLine(
         title=_(u"Image scale"),
         description=_(u"The name of the image scale."),
         required=False,
         default=u"thumb",
-        )
+    )
+
 
 class INewsletterPortlet(IPortletDataProvider):
     mailinglist = schema.Choice(
@@ -224,16 +227,24 @@ class INewsletterPortlet(IPortletDataProvider):
         description=_(u"Select a mailinglist for this portlet."),
         vocabulary="collective.chimpfeed.vocabularies.Lists",
         required=True,
-        )
+    )
 
     interest_groups = schema.Tuple(
         title=_(u"Interests"),
         description=_(u"Select interests."),
         value_type=schema.Choice(
             vocabulary="collective.chimpfeed.vocabularies.InterestGroups",
-            ),
+        ),
         required=False,
-        )
+    )
+
+    select_interest_groups = schema.Bool(
+        title=_(u'Select interest groups before sending'),
+        description=_(u'Select this option if the interest groups should be selected '
+                      u'before the newsletter is sent.'),
+        required=False,
+        default=False,
+    )
 
     template = schema.Choice(
         title=_(u"Template"),
@@ -241,7 +252,7 @@ class INewsletterPortlet(IPortletDataProvider):
         required=False,
         default=u"",
         vocabulary="collective.chimpfeed.vocabularies.Templates",
-        )
+    )
 
     section = schema.TextLine(
         title=_(u"Section"),
@@ -251,15 +262,14 @@ class INewsletterPortlet(IPortletDataProvider):
                       u"put the dynamically created newsletter content."),
         default=u"std_content00",
         required=True,
-        )
+    )
 
     subject = schema.TextLine(
         title=_(u"Subject"),
         description=_(u"The newsletter subject."),
         required=False,
         default=u"",
-        )
-
+    )
 
 
 class IModerationPortlet(IPortletDataProvider):
@@ -272,14 +282,14 @@ class ISubscriptionPortlet(IPortletDataProvider, ISubscriptionFormSettings):
         description=_(u"Provide a title for the portlet."),
         required=True,
         default=u"Sign up",
-        )
+    )
 
     description = schema.Text(
         title=_(u"Description"),
         description=_(u"Enter a description of your newsletter."),
         required=False,
         default=u"Join our newsletter and stay updated!",
-        )
+    )
 
 
 class IControlPanel(IFeedSettings):
@@ -291,7 +301,7 @@ class IControlPanel(IFeedSettings):
                       u"interest groups."),
         required=False,
         value_type=schema.ASCIILine(),
-        )
+    )
 
     lists = schema.Tuple(
         title=_(u"Lists"),
@@ -300,7 +310,7 @@ class IControlPanel(IFeedSettings):
                       u"lists in your account."),
         required=False,
         value_type=schema.ASCIILine(),
-        )
+    )
 
 
 class IFeedControl(Interface):
@@ -313,8 +323,8 @@ class IFeedControl(Interface):
         required=False,
         value_type=schema.Choice(
             vocabulary="collective.chimpfeed.vocabularies.Feeds",
-            )
         )
+    )
 
     feedCategory = schema.Choice(
         title=_(u"Feed category"),
@@ -322,7 +332,7 @@ class IFeedControl(Interface):
         required=False,
         default=None,
         vocabulary="collective.chimpfeed.vocabularies.Categories",
-        )
+    )
 
     feedSchedule = schema.Date(
         title=_(u'Feed date'),
@@ -330,13 +340,13 @@ class IFeedControl(Interface):
                       u'included in Mailchimp-based feeds from this date on. '
                       u'Otherwise, the "Publishing date" is used.'),
         required=False,
-        )
+    )
 
     feedModerate = schema.Bool(
         title=_(u'Feed moderation'),
         description=_(u'Select this option to approve item.'),
         required=False,
-        )
+    )
 
 
 try:
@@ -371,8 +381,8 @@ else:
         WRITE_PERMISSIONS_KEY, {
             'feedModerate': MODERATE_PERMISSION,
             'feedSchedule': SCHEDULE_PERMISSION
-            },
-        )
+        },
+    )
 
     IFeedControl.setTaggedValue(
         OMITTED_KEY, (
@@ -380,8 +390,8 @@ else:
             (IAutoExtensibleForm, 'feedModerate', settings_available),
             (IAutoExtensibleForm, 'feedSchedule', settings_available),
             (IAutoExtensibleForm, 'feedModerate', moderation_enabled),
-            )
         )
+    )
 
     IFeedControl.setTaggedValue(
         FIELDSETS_KEY,
@@ -390,9 +400,9 @@ else:
             fields=['feedSchedule', 'feedModerate'],
             label=_(u"Dates")),
          Fieldset(
-            'categorization',
-            fields=['feeds'],
-            label=_(u"Categorization")),
+             'categorization',
+             fields=['feeds'],
+             label=_(u"Categorization")),
          ])
 
 
