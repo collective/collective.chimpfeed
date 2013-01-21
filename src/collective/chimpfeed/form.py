@@ -659,6 +659,8 @@ class NewsletterForm(BaseCampaignForm):
             self.status = self.formErrorsMessage
             return
 
+        if not self.context.select_interest_groups:
+            data.update(dict(interests=self.context.interest_groups))
         success = self.process("campaignCreate", **data)
 
         if success:

@@ -3,6 +3,9 @@ Changes
 
 Bugfixes:
 
+- fix interest_groups selection (on assignment) being ignored when
+  select_interest_groups was False.
+
 - Add dependency on BeautifulSoup. It's required for the default
   static newsletter renderer.
 
