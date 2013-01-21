@@ -161,6 +161,9 @@ msgstr ""
 msgid "Send or schedule newsletter campaigns."
 msgstr ""
 
+msgid "Send or schedule a newsletter campaign based on the current context."
+msgstr ""
+
 msgid "Sign up form to join a mailinglist."
 msgstr ""
 
@@ -168,6 +171,9 @@ msgid "Moderate newsletter feed content."
 msgstr ""
 
 msgid "Campaign scheduling"
+msgstr ""
+
+msgid "Static campaign scheduling"
 msgstr ""
 
 msgid "Select all"

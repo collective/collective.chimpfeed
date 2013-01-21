@@ -3,6 +3,9 @@ Changes
 
 Bugfixes:
 
+- Update title and description of newsletter portlet.
+  So we can tell the difference between newsletter and campaign.
+
 - Sort items for RSS-feed by publication date.
 
 Changes:
