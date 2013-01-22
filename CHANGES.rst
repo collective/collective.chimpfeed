@@ -3,6 +3,9 @@ Changes
 
 Bugfixes:
 
+- fix broken chimpfeed-subscribe form. bug introduced with preselected
+  interest groups feature on subscribe portlet.
+
 - fix interest_groups selection (on assignment) being ignored when
   select_interest_groups was False.
 

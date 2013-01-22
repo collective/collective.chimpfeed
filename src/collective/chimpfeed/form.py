@@ -877,10 +877,12 @@ class SubscribeForm(BaseForm):
 
             content = self.getContent()
 
-            if not interests and content.preselected_interest_groups:
-                interests = content.preselected_interest_groups
-            elif interests and content.preselected_interest_groups:
-                interests = interests + content.preselected_interest_groups
+            preselected = getattr(content, 'preselected_interest_groups', None)
+            if preselected:
+                if not interests:
+                    interests = preselected
+                else:
+                    interests = interests + preselected
 
             if api_key:
                 api = greatape.MailChimp(api_key, debug=False)
