@@ -23,6 +23,11 @@ Bugfixes:
 
 Changes:
 
+- Main subscribe form no longer registered on plone site.
+  Means flexibility to view the form in a custom context.
+  Tip: use a Link as default_page in you context.
+  [tmog]
+
 - Added control panel option to enable select all javascript
   on subscribe form. Upgradestep to update registry included.
   [tmog]

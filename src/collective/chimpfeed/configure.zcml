@@ -118,7 +118,7 @@
 
   <browser:page
       name="chimpfeed-subscribe"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      for="*"
       class=".form.ListSubscribeForm"
       permission="zope.Public"
       />
