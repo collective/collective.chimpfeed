@@ -324,3 +324,9 @@ msgstr "Vælg interesse grupper før afsendelse"
 
 msgid "Select this option if the interest groups should be selected before the newsletter is sent."
 msgstr "Vælg denne indstilling hvis du ønsker at vælge interesse grupper før afsendelse."
+
+msgid "Select interest groups"
+msgstr "Vælg interesse grupper"
+
+msgid "If no interest groups are selected the predefined groups will be used, which were specified during the creation of the portlet"
+msgstr "Hvis ingen interesse grupper er valgt, vil de interesse grupper der er valgt under oprettelsen af portletten blive brugt"
