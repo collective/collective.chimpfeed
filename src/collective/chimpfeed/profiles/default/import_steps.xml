@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<import-steps>
+  <import-step id="collective.chimpfeed.various"
+               version="201301-23"
+               handler="collective.chimpfeed.setuphandlers.setupVarious"
+               title="Chimpfeed: miscellaneous import steps">
+    Various import steps that are not handled by GS import/export
+    handlers.
+  </import-step>
+</import-steps>

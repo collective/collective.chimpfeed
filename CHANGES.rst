@@ -3,6 +3,10 @@ Changes
 
 Bugfixes:
 
+- moved catalog indexes to setuphandlers to avoid indexes being emptied
+  when profile is run.
+  [tmog]
+
 - fix broken chimpfeed-subscribe form. bug introduced with preselected
   interest groups feature on subscribe portlet.
 
