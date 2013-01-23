@@ -178,3 +178,6 @@ msgstr ""
 
 msgid "Select all"
 msgstr ""
+
+msgid "Enable select all on subscription form"
+msgstr ""
