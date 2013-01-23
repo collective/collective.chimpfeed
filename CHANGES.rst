@@ -19,6 +19,10 @@ Bugfixes:
 
 Changes:
 
+- Added control panel option to enable select all javascript
+  on subscribe form. Upgradestep to update registry included.
+  [tmog]
+
 - Added hook to register named IGroupExtras utilities. Can be used
   in custom code to inject results into a feed.
   [tmog]

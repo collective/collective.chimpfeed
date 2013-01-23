@@ -11,7 +11,8 @@
   <include package="plone.browserlayer" />
   <include package="plone.app.z3cform" />
   <include package="archetypes.schemaextender" />
-
+  <include file="upgradesteps.zcml" />
+  
   <genericsetup:registerProfile
       name="default"
       title="Chimpfeed"

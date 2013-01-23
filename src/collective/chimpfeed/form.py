@@ -1021,15 +1021,18 @@ class SelectAllGroupsJavascript(JavascriptWidget):
 class ListSubscribeForm(SubscribeForm):
     @property
     def fields(self):
+        fields = field.Fields()
+        settings = IFeedSettings(self.context)
+        
         # Javascript-widget
-        fields = field.Fields(SelectAllGroupsJavascript(schema.Field(
-            __name__="js", required=False), mode="hidden"))
+        if settings.enable_select_all:
+            fields += field.Fields(SelectAllGroupsJavascript(schema.Field(
+                __name__="js", required=False), mode="hidden"))
 
         # Include form fields, but change the order around.
         fields += field.Fields(ISubscription).select('interests')
         fields['interests'].widgetFactory = InterestsWidget.factory
 
-        settings = IFeedSettings(self.context)
         if settings.show_name:
             fields += field.Fields(
                 schema.TextLine(

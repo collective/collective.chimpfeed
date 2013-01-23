@@ -1,0 +1,15 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+  
+  <genericsetup:upgradeSteps
+     profile="collective.chimpfeed:default"
+     source="1.1"
+     destination="1.2">
+    <genericsetup:upgradeStep
+       handler=".upgradesteps.runDefaultProfile"
+       title="Registry option 'enable_select_all' added. Run policy profile"
+       description=""
+       />
+  </genericsetup:upgradeSteps>
+
+</configure>
