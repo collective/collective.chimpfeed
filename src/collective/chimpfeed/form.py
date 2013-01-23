@@ -10,6 +10,7 @@ import urllib
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.i18nl10n import ulocalized_time
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 
 from Acquisition import Implicit, ImplicitAcquisitionWrapper
 from ComputedAttribute import ComputedAttribute
@@ -1112,7 +1113,13 @@ class ListSubscribeForm(SubscribeForm):
 
     @property
     def description(self):
-        if not self.request.get('success'):
+        context = self.context.aq_base
+        if self.request.get('success'):
+            return u''
+        elif not IPloneSiteRoot.providedBy(context) \
+                 and context.Description():
+            return context.Description()
+        else:
             return _(u"Select subscription options and submit form.")
 
     @property

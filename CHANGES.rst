@@ -23,6 +23,11 @@ Bugfixes:
 
 Changes:
 
+- Use context description on main subscribe form if there is
+  one and the form is rendered in a custom context.
+  Added for flexibility.  
+  [tmog]
+
 - Main subscribe form no longer registered on plone site.
   Means flexibility to view the form in a custom context.
   Tip: use a Link as default_page in you context.
