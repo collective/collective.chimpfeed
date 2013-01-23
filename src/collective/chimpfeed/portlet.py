@@ -59,10 +59,10 @@ class CampaignPortletAssignment(base.Assignment):
 class NewsletterPortletAssignment(base.Assignment):
     implements(INewsletterPortlet)
 
-    heading = _(u"Campaign scheduling")
-    description = _(u"Send or schedule a newsletter campaign.")
+    heading = _(u"Static campaign scheduling")
+    description = _(u"Send or schedule a newsletter campaign based on the current context.")
 
-    title = _(u"Campaign portlet")
+    title = _(u"Newsletter portlet")
 
     maillinglist = ''
     interest_groups = tuple()

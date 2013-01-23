@@ -3,9 +3,39 @@ Changes
 
 Bugfixes:
 
+- moved catalog indexes to setuphandlers to avoid indexes being emptied
+  when profile is run.
+  [tmog]
+
+- fix broken chimpfeed-subscribe form. bug introduced with preselected
+  interest groups feature on subscribe portlet.
+
+- fix interest_groups selection (on assignment) being ignored when
+  select_interest_groups was False.
+
+- Add dependency on BeautifulSoup. It's required for the default
+  static newsletter renderer.
+
+- Update title and description of newsletter portlet.
+  So we can tell the difference between newsletter and campaign.
+
 - Sort items for RSS-feed by publication date.
 
 Changes:
+
+- Use context description on main subscribe form if there is
+  one and the form is rendered in a custom context.
+  Added for flexibility.  
+  [tmog]
+
+- Main subscribe form no longer registered on plone site.
+  Means flexibility to view the form in a custom context.
+  Tip: use a Link as default_page in you context.
+  [tmog]
+
+- Added control panel option to enable select all javascript
+  on subscribe form. Upgradestep to update registry included.
+  [tmog]
 
 - Added hook to register named IGroupExtras utilities. Can be used
   in custom code to inject results into a feed.

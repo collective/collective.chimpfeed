@@ -163,6 +163,9 @@ msgstr "Mailchimp udsendelsesstyring"
 msgid "Send or schedule a newsletter campaign."
 msgstr "Send eller planlæg et nyhedsbrev."
 
+msgid "Send or schedule a newsletter campaign based on the current context."
+msgstr "Send eller planlæg et nyhedsbrev baseret på det aktuelle indhold."
+
 msgid "Sign up form to join a mailinglist."
 msgstr "Tilmeld til nyhedsbrev."
 
@@ -171,6 +174,9 @@ msgstr "Godkend indhold til udsendelse."
 
 msgid "Campaign scheduling"
 msgstr "Send nyhedsbrev"
+
+msgid "Static campaign scheduling"
+msgstr "Send statisk nyhedsbrev"
 
 msgid "Start date"
 msgstr "Dato"
@@ -330,3 +336,6 @@ msgstr "Vælg interesse grupper"
 
 msgid "If no interest groups are selected the predefined groups will be used, which were specified during the creation of the portlet"
 msgstr "Hvis ingen interesse grupper er valgt, vil de interesse grupper der er valgt under oprettelsen af portletten blive brugt"
+
+msgid "Enable select all on subscription form"
+msgstr "Overskrifter på abonneringsformular vælger alle"

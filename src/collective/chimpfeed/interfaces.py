@@ -124,6 +124,12 @@ class IFeedSettings(Interface):
         default=True,
     )
 
+    enable_select_all = schema.Bool(
+        title=_(u'Enable select all on subscription form'),
+        required=False,
+        default=True,
+    )
+
 
 class ISubscriptionFormSettings(Interface):
     mailinglist = schema.Choice(

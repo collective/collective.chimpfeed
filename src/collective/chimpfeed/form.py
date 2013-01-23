@@ -10,6 +10,7 @@ import urllib
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.i18nl10n import ulocalized_time
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 
 from Acquisition import Implicit, ImplicitAcquisitionWrapper
 from ComputedAttribute import ComputedAttribute
@@ -659,6 +660,8 @@ class NewsletterForm(BaseCampaignForm):
             self.status = self.formErrorsMessage
             return
 
+        if not self.context.select_interest_groups:
+            data.update(dict(interests=self.context.interest_groups))
         success = self.process("campaignCreate", **data)
 
         if success:
@@ -875,10 +878,12 @@ class SubscribeForm(BaseForm):
 
             content = self.getContent()
 
-            if not interests and content.preselected_interest_groups:
-                interests = content.preselected_interest_groups
-            elif interests and content.preselected_interest_groups:
-                interests = interests + content.preselected_interest_groups
+            preselected = getattr(content, 'preselected_interest_groups', None)
+            if preselected:
+                if not interests:
+                    interests = preselected
+                else:
+                    interests = interests + preselected
 
             if api_key:
                 api = greatape.MailChimp(api_key, debug=False)
@@ -1017,15 +1022,18 @@ class SelectAllGroupsJavascript(JavascriptWidget):
 class ListSubscribeForm(SubscribeForm):
     @property
     def fields(self):
+        fields = field.Fields()
+        settings = IFeedSettings(self.context)
+        
         # Javascript-widget
-        fields = field.Fields(SelectAllGroupsJavascript(schema.Field(
-            __name__="js", required=False), mode="hidden"))
+        if settings.enable_select_all:
+            fields += field.Fields(SelectAllGroupsJavascript(schema.Field(
+                __name__="js", required=False), mode="hidden"))
 
         # Include form fields, but change the order around.
         fields += field.Fields(ISubscription).select('interests')
         fields['interests'].widgetFactory = InterestsWidget.factory
 
-        settings = IFeedSettings(self.context)
         if settings.show_name:
             fields += field.Fields(
                 schema.TextLine(
@@ -1105,7 +1113,13 @@ class ListSubscribeForm(SubscribeForm):
 
     @property
     def description(self):
-        if not self.request.get('success'):
+        context = self.context.aq_base
+        if self.request.get('success'):
+            return u''
+        elif not IPloneSiteRoot.providedBy(context) \
+                 and context.Description():
+            return context.Description()
+        else:
             return _(u"Select subscription options and submit form.")
 
     @property
