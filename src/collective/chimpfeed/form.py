@@ -123,8 +123,8 @@ class ICampaign(ICampaignPortlet):
         required=False,
     )
 
-    no_schedule = schema.Bool(
-        title=_(u"Do not schedule campaign"),
+    create_draft = schema.Bool(
+        title=_(u"Create new campaigns as drafts"),
         required=False,
         default=True
     )
@@ -152,8 +152,8 @@ class INewsletter(INewsletterPortlet):
         required=False,
     )
 
-    no_schedule = schema.Bool(
-        title=_(u"Do not schedule campaign"),
+    create_draft = schema.Bool(
+        title=_(u"Create new campaigns as drafts"),
         required=False,
         default=True
     )
@@ -391,7 +391,7 @@ class BaseForm(form.Form):
 
 class BaseCampaignForm(BaseForm):
     def createCampaign(self, api_key, method, subject,
-                       no_schedule, schedule, rendered, next_url,
+                       create_draft, schedule, rendered, next_url,
                        segment_opts={}):
         try:
             if not rendered.strip():
@@ -446,30 +446,34 @@ class BaseCampaignForm(BaseForm):
                     result = api(**args)
 
                     if result:
-                        if not no_schedule and schedule:
-                            # Apply local time zone to get GMT
-                            schedule = schedule + datetime.timedelta(
-                                seconds=time.timezone
-                            )
-
-                            # Format time
-                            schedule_time = time.strftime(
-                                "%Y-%m-%d %H:%M:%S", schedule.utctimetuple()
-                            )
-
-                            schedule = api(
-                                method="campaignSchedule",
-                                cid=result,
-                                schedule_time=schedule_time,
-                            )
-
-                            if not schedule:
-                                IStatusMessage(self.request).addStatusMessage(
-                                    _(u"Campaign created, but not scheduled."),
-                                    "error"
+                        if not create_draft:
+                            if schedule:
+                                # Apply local time zone to get GMT
+                                schedule = schedule + datetime.timedelta(
+                                    seconds=time.timezone
                                 )
 
-                                return
+                                # Format time
+                                schedule_time = time.strftime(
+                                    "%Y-%m-%d %H:%M:%S", schedule.utctimetuple()
+                                )
+
+                                schedule = api(
+                                    method="campaignSchedule",
+                                    cid=result,
+                                    schedule_time=schedule_time,
+                                )
+
+                                if not schedule:
+                                    IStatusMessage(self.request).addStatusMessage(
+                                        _(u"Campaign created, but not scheduled."),
+                                        "error"
+                                    )
+
+                                    return
+                            else:
+                                api(method="campaignSendNow",
+                                    cid=result)
 
                         next_url = self.context.portal_url() + \
                             "/@@chimpfeed-content?cid=%s" % result
@@ -493,13 +497,13 @@ class CampaignForm(BaseCampaignForm):
         ICampaign['limit'],
         ICampaign['filtering'],
         ICampaign['subject'],
-        ICampaign['no_schedule'],
+        ICampaign['create_draft'],
         ICampaign['schedule'],
     )
 
     fields['limit'].widgetFactory = SingleCheckBoxFieldWidget
     fields['filtering'].widgetFactory = SingleCheckBoxFieldWidget
-    fields['no_schedule'].widgetFactory = SingleCheckBoxFieldWidget
+    fields['create_draft'].widgetFactory = SingleCheckBoxFieldWidget
 
     ignoreContext = True
 
@@ -547,7 +551,7 @@ class CampaignForm(BaseCampaignForm):
                 datetime.timedelta(days=1)
 
     def process(self, method, subject=None,
-                no_schedule=False, schedule=None, **data):
+                create_draft=False, schedule=None, **data):
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
 
@@ -568,7 +572,7 @@ class CampaignForm(BaseCampaignForm):
                          in view.getSegments(**params).items()
                          ]}
 
-        return self.createCampaign(api_key, method, subject, no_schedule,
+        return self.createCampaign(api_key, method, subject, create_draft,
                                    schedule, rendered, next_url, segment_opts)
 
     def update(self):
@@ -597,26 +601,15 @@ class CampaignForm(BaseCampaignForm):
                 ).lstrip('0')}
             )
 
-        schedule = self.widgets['schedule']
-        assert isinstance(schedule.value, tuple)
-
-        if not schedule.value[0]:
-            tomorrow = today + datetime.timedelta(days=1)
-
-            schedule.value = (
-                tomorrow.year, tomorrow.month, tomorrow.day, "09", "00"
-            )
-
-
 class NewsletterForm(BaseCampaignForm):
     fields = field.Fields(
         INewsletter['subject'],
         INewsletter['interests'],
         INewsletter['schedule'],
-        INewsletter['no_schedule'],
+        INewsletter['create_draft'],
     )
 
-    fields['no_schedule'].widgetFactory = SingleCheckBoxFieldWidget
+    fields['create_draft'].widgetFactory = SingleCheckBoxFieldWidget
     fields['interests'].widgetFactory = CheckBoxFieldWidget
 
     ignoreContext = True
@@ -671,7 +664,7 @@ class NewsletterForm(BaseCampaignForm):
             )
 
     def process(self, method, subject=None,
-                no_schedule=False, schedule=None, interests=None,
+                create_draft=False, schedule=None, interests=None,
                 **data):
         settings = IFeedSettings(self.context)
         api_key = settings.mailchimp_api_key
@@ -685,7 +678,7 @@ class NewsletterForm(BaseCampaignForm):
         next_url = self.request.get('HTTP_REFERER') or self.action
         return self.createCampaign(
             api_key, method, subject,
-            no_schedule, schedule, rendered, next_url,
+            create_draft, schedule, rendered, next_url,
             {'match': 'all',
              'conditions': self.getSegmentConditions(interests)}
         )
@@ -707,16 +700,6 @@ class NewsletterForm(BaseCampaignForm):
                     context=self.context,
                     request=self.request
                 ).lstrip('0')}
-            )
-
-        schedule = self.widgets['schedule']
-        assert isinstance(schedule.value, tuple)
-
-        if not schedule.value[0]:
-            tomorrow = today + datetime.timedelta(days=1)
-
-            schedule.value = (
-                tomorrow.year, tomorrow.month, tomorrow.day, "09", "00"
             )
 
         if not self.context.select_interest_groups:

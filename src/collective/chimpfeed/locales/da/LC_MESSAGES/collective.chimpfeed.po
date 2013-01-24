@@ -191,7 +191,7 @@ msgid "Preview"
 msgstr "Vis"
 
 msgid "Create"
-msgstr "Opret nyhedsbrev"
+msgstr "Send nyhedsbrev"
 
 msgid "The content below the line is the newsletter preview content."
 msgstr "Indholdet under linjen viser nyhedsbrevet."
@@ -241,8 +241,8 @@ msgstr "Ingen skabelon"
 msgid "Schedule date"
 msgstr "Planlæg udsendelse"
 
-msgid "Do not schedule campaign"
-msgstr "Planlæg ikke automatisk udsendelse"
+msgid "Create new campaigns as drafts"
+msgstr "Opret nye kampagner som kladder"
 
 msgid "If provided, item will be scheduled to be sent at this time."
 msgstr "Hvis dette felt udfyldes, vil nyhedsbrevet efter oprettelse blive planlagt til udsendelse på det angivne tidspunkt."
