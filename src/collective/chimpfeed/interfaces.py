@@ -359,7 +359,7 @@ try:
     from plone.directives.form import Schema
     from plone.supermodel.model import Fieldset
     from plone.supermodel.interfaces import FIELDSETS_KEY
-    from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
+    from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY, WIDGETS_KEY
     from plone.autoform.interfaces import OMITTED_KEY
     from plone.autoform.interfaces import IAutoExtensibleForm
 except ImportError:
@@ -409,7 +409,14 @@ else:
              'categorization',
              fields=['feeds'],
              label=_(u"Categorization")),
-         ])
+         ]
+    )
+
+    IFeedControl.setTaggedValue(
+        WIDGETS_KEY,
+        {'feeds':
+         'z3c.form.browser.checkbox.CheckBoxFieldWidget'}
+    )
 
 
 class IGroupExtras(Interface):
