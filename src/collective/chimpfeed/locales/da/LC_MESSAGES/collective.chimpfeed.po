@@ -110,7 +110,7 @@ msgid "Feed date"
 msgstr "Udsendelsesdato"
 
 msgid "Feed moderation"
-msgstr "Indhold til godkendelse"
+msgstr "Godkend udsendelse"
 
 msgid "Select this option to approve item."
 msgstr "Vælg dette for at godkende udsendelse."
