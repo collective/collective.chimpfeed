@@ -87,6 +87,11 @@
       title="collective.chimpfeed: Send or schedule campaign"
       />
 
+  <permission
+      id="chimpfeed.Portlets"
+      title="collective.chimpfeed: Create campaign or newsletter portlets"
+      />
+
   <!-- Feeds -->
 
   <adapter
@@ -160,7 +165,7 @@
       interface=".interfaces.ICampaignPortlet"
       assignment=".portlet.CampaignPortletAssignment"
       view_permission="zope2.View"
-      edit_permission="cmf.ManagePortal"
+      edit_permission="chimpfeed.Portlets"
       renderer=".portlet.CampaignPortletRenderer"
       addview=".portlet.CampaignPortletAddForm"
       editview=".portlet.CampaignPortletEditForm"
@@ -171,7 +176,7 @@
       interface=".interfaces.ISubscriptionPortlet"
       assignment=".portlet.SubscriptionPortletAssignment"
       view_permission="zope2.View"
-      edit_permission="cmf.ManagePortal"
+      edit_permission="chimpfeed.Portlets"
       renderer=".portlet.SubscriptionPortletRenderer"
       addview=".portlet.SubscriptionPortletAddForm"
       editview=".portlet.SubscriptionPortletEditForm"
@@ -182,7 +187,7 @@
       interface=".interfaces.IModerationPortlet"
       assignment=".portlet.ModerationPortletAssignment"
       view_permission="zope2.View"
-      edit_permission="cmf.ManagePortal"
+      edit_permission="chimpfeed.Portlets"
       renderer=".portlet.ModerationPortletRenderer"
       addview=".portlet.ModerationPortletAddForm"
       />
@@ -192,7 +197,7 @@
       interface=".interfaces.INewsletterPortlet"
       assignment=".portlet.NewsletterPortletAssignment"
       view_permission="zope2.View"
-      edit_permission="cmf.ManagePortal"
+      edit_permission="chimpfeed.Portlets"
       renderer=".portlet.NewsletterPortletRenderer"
       addview=".portlet.NewsletterPortletAddForm"
       editview=".portlet.NewsletterPortletEditForm"

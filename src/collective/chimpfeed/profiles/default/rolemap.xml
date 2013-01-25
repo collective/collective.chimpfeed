@@ -13,5 +13,9 @@
       <role name="Manager" />
       <role name="Editor" />
     </permission>
+    <permission name="collective.chimpfeed: Create campaign or newsletter portlets" acquire="False">
+      <role name="Manager" />
+      <role name="Editor" />
+    </permission>
   </permissions>
 </rolemap>
