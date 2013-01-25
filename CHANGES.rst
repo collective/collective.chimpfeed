@@ -2,20 +2,17 @@ Changes
 =======
 
 
-1.9.7 (2012-12-07)
-------------------
-
 Bugfixes:
 
-- moved catalog indexes to setuphandlers to avoid indexes being emptied
-  when profile is run.
+- Moved catalog indexes to setuphandlers to avoid indexes being
+  emptied when profile is run.
   [tmog]
 
-- fix broken chimpfeed-subscribe form. bug introduced with preselected
+- Fixed broken subscribe form. Bug introduced with pre-selected
   interest groups feature on subscribe portlet.
 
-- fix interest_groups selection (on assignment) being ignored when
-  select_interest_groups was False.
+- Fixed interest groups selection (on assignment) being ignored when
+  ``select_interest_groups`` was False.
 
 - Add dependency on BeautifulSoup. It's required for the default
   static newsletter renderer.
@@ -23,13 +20,11 @@ Bugfixes:
 - Update title and description of newsletter portlet.
   So we can tell the difference between newsletter and campaign.
 
-- Sort items for RSS-feed by publication date.
-
 Changes:
 
 - Use context description on main subscribe form if there is
   one and the form is rendered in a custom context.
-  Added for flexibility.  
+  Added for flexibility.
   [tmog]
 
 - Main subscribe form no longer registered on plone site.
@@ -53,7 +48,13 @@ Changes:
   Ignored groupings will be filtered from the feed vocabulary.
   [tmog]
 
-  
+
+1.9.7 (2012-12-07)
+------------------
+
+- Sort items for RSS-feed by publication date.
+
+
 1.9.6 (2012-12-05)
 ------------------
 
