@@ -889,10 +889,13 @@ class SubscribeForm(BaseForm):
                 language = negotiate(self.request)
 
                 # Split full name into first (given) and last name.
-                fname, lname = queryUtility(
-                    INameSplitter, name=language,
-                    default=GenericNameSplitter
-                ).split_name(name)
+                try:
+                    fname, lname = queryUtility(
+                        INameSplitter, name=language,
+                        default=GenericNameSplitter
+                        ).split_name(name)
+                except AttributeError:
+                    fname, lname = u'', u''
 
                 # Log subscription attempt.
                 logger.info(("listSubscribe(%r, %r, %r, %r)" % (

@@ -6,6 +6,9 @@ Changes
 
 Bugfixes:
 
+- Don't fail when no name is entered
+  [tmog]
+
 - Moved catalog indexes to setuphandlers to avoid indexes being
   emptied when profile is run.
   [tmog]
