@@ -6,6 +6,7 @@ import math
 import greatape
 import cgi
 import urllib
+import pprint
 
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.CMFCore.utils import getToolByName
@@ -484,6 +485,7 @@ class BaseCampaignForm(BaseForm):
                           mapping={'message': exc.msg}), "error"
                     )
                     logger.warn(exc.msg)
+                    logger.warn(pprint.pformat(args))
                     return
 
                 return bool(result)
@@ -563,14 +565,18 @@ class CampaignForm(BaseCampaignForm):
         rendered = view.template(**params).encode('utf-8')
         next_url = self.request.get('HTTP_REFERER') or self.action
 
-        segment_opts = {'match': 'all',
-                        'conditions':
-                        [{'field': 'interests-%s' % groupingid,
-                          'op':'one',
-                          'value': groupids}
-                         for groupingid, groupids
-                         in view.getSegments(**params).items()
-                         ]}
+        segments = view.getSegments(**params).items()
+        if 1 <= len(segments) <= 10:
+            segment_opts = {
+                'match': 'all',
+                'conditions':
+                [{'field': 'interests-%s' % groupingid,
+                  'op':'one',
+                  'value': groupids}
+                 for groupingid, groupids in segments
+                 ]}
+        else:
+            segment_opts = {}
 
         return self.createCampaign(api_key, method, subject, create_draft,
                                    schedule, rendered, next_url, segment_opts)
