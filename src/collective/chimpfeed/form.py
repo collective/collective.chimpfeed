@@ -566,15 +566,23 @@ class CampaignForm(BaseCampaignForm):
         next_url = self.request.get('HTTP_REFERER') or self.action
 
         segments = view.getSegments(**params).items()
-        if 1 <= len(segments) <= 10:
+        if segments:
             segment_opts = {
                 'match': 'all',
                 'conditions':
                 [{'field': 'interests-%s' % groupingid,
                   'op':'one',
                   'value': groupids}
-                 for groupingid, groupids in segments
+                 for groupingid, groupids in segments[:10]
                  ]}
+
+            if len(segments) > 10:
+                count = len(segments) - 10
+                IStatusMessage(self.request).addStatusMessage(
+                    _(u"%d segments were ignored "
+                      u"(Mailchimp limits this to 10)." % count),
+                    "warning"
+                )
         else:
             segment_opts = {}
 
