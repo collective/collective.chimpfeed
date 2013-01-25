@@ -82,12 +82,14 @@ class CampaignView(BrowserView):
     def getSegments(self, start, until=None, **kwargs):
         chimpfeeds = set()
         for brain in self.results(start, until=until):
-            chimpfeeds.update(brain.chimpfeeds)
+            chimpfeeds.update(
+                (feed.replace(' ', '') for feed in brain.chimpfeeds)
+            )
 
         segments = {}
         
         for term in InterestGroupVocabulary()(self.context):
-            if term.title in chimpfeeds:
+            if term.title.replace(' ', '') in chimpfeeds:
                 groupingid, grouptitle, groupid = term.value
                 items = segments.setdefault(groupingid, [])
                 items.append(groupid)
