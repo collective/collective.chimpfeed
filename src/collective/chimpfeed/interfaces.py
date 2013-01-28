@@ -118,6 +118,15 @@ class IFeedSettings(Interface):
         required=False,
     )
 
+    bump_date_on_moderation = schema.Bool(
+        title=_(u'Bump date on moderation'),
+        description=_(u"Select this option to automatically "
+                      u"bump the schedule date to today's date, "
+                      u"if it is unset or set to an earlier date."),
+        required=False,
+        default=True,
+    )
+
     show_name = schema.Bool(
         title=_(u'Show name on subscription form'),
         required=False,

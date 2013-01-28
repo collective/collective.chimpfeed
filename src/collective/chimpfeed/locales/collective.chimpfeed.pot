@@ -181,3 +181,9 @@ msgstr ""
 
 msgid "Enable select all on subscription form"
 msgstr ""
+
+msgid "Bump date on moderation"
+msgstr ""
+
+msgid "Select this option to automatically bump the schedule date to today's date, if it is unset or set to an earlier date."
+msgstr ""

@@ -748,6 +748,8 @@ class ModerationForm(BaseForm):
             metadata = catalog.getMetadataForRID(rid)
             uids.append(metadata['UID'])
 
+        settings = IFeedSettings(self.context)
+
         brains = catalog.unrestrictedSearchResults(UID=uids)
         for brain in brains:
             obj = brain.getObject()
@@ -761,7 +763,7 @@ class ModerationForm(BaseForm):
             except AttributeError:
                 date = obj.feedSchedule
 
-            if date is None or date < today:
+            if settings.bump_date_on_moderation and (date is None or date < today):
                 try:
                     field = obj.getField('feedSchedule')
                 except AttributeError:

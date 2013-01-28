@@ -339,3 +339,10 @@ msgstr "Hvis ingen interesse grupper er valgt, vil de interesse grupper der er v
 
 msgid "Enable select all on subscription form"
 msgstr "Overskrifter på abonneringsformular vælger alle"
+
+msgid "Bump date on moderation"
+msgstr "Opdatér til dags dato ved godkendelse"
+
+msgid "Select this option to automatically bump the schedule date to today's date, if it is unset or set to an earlier date."
+msgstr "Hvis dette er valgt, sættes udsendelsesdato til dags dato ved godkendelse, såfremt denne ikke er sat i forvejen, eller er sat til en tidligere dato."
+
