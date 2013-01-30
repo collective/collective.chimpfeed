@@ -4,6 +4,7 @@ import time
 from collective.chimpfeed import logger
 from collective.chimpfeed.interfaces import IApiUtility, IFeedSettings
 from zope.interface import implements
+
 from Acquisition import Implicit, aq_parent
 
 from plone.memoize.ram import cache
@@ -68,7 +69,7 @@ class ApiUtility(Implicit):
         for list_id in list_ids:
             groupings = self.api(
                 method="listInterestGroupings", id=list_id
-                )
+            )
             for grouping in groupings:
                 results.append(grouping)
 
@@ -85,6 +86,7 @@ class ApiUtility(Implicit):
     def get_groupings(self, list_id=None):
         if list_id is None:
             list_id = getattr(self, 'mailinglist', None)
+
         return self._get_cached_groupings(list_id)
 
     @cache(make_cache_key(60))

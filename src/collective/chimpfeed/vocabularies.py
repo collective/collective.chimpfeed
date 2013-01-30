@@ -8,6 +8,7 @@ from zope.app.component.hooks import getSite
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 
 from collective.chimpfeed.interfaces import IFeedSettings, IApiUtility
+from collective.chimpfeed import logger
 from collective.chimpfeed import MessageFactory as _
 
 from Products.AdvancedQuery import Indexed, Ge, Eq
@@ -71,13 +72,17 @@ class MailChimpVocabulary(VocabularyBase):
             utility = getUtility(IApiUtility, context=site)
         else:
             utility = utility.__of__(context)
-            
+
         wrapped = ImplicitAcquisitionWrapper(self, utility)
 
         generator = wrapped.get_terms()
         terms = tuple(generator)
 
-        return SimpleVocabulary(terms)
+        try:
+            return SimpleVocabulary(terms)
+        except ValueError as exc:
+            logger.info(exc.msg)
+            return SimpleVocabulary()
 
 
 class ListVocabulary(MailChimpVocabulary):
