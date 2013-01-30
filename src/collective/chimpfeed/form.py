@@ -1026,7 +1026,7 @@ class ListSubscribeForm(SubscribeForm):
     def fields(self):
         fields = field.Fields()
         settings = IFeedSettings(self.context)
-        
+
         # Javascript-widget
         if settings.enable_select_all:
             fields += field.Fields(SelectAllGroupsJavascript(schema.Field(
@@ -1183,7 +1183,7 @@ class ListSubscribeForm(SubscribeForm):
         self.widgets.ignoreReadonly = self.ignoreReadonly
         self.widgets.update()
 
-ListSubscribeForm = wrap_form(ListSubscribeForm)
+ListSubscribeFormView = wrap_form(ListSubscribeForm)
 
 
 class ListSubscribeFormFieldWidgets(field.FieldWidgets):

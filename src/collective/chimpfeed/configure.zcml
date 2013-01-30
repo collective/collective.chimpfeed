@@ -124,7 +124,7 @@
   <browser:page
       name="chimpfeed-subscribe"
       for="*"
-      class=".form.ListSubscribeForm"
+      class=".form.ListSubscribeFormView"
       permission="zope.Public"
       />
 
@@ -247,7 +247,7 @@
   <!-- Forms -->
 
   <adapter
-      for=".form.ListSubscribeForm
+      for=".form.ListSubscribeFormView
            z3c.form.interfaces.IFormLayer
            .form.SubscribeContext"
       factory=".form.ListSubscribeFormFieldWidgets"
