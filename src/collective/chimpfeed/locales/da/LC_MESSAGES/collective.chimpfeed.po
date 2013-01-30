@@ -242,7 +242,7 @@ msgid "Schedule date"
 msgstr "Planlæg udsendelse"
 
 msgid "Create new campaigns as drafts"
-msgstr "Opret nye kampagner som kladder"
+msgstr "Opret nye kampagner som kladder i Mailchimp"
 
 msgid "If provided, item will be scheduled to be sent at this time."
 msgstr "Hvis dette felt udfyldes, vil nyhedsbrevet efter oprettelse blive planlagt til udsendelse på det angivne tidspunkt."
