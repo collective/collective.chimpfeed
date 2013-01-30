@@ -32,7 +32,7 @@ class ScheduledItems(VocabularyBase):
         )
 
         brains = context.portal_catalog.evalAdvancedQuery(
-            query, (('feedSchedule', 'desc'), ))
+            query, (('feedSchedule', 'desc'),))
 
         for brain in brains:
             rid = brain.getRID()
@@ -71,7 +71,7 @@ class MailChimpVocabulary(VocabularyBase):
             utility = getUtility(IApiUtility, context=site)
         else:
             utility = utility.__of__(context)
-            
+
         wrapped = ImplicitAcquisitionWrapper(self, utility)
 
         generator = wrapped.get_terms()
@@ -111,9 +111,11 @@ class InterestGroupVocabulary(MailChimpVocabulary):
 
     def get_terms_for_grouping(self, grouping, qualified=False):
         terms = []
-        for group in grouping['groups']:
+        groups = sorted(grouping['groups'],
+                        key=lambda group: group['display_order'])
+        for group in groups:
             terms.append(self.get_term_for_group(group, grouping, qualified))
-        return sorted(terms, key=lambda term: term.title)
+        return terms
 
     def get_term_value(self, group, grouping):
         return (grouping['id'], group['name'], group['bit'])
@@ -166,7 +168,7 @@ class FeedVocabulary(InterestGroupVocabulary):
             grouping['name'].replace(':', ''),
             group['name'].replace(':', '')
             )
-    
+
     def get_terms(self):
         terms = list(super(FeedVocabulary, self).get_terms())
 
@@ -177,7 +179,7 @@ class FeedVocabulary(InterestGroupVocabulary):
                 terms.append(SimpleTerm(feed, feed.encode('utf-8'), feed))
 
         return sorted(terms, key=lambda term: term.title)
-    
+
     def get_groupings(self, list_id=None):
         groupings = self.aq_parent.get_groupings(list_id=list_id)
 
