@@ -690,11 +690,15 @@ class NewsletterForm(BaseCampaignForm):
 
         rendered = view.template().encode('utf-8')
         next_url = self.request.get('HTTP_REFERER') or self.action
+        segment_opts = self.getSegmentConditions(interests)
+
         return self.createCampaign(
             api_key, method, subject,
             create_draft, schedule, rendered, next_url,
-            {'match': 'all',
-             'conditions': self.getSegmentConditions(interests)}
+            segment_opts and {
+                'match': 'all',
+                'conditions': segment_opts
+            } or None
         )
 
     def update(self):
