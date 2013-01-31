@@ -632,7 +632,7 @@ class NewsletterForm(BaseCampaignForm):
         if not interest_groups and hasattr(self.context, 'interest_groups'):
             interest_groups = self.context.interest_groups
         if not interest_groups:
-            return [{}]
+            return []
 
         (grouping_id, interest_description, group_id) = interest_groups[0]
 
@@ -690,14 +690,14 @@ class NewsletterForm(BaseCampaignForm):
 
         rendered = view.template().encode('utf-8')
         next_url = self.request.get('HTTP_REFERER') or self.action
-        segment_opts = self.getSegmentConditions(interests)
+        segment_conditions = self.getSegmentConditions(interests)
 
         return self.createCampaign(
             api_key, method, subject,
             create_draft, schedule, rendered, next_url,
-            segment_opts and {
+            segment_conditions and {
                 'match': 'all',
-                'conditions': segment_opts
+                'conditions': segment_conditions
             } or None
         )
 
