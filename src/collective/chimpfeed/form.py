@@ -631,8 +631,8 @@ class NewsletterForm(BaseCampaignForm):
     def getSegmentConditions(self, interest_groups):
         if not interest_groups and hasattr(self.context, 'interest_groups'):
             interest_groups = self.context.interest_groups
-        elif not interest_groups:
-            return
+        if not interest_groups:
+            return [{}]
 
         (grouping_id, interest_description, group_id) = interest_groups[0]
 
