@@ -6,6 +6,10 @@ Changes
 
 Bugfixes:
 
+- Use date and time as upper limit in campaign portlet to include
+  todays content.
+  [tmog]
+
 - Don't fail when no name is entered
   [tmog]
 

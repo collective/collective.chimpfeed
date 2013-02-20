@@ -523,7 +523,7 @@ class CampaignForm(BaseCampaignForm):
 
     def makeParams(self, start=None, limit=False,
                    filtering=False, **extra):
-        today = datetime.date.today()
+        today = datetime.datetime.now()
 
         return dict(
             start=start.isoformat(),
