@@ -36,6 +36,7 @@ setup(name='collective.chimpfeed',
           'simplejson',
           'Products.AdvancedQuery',
           'BeautifulSoup',
+          'zope.app.component',
       ],
       entry_points="""
       [z3c.autoinclude.plugin]
