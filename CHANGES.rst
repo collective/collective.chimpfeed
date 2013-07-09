@@ -1,6 +1,15 @@
 Changes
 =======
 
+Unreleased 
+----------
+
+Changes:
+
+- Renamed feed.pt to feed.pt.xml to ensure i18ndude works for translations, and 
+  correct a pep8 related issue.
+  [bosim] 
+
 1.9.8 (2012-01-25)
 ------------------
 
