@@ -1,7 +1,10 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-01-16T17:45:06.860249\n"
+"POT-Creation-Date: 2013-07-09 15:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -11,179 +14,524 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "Language-Code: en\n"
 "Language-Name: English\n"
-"Preferred-Encodings: utf-8\n"
+"Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.chimpfeed\n"
 
+#: collective.chimpfeed/src/collective/chimpfeed/vocabularies.py:156
+msgid "${name} (${groups} and ${count} more)"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:264
+msgid "${subject} ${date}"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:582
+msgid "%d segments were ignored (Mailchimp limits this to 10)."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:243
 msgid "Add Subscription Portlet"
 msgstr ""
 
-msgid "E-mail"
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:181
+msgid "Add campaign portlet"
 msgstr ""
 
-msgid "Edit Subscription Portlet"
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:198
+msgid "Add newsletter portlet"
 msgstr ""
 
-msgid "Feeds"
-msgstr ""
-
-msgid "If you want this content item published to a MailChimp RSS-feed, select one or more from the list below."
-msgstr ""
-
-msgid "Interest groups"
-msgstr ""
-
-msgid "Interests"
-msgstr ""
-
-msgid "Show name on subscription form"
-msgstr ""
-
-msgid "MailChimp API key"
-msgstr ""
-
-msgid "MailChimp"
-msgstr ""
-
-msgid "MailChimp settings"
-msgstr ""
-
-msgid "Please configure an API-key and define one or more feeds."
-msgstr ""
-
-msgid "Mailinglist"
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "Provide a title for the portlet."
-msgstr ""
-
-msgid "Required input is missing."
-msgstr ""
-
-msgid "Select a mailinglist for this portlet."
-msgstr ""
-
-msgid "Select interest groups. Note that all interests within the selected groups will appear in the portlet."
-msgstr ""
-
-msgid "Select interests."
-msgstr ""
-
-msgid "Sign up"
-msgstr ""
-
-msgid "Subscribe: ${title}"
-msgstr ""
-
-msgid "Thank you for signing up. We'll send you a confirmation message by e-mail shortly."
-msgstr ""
-
-msgid "These correspond to the feeds given above. Copy the URL into MailChimp when setting up one or more RSS-campaigns."
-msgstr ""
-
-msgid "This key is associated to your account with MailChimp."
-msgstr ""
-
-msgid "This portlet shows a subscription form."
-msgstr ""
-
-msgid "Title"
-msgstr ""
-
-msgid "URLs"
-msgstr ""
-
-msgid "Use this field to set up your feeds. Give each feed a title such as \"News\"; one feed per line."
-msgstr ""
-
-msgid "Register"
-msgstr ""
-
-msgid "Approve"
-msgstr ""
-
-msgid "Feeds"
-msgstr ""
-
-msgid "If you want this content item published to a news feed, select one or more from the list below."
-msgstr ""
-
-msgid "Moderation"
-msgstr ""
-
-msgid "Feed Date"
-msgstr ""
-
-msgid "Select this option to approve schedule."
-msgstr ""
-
-msgid "The item will be scheduled to be included in feeds from this date. Note that this is subject to editor moderation (if required)."
-msgstr ""
-
+#: collective.chimpfeed/src/collective/chimpfeed/moderate.pt:5
 msgid "All items have been moderated."
 msgstr ""
 
-msgid "Please review the following schedule."
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:965
+msgid "An error occurred while processing your request to sign up for ${email}. Please try again!"
 msgstr ""
 
-msgid "Today"
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:119
+msgid "Apply filtering markup"
 msgstr ""
 
-msgid "Description"
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:739
+msgid "Approve"
 msgstr ""
 
-msgid "Enter a description of your newsletter."
-msgstr ""
-
-msgid "Feed category"
-msgstr ""
-
-msgid "Please select a category for this item."
-msgstr ""
-
-msgid "Categories"
-msgstr ""
-
-msgid "List the available feed categories."
-msgstr ""
-
-msgid "Mailchimp subscription portlet"
-msgstr ""
-
-msgid "Mailchimp campaign portlet"
-msgstr ""
-
-msgid "Mailchimp moderation portlet"
-msgstr ""
-
-msgid "Send or schedule newsletter campaigns."
-msgstr ""
-
-msgid "Send or schedule a newsletter campaign based on the current context."
-msgstr ""
-
-msgid "Sign up form to join a mailinglist."
-msgstr ""
-
-msgid "Moderate newsletter feed content."
-msgstr ""
-
-msgid "Campaign scheduling"
-msgstr ""
-
-msgid "Static campaign scheduling"
-msgstr ""
-
-msgid "Select all"
-msgstr ""
-
-msgid "Enable select all on subscription form"
-msgstr ""
-
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:122
 msgid "Bump date on moderation"
 msgstr ""
 
+#: collective.chimpfeed/src/collective/chimpfeed/campaign.py:100
+msgid "Campaign created"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:470
+msgid "Campaign created, but not scheduled."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:547
+msgid "Campaign created."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:50
+msgid "Campaign portlet"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:47
+msgid "Campaign scheduling"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/legacy.py:70
+msgid "Cancel"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:108
+msgid "Categories"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:420
+msgid "Categorization"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/legacy.py:65
+msgid "Changes saved."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:536
+msgid "Create"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:128
+msgid "Create new campaigns as drafts"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:416
+msgid "Dates"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:303
+msgid "Description"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:182
+msgid "E-mail"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:250
+msgid "Edit Subscription Portlet"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:193
+msgid "Edit campaign portlet"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/legacy.py:73
+msgid "Edit cancelled."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:206
+msgid "Edit newsletter portlet"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/vocabularies.py:96
+msgid "Empty"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:137
+msgid "Enable select all on subscription form"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:304
+msgid "Enter a description of your newsletter."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:345
+msgid "Feed category"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:353
+msgid "Feed date"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:361
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:82
+msgid "Feed moderation"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:91
+msgid "Feeds"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:173
+msgid "If interests is selected here, the interests groups will be preselected, and the user will not be able to select these."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:147
+msgid "If no interest groups are selected the predefined groups will be used, which were specified during the creation of the portlet"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:135
+msgid "If provided, item will be scheduled to be sent at this time."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:354
+msgid "If this date is set, the content will only be included in Mailchimp-based feeds from this date on. Otherwise, the "Publishing date" is used."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:79
+msgid "Ignored interest groupings"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:223
+msgid "Image field"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:232
+msgid "Image scale"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:200
+msgid "In MailChimp, templates have multiple sections, each identified by a string. When the campaign is created, we need to know where to put the dynamically created newsletter content."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:217
+msgid "Include items published after this date."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:113
+msgid "Include scheduled items up until today's date only."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:67
+msgid "Interest group list"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:152
+msgid "Interest groups"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:163
+msgid "Interests"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:112
+msgid "Limit"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:109
+msgid "List the available feed categories."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:322
+msgid "Lists"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/controlpanel.xml
+msgid "MailChimp"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:58
+msgid "MailChimp API key"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/controlpanel.py:97
+msgid "MailChimp settings"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
+msgid "Mailchimp campaign portlet"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
+msgid "Mailchimp moderation portlet"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
+msgid "Mailchimp newsletter portlet"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
+msgid "Mailchimp subscription portlet"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:145
+msgid "Mailinglist"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:415
+msgid "Mailinglist not found."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
+msgid "Moderate newsletter feed content."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:85
+msgid "Moderation portlet"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:851
+msgid "Name"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:65
+msgid "Newsletter portlet"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:400
+msgid "No content found; newsletter not created."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:1099
+msgid "None"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:105
+msgid "Not a valid e-mail address."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/controlpanel.py:98
+msgid "Please configure an API-key and define one or more feeds."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/moderate.pt:2
+msgid "Please review the following schedule."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:346
+msgid "Please select a category for this item."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:172
+msgid "Preselected interests."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/campaign.py:26
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:512
+msgid "Preview"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:297
+msgid "Provide a title for the portlet."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:312
+msgid "RSS"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:859
+msgid "Register"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/controlpanel.py:138
+msgid "Repair"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/controlpanel.py:194
+msgid "Repaired ${count} items."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:1134
+msgid "Request processed"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:115
+msgid "Require moderation"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/legacy.py:56
+msgid "Save"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:134
+msgid "Schedule date"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:199
+msgid "Section"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:192
+msgid "Select a campaign template."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:146
+msgid "Select a mailinglist for this portlet."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:146
+msgid "Select interest groups"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:257
+msgid "Select interest groups before sending"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:153
+msgid "Select interest groups. Note that all interests within the selected groups will appear in the portlet."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:164
+msgid "Select interests."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:336
+msgid "Select one or more items from this list to include in the corresponding feed."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:1129
+msgid "Select subscription options and submit form."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:258
+msgid "Select this option if the interest groups should be selected before the newsletter is sent."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:120
+msgid "Select this option to apply the markup required for automatic interest group filtering."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:362
+msgid "Select this option to approve item."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:123
 msgid "Select this option to automatically bump the schedule date to today's date, if it is unset or set to an earlier date."
 msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:116
+msgid "Select this option to enable content moderation."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:63
+msgid "Send or schedule a newsletter campaign based on the current context."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:48
+msgid "Send or schedule a newsletter campaign."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
+msgid "Send or schedule newsletter campaigns."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
+msgid "Send or schedule single element newsletters."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:131
+msgid "Show name on subscription form"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
+msgid "Sign up form to join a mailinglist."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:216
+msgid "Start date"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:62
+msgid "Static campaign scheduling"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:209
+msgid "Subject"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:1137
+msgid "Subscribe to: ${name}"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:99
+msgid "Subscribe: ${title}"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:191
+msgid "Template"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:959
+msgid "Thank you for signing up. We'll send you a confirmation message by e-mail shortly."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/preview.pt:14
+msgid "The content below the line is the newsletter preview content."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:224
+msgid "The name of the content field that contains the content lead image. Note that it does not need to exist for all content."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:233
+msgid "The name of the image scale."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:210
+msgid "The newsletter subject."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:798
+msgid "The scheduled date has been set to today's date for the following items that were scheduled to a date in the past: ${titles}."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:92
+msgid "The strings listed in this field are available for tagging on applicable site content. Please use one value per line. An RSS-feed is automatically available for each string (links are shown below). Note that it's possible to select a subscription list (see above) and pull additional strings from its interest groups."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:946
+msgid "There was a problem signing you up for the selected interest groups. This could mean that the subscription service is configured incorrectly. Please contact the webmaster."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:313
+msgid "This field lists an RSS-feed for each of the available feed strings (including those that are automatically pulled from interest groups."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:59
+msgid "This key is associated to your account with MailChimp."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:323
+msgid "This listing shows a link to a subscription form for each of the defined lists in your account."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:219
+msgid "This portlet shows a subscription form."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:296
+msgid "Title"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:254
+msgid "Today"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:484
+msgid "Unable to process request: ${message}"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/campaign.py:116
+msgid "Unable to show content."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:828
+msgid "Untitled"
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:68
+msgid "Use this field to automatically pull interest groups from a list. The interest groups are added to the list of feeds and kept up to date every hour."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:80
+msgid "Use this field to limit the interest groups pulled automatically from the list to specific groupings."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/portlet.py:83
+msgid "Use this form to moderate content."
+msgstr ""
+
+#: collective.chimpfeed/src/collective/chimpfeed/form.py:1110
+msgid "name"
+msgstr ""
+

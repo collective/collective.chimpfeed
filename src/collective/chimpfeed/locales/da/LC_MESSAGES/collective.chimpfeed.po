@@ -1,9 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-01-16T17:45:06.860431\n"
+"POT-Creation-Date: 2013-07-09 15:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Malthe Borch <mborch@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,336 +14,521 @@ msgstr ""
 "Preferred-Encodings: utf-8\n"
 "Domain: collective.chimpfeed\n"
 
-msgid "Add Subscription Portlet"
-msgstr "Tilføj tilmeldingsportlet"
-
-msgid "E-mail"
-msgstr "E-mail"
-
-msgid "Edit Subscription Portlet"
-msgstr "Redigér tilmeldingsportlet"
-
-msgid "Feeds"
-msgstr "Udsendelseslister"
-
-msgid "If you want this content item published to a MailChimp RSS-feed, select one or more from the list below."
-msgstr "Vælg én eller flere udsendelseslister for dette indholdsobjekt."
-
-msgid "Interest groups"
-msgstr "Grupper"
-
-msgid "Interests"
-msgstr "Interesser"
-
-msgid "Show name on subscription form"
-msgstr "Vis navn på tilmeldingsformular"
-
-msgid "MailChimp API key"
-msgstr "MailChimp API-nøgle"
-
-msgid "MailChimp"
-msgstr "MailChimp"
-
-msgid "MailChimp settings"
-msgstr "MailChimp-indstillinger"
-
-msgid "Please configure an API-key and define one or more feeds."
-msgstr "Indsæt din API-nøgle og opret en eller flere udsendelseslister."
-
-msgid "Mailinglist"
-msgstr "Tilmeldingsliste"
-
-msgid "Name"
-msgstr "Navn"
-
-msgid "Provide a title for the portlet."
-msgstr "Denne tekst bliver vist som overskrift for portletten."
-
-msgid "Required input is missing."
-msgstr "Dette felt skal udfyldes."
-
-msgid "Select a mailinglist for this portlet."
-msgstr "Vælg en tilmeldingsliste for denne portlet."
-
-msgid "Select interest groups. Note that all interests within the selected groups will appear in the portlet."
-msgstr "Vælg interessegrupper. For hver gruppe vises de underliggende interessevalg. Bemærk, at de angivne interessegrupper skal være definerede for den valgte tilmeldingsliste. I modsat fald kan det ske, at tilmelding mislykkedes."
-
-msgid "Select interests."
-msgstr "Vælg specifikke interesser. Som ved valg af interessegrupper skal de valgte interesser være definerede indenfor den valgte tilmeldingsliste."
-
-msgid "Sign up"
-msgstr "Tilmelding"
-
-msgid "Subscribe: ${title}"
-msgstr "Tilmelding: ${title}"
-
-msgid "Thank you for signing up. We'll send you a confirmation message by e-mail shortly."
-msgstr "Tak for din tilmelding. Du vil om kort tid modtage en e-mail med anmodning om godkendelse."
-
-msgid "This field lists an RSS-feed for each of the available feed strings (including those that are automatically pulled from interest groups."
-msgstr "Her vises et feed for hver udsendelsesliste (inklusive dem, der er oprettet automatisk på baggrund af interessegrupper)."
-
-msgid "This key is associated to your account with MailChimp."
-msgstr "Denne nøgle giver adgang til din MailChimp-konto."
-
-msgid "This portlet shows a subscription form."
-msgstr "Denne portlet viser en tilmeldingsformular."
-
-msgid "Title"
-msgstr "Titel"
-
-msgid "RSS"
-msgstr "RSS"
-
-msgid "Use this field to set up your feeds. Give each feed a title such as \"News\"; one feed per line."
-msgstr "Brug dette felt til at sætte dine udsendelseslister op. På hver linie angives en kort tekst f.eks. \"Nyheder\"."
-
-msgid "Register"
-msgstr "Tilmeld"
-
-msgid "Approve"
-msgstr "Godkend"
-
-msgid "Moderation"
-msgstr "Udsendelsesstyring"
-
-msgid "Feed date"
-msgstr "Udsendelsesdato"
-
-msgid "Feed moderation"
-msgstr "Godkend udsendelse"
-
-msgid "Select this option to approve item."
-msgstr "Vælg dette for at godkende udsendelse."
-
-msgid "If this date is set, the content will only be included in Mailchimp-based feeds from this date on. Otherwise, the \"Publishing date\" is used."
-msgstr "Hvis denne dato er valgt, medtages indholdet kun i udsendelseslister fra den valgte dato og fremefter. I modsat fald benyttes \"Publiceringsdato\"."
-
-msgid "All items have been moderated."
-msgstr "Alt publiceret indhold er godkendt til udsendelse. Bemærk, at der i denne oversigt kun vises allerede godkendt indhold, hvis det er sat til udsendelse i dag eller en fremtidig dato."
-
-msgid "Please review the following schedule."
-msgstr "Indhold uden markering kræver godkendelse."
-
-msgid "Today"
-msgstr "I dag"
-
-msgid "Require moderation"
-msgstr "Indhold skal godkendes"
-
-msgid "Select this option to enable content moderation."
-msgstr "Vælg dette for at påkræve godkendelse af indhold til udsendelse."
-
-msgid "Description"
-msgstr "Beskrivelse"
-
-msgid "Enter a description of your newsletter."
-msgstr "Her kan du give en beskrivelse af dit nyhedsbrev."
-
-msgid "Feed category"
-msgstr "Udsendelseskategori"
-
-msgid "Please select a category for this item."
-msgstr "Vælg venligst en kategori for dette indholdsobjekt."
-
-msgid "Categories"
-msgstr "Kategorier"
-
-msgid "List the available feed categories."
-msgstr "Til udsendt indhold kan der knyttes en kategori. Indskriv i dette felt de tilgængelige kategorier."
-
-msgid "Mailchimp subscription portlet"
-msgstr "Mailchimp tilmeldingsportlet"
-
-msgid "Mailchimp campaign portlet"
-msgstr "Mailchimp kampagneportlet"
-
-msgid "Mailchimp moderation portlet"
-msgstr "Mailchimp udsendelsesstyring"
-
-msgid "Send or schedule a newsletter campaign."
-msgstr "Send eller planlæg et nyhedsbrev."
-
-msgid "Send or schedule a newsletter campaign based on the current context."
-msgstr "Send eller planlæg et nyhedsbrev baseret på det aktuelle indhold."
-
-msgid "Sign up form to join a mailinglist."
-msgstr "Tilmeld til nyhedsbrev."
-
-msgid "Moderate newsletter feed content."
-msgstr "Godkend indhold til udsendelse."
-
-msgid "Campaign scheduling"
-msgstr "Send nyhedsbrev"
-
-msgid "Static campaign scheduling"
-msgstr "Send statisk nyhedsbrev"
-
-msgid "Start date"
-msgstr "Dato"
-
-msgid "Include items published after this date."
-msgstr "Medtag kun indhold fra denne dato."
-
-msgid "Use this form to moderate content."
-msgstr "Gennemse planlagt indhold."
-
-msgid "Preview"
-msgstr "Vis"
-
-msgid "Create"
-msgstr "Send nyhedsbrev"
-
-msgid "The content below the line is the newsletter preview content."
-msgstr "Indholdet under linjen viser nyhedsbrevet."
-
-msgid "Subject"
-msgstr "Emne"
-
-msgid "The newsletter subject."
-msgstr "Denne tekst bruges som nyhedsbrevets emnelinje."
-
-msgid "Unable to process request."
-msgstr "Oprettelse mislykkedes. Kontakt venligst din administrator!"
-
-msgid "Template"
-msgstr "Skabelon"
-
-msgid "Select a campaign template."
-msgstr "Vælg en skabelon til dit nyhedsbrev. Bemærk, at der i parentesen efter skabelonens navn er anført de definerede sektioner (se nedenfor)."
-
-msgid "Section"
-msgstr "Sektion"
-
-msgid "In MailChimp, templates have multiple sections, each identified by a string. When the campaign is created, we need to know where to put the dynamically created newsletter content."
-msgstr "Vælg den sektion, hvor det dynamiske indhold skal indsættes. Du kan se hvilke sektioner, der er tilgængelige i listen over skabeloner."
-
-msgid "Image field"
-msgstr "Billede"
-
-msgid "The name of the content field that contains the content lead image. Note that it does not need to exist for all content."
-msgstr "Her kan angives navnet på et felt, der indeholder et billede (for hvert indholdsobjekt)."
-
-msgid "Image scale"
-msgstr "Skalering"
-
-msgid "The name of the image scale."
-msgstr "Her angives navnet på den ønskede billedskalering."
-
-msgid "No content found; newsletter not created."
-msgstr "Intet indhold fundet; nyhedsbrev er ikke blevet oprettet."
-
-msgid "Campaign created."
-msgstr "Nyhedsbrev oprettet."
-
-msgid "Empty"
-msgstr "Ingen skabelon"
-
-msgid "Schedule date"
-msgstr "Planlæg udsendelse"
-
-msgid "Create new campaigns as drafts"
-msgstr "Opret nye kampagner som kladder i Mailchimp"
-
-msgid "If provided, item will be scheduled to be sent at this time."
-msgstr "Hvis dette felt udfyldes, vil nyhedsbrevet efter oprettelse blive planlagt til udsendelse på det angivne tidspunkt."
-
-msgid "Campaign created"
-msgstr "Nyhedsbrev oprettet"
-
-msgid "There was a problem signing you up for the selected interest groups. This could mean that the subscription service is configured incorrectly. Please contact the webmaster."
-msgstr "Der opstod et problem i forbindelse med din tilmelding til én eller flere interesser. Det skyldes muligvis en fejl i opsætningen. Kontakt venligst redaktionen eller webmaster og anmeld dette. Vi beklager fejlen."
-
+#: collective/chimpfeed/vocabularies.py:156
 msgid "${name} (${groups} and ${count} more)"
 msgstr "${name} (${groups} og ${count} yderligere)"
 
-msgid "Lists"
-msgstr "Tilmeldingslister"
-
-msgid "This listing shows a link to a subscription form for each of the defined lists in your account."
-msgstr "Denne oversigt viser links til tilmeldingsformularer for hver liste, der er sat op for din konto."
-
-msgid "Select subscription options and submit form."
-msgstr "Få besked, når vi har nyheder om emner, der særligt interesserer dig. Vælg emner:"
-
-msgid "Subscribe to: ${name}"
-msgstr "Abonnér på ${name}"
-
-msgid "Interest group list"
-msgstr "Hent udsendelseslister fra tilmeldingsliste"
-
-msgid "Select the list that should be used to collect interest groups. This is entirely optional, but recommended if you have many lists defined (to reduce network latency). Note that if you do not make a choice, interest groups will be collected from all lists."
-msgstr "Hvis en tilmeldingsliste vælges i dette felt, bruges kun de interessegrupper, der er valgt for denne liste. Dette anbefales hvis der er mange lister tilknyttet kontoen (af hensyn til generel responstid). Hvis intet valg er foretaget, bruges alle tilgængelige lister."
-
-msgid "Use this field to automatically pull interest groups from a list. The interest groups are added to the list of feeds and kept up to date every hour."
-msgstr "Brug dette felt til automatisk at hente interessegruppper fra en tilmeldingsliste og få dem tilføjet som udsendelseslister (se nedenfor)."
-
-msgid "The strings listed in this field are available for tagging on applicable site content. Please use one value per line. An RSS-feed is automatically available for each string (links are shown below). Note that it's possible to select a subscription list (see above) and pull additional strings from its interest groups."
-msgstr "Hver linje i dette felt skal være en tekststreng. Hermed oprettes en udsendelsesliste og man vil på et indholdsobjekt kunne markere én eller flere af disse strenge. Det anbefales dog at man i stedet opretter interessegrupper i MailChimp og henter dem ind automatisk ved hjælp af indstillingen ovenfor."
-
-msgid "Select one or more items from this list to include in the corresponding feed."
-msgstr "Vælg et eller flere emner for at tilføje indholdet til den tilsvarende udsendelsesliste."
-
-msgid "The scheduled date has been set to today's date for the following items that were scheduled to a date in the past: ${titles}."
-msgstr "Udsendelsesdato ændret til dags dato for følgende indholdsobjekter, der var planlagt til udsendelse på en tidligere dato."
-
-msgid "Limit"
-msgstr "Begræns til dags dato"
-
-msgid "Include scheduled items up until today's date only."
-msgstr "Definér øvre grænse."
-
-msgid "Not a valid e-mail address."
-msgstr "Ikke en gyldig e-mail adresse."
-
-msgid "None"
-msgstr "Ingen"
-
-msgid "Select all"
-msgstr "Alle nyheder"
-
-msgid "Apply filtering markup"
-msgstr "Anvend opmærkning"
-
-msgid "Select this option to apply the markup required for automatic interest group filtering."
-msgstr "Personligt nyhedsbrev."
-
-msgid "Repair"
-msgstr "Reparér"
-
-msgid "Repaired ${count} items."
-msgstr "${count} indholdsobjekter opdateret."
-
-msgid "First Name"
-msgstr "Fornavn"
-
-msgid "Last Name"
-msgstr "Efternavn"
-
+#: collective/chimpfeed/form.py:264
 msgid "${subject} ${date}"
 msgstr "${subject}, d. ${date}"
 
-msgid "Request processed"
-msgstr "Tilmelding modtaget"
+#: collective/chimpfeed/form.py:582
+msgid "%d segments were ignored (Mailchimp limits this to 10)."
+msgstr "%d segmenter blev ignoreret (Mailchimp begrænser dette til 10)."
 
-msgid "Select interest groups before sending"
-msgstr "Vælg interesse grupper før afsendelse"
+#: collective/chimpfeed/portlet.py:243
+msgid "Add Subscription Portlet"
+msgstr "Tilføj tilmeldingsportlet"
 
-msgid "Select this option if the interest groups should be selected before the newsletter is sent."
-msgstr "Vælg denne indstilling hvis du ønsker at vælge interesse grupper før afsendelse."
+#: collective/chimpfeed/portlet.py:181
+msgid "Add campaign portlet"
+msgstr "Tilføj kampagneportlet"
 
-msgid "Select interest groups"
-msgstr "Vælg interesse grupper"
+#: collective/chimpfeed/portlet.py:198
+msgid "Add newsletter portlet"
+msgstr "Tilføj nyhedsbrevportlet"
 
-msgid "If no interest groups are selected the predefined groups will be used, which were specified during the creation of the portlet"
-msgstr "Hvis ingen interesse grupper er valgt, vil de interesse grupper der er valgt under oprettelsen af portletten blive brugt"
+#: collective/chimpfeed/moderate.pt:5
+msgid "All items have been moderated."
+msgstr ""
 
-msgid "Enable select all on subscription form"
-msgstr "Overskrifter på abonneringsformular vælger alle"
+#: collective/chimpfeed/form.py:965
+msgid "An error occurred while processing your request to sign up for ${email}. Please try again!"
+msgstr "Der skete en fejl under behandlingen af tilmeldingen for e-mailadressen for ${email}. Prøv igen."
 
+#: collective/chimpfeed/form.py:119
+msgid "Apply filtering markup"
+msgstr "Anvend opmærkning"
+
+#: collective/chimpfeed/form.py:739
+msgid "Approve"
+msgstr "Godkend"
+
+#: collective/chimpfeed/interfaces.py:122
 msgid "Bump date on moderation"
 msgstr "Opdatér til dags dato ved godkendelse"
 
+#: collective/chimpfeed/campaign.py:100
+msgid "Campaign created"
+msgstr "Nyhedsbrev oprettet"
+
+#: collective/chimpfeed/form.py:470
+msgid "Campaign created, but not scheduled."
+msgstr "Kampagne er oprettet, men ikke planlagt."
+
+#: collective/chimpfeed/form.py:547
+msgid "Campaign created."
+msgstr "Nyhedsbrev oprettet."
+
+#: collective/chimpfeed/portlet.py:50
+msgid "Campaign portlet"
+msgstr "Kampagneportlet"
+
+#: collective/chimpfeed/portlet.py:47
+msgid "Campaign scheduling"
+msgstr "Send nyhedsbrev"
+
+#: collective/chimpfeed/legacy.py:70
+msgid "Cancel"
+msgstr "Afbryd"
+
+#: collective/chimpfeed/interfaces.py:108
+msgid "Categories"
+msgstr "Kategorier"
+
+#: collective/chimpfeed/interfaces.py:420
+msgid "Categorization"
+msgstr "Kategorisering"
+
+#: collective/chimpfeed/legacy.py:65
+msgid "Changes saved."
+msgstr "Ændringer er gemt."
+
+#: collective/chimpfeed/form.py:536
+msgid "Create"
+msgstr "Send nyhedsbrev"
+
+#: collective/chimpfeed/form.py:128
+msgid "Create new campaigns as drafts"
+msgstr "Opret nye kampagner som kladder i Mailchimp"
+
+#: collective/chimpfeed/interfaces.py:416
+msgid "Dates"
+msgstr "Datoer"
+
+#: collective/chimpfeed/interfaces.py:303
+msgid "Description"
+msgstr "Beskrivelse"
+
+#: collective/chimpfeed/form.py:182
+msgid "E-mail"
+msgstr "E-mail"
+
+#: collective/chimpfeed/portlet.py:250
+msgid "Edit Subscription Portlet"
+msgstr "Redigér tilmeldingsportlet"
+
+#: collective/chimpfeed/portlet.py:193
+msgid "Edit campaign portlet"
+msgstr "Rediger kampagneportlet"
+
+#: collective/chimpfeed/legacy.py:73
+msgid "Edit cancelled."
+msgstr "Redigering er afbrudt."
+
+#: collective/chimpfeed/portlet.py:206
+msgid "Edit newsletter portlet"
+msgstr "Rediger nyhedsbrevportlet"
+
+#: collective/chimpfeed/vocabularies.py:96
+msgid "Empty"
+msgstr "Ingen skabelon"
+
+#: collective/chimpfeed/interfaces.py:137
+msgid "Enable select all on subscription form"
+msgstr "Overskrifter på abonneringsformular vælger alle"
+
+#: collective/chimpfeed/interfaces.py:304
+msgid "Enter a description of your newsletter."
+msgstr "Her kan du give en beskrivelse af dit nyhedsbrev."
+
+#: collective/chimpfeed/interfaces.py:345
+msgid "Feed category"
+msgstr "Udsendelseskategori"
+
+#: collective/chimpfeed/interfaces.py:353
+msgid "Feed date"
+msgstr "Udsendelsesdato"
+
+#: collective/chimpfeed/interfaces.py:361
+#: collective/chimpfeed/portlet.py:82
+msgid "Feed moderation"
+msgstr "Godkend udsendelse"
+
+#: collective/chimpfeed/interfaces.py:91
+msgid "Feeds"
+msgstr "Udsendelseslister"
+
+#: collective/chimpfeed/interfaces.py:173
+msgid "If interests is selected here, the interests groups will be preselected, and the user will not be able to select these."
+msgstr "Hvis interesser er valgt her, vil interessere grupperne blive præudfyldt, og det vil ikke være muligt for brugeren at vælge disse."
+
+#: collective/chimpfeed/form.py:147
+msgid "If no interest groups are selected the predefined groups will be used, which were specified during the creation of the portlet"
+msgstr "Hvis ingen interesse grupper er valgt, vil de interesse grupper der er valgt under oprettelsen af portletten blive brugt"
+
+#: collective/chimpfeed/form.py:135
+msgid "If provided, item will be scheduled to be sent at this time."
+msgstr "Hvis dette felt udfyldes, vil nyhedsbrevet efter oprettelse blive planlagt til udsendelse på det angivne tidspunkt."
+
+#: collective/chimpfeed/interfaces.py:354
+msgid "If this date is set, the content will only be included in Mailchimp-based feeds from this date on. Otherwise, the "Publishing date" is used."
+msgstr ""
+
+#: collective/chimpfeed/interfaces.py:79
+msgid "Ignored interest groupings"
+msgstr "Ignorerede interessegrupper"
+
+#: collective/chimpfeed/interfaces.py:223
+msgid "Image field"
+msgstr "Billede"
+
+#: collective/chimpfeed/interfaces.py:232
+msgid "Image scale"
+msgstr "Skalering"
+
+#: collective/chimpfeed/interfaces.py:200
+msgid "In MailChimp, templates have multiple sections, each identified by a string. When the campaign is created, we need to know where to put the dynamically created newsletter content."
+msgstr "Vælg den sektion, hvor det dynamiske indhold skal indsættes. Du kan se hvilke sektioner, der er tilgængelige i listen over skabeloner."
+
+#: collective/chimpfeed/interfaces.py:217
+msgid "Include items published after this date."
+msgstr "Medtag kun indhold fra denne dato."
+
+#: collective/chimpfeed/form.py:113
+msgid "Include scheduled items up until today's date only."
+msgstr "Definér øvre grænse."
+
+#: collective/chimpfeed/interfaces.py:67
+msgid "Interest group list"
+msgstr "Hent udsendelseslister fra tilmeldingsliste"
+
+#: collective/chimpfeed/interfaces.py:152
+msgid "Interest groups"
+msgstr "Grupper"
+
+#: collective/chimpfeed/interfaces.py:163
+msgid "Interests"
+msgstr "Interesser"
+
+#: collective/chimpfeed/form.py:112
+msgid "Limit"
+msgstr "Begræns til dags dato"
+
+#: collective/chimpfeed/interfaces.py:109
+msgid "List the available feed categories."
+msgstr "Til udsendt indhold kan der knyttes en kategori. Indskriv i dette felt de tilgængelige kategorier."
+
+#: collective/chimpfeed/interfaces.py:322
+msgid "Lists"
+msgstr "Tilmeldingslister"
+
+#: collective/chimpfeed/profiles/default/controlpanel.xml
+msgid "MailChimp"
+msgstr "Mailchimp"
+
+#: collective/chimpfeed/interfaces.py:58
+msgid "MailChimp API key"
+msgstr "MailChimp API-nøgle"
+
+#: collective/chimpfeed/controlpanel.py:97
+msgid "MailChimp settings"
+msgstr "MailChimp-indstillinger"
+
+#: collective/chimpfeed/profiles/default/portlets.xml
+msgid "Mailchimp campaign portlet"
+msgstr "Mailchimp kampagneportlet"
+
+#: collective/chimpfeed/profiles/default/portlets.xml
+msgid "Mailchimp moderation portlet"
+msgstr "Mailchimp udsendelsesstyring"
+
+#: collective/chimpfeed/profiles/default/portlets.xml
+msgid "Mailchimp newsletter portlet"
+msgstr "Mailchimp nyhedsbrevportlet"
+
+#: collective/chimpfeed/profiles/default/portlets.xml
+msgid "Mailchimp subscription portlet"
+msgstr "Mailchimp tilmeldelsesportlet"
+
+#: collective/chimpfeed/interfaces.py:145
+msgid "Mailinglist"
+msgstr "Tilmeldingsliste"
+
+#: collective/chimpfeed/form.py:415
+msgid "Mailinglist not found."
+msgstr "Tilmeldingsliste blev ikke fundet."
+
+#: collective/chimpfeed/profiles/default/portlets.xml
+msgid "Moderate newsletter feed content."
+msgstr "Godkend indhold til udsendelse."
+
+#: collective/chimpfeed/portlet.py:85
+msgid "Moderation portlet"
+msgstr "Udsendelsesstyringsportlet"
+
+#: collective/chimpfeed/form.py:851
+msgid "Name"
+msgstr "Navn"
+
+#: collective/chimpfeed/portlet.py:65
+msgid "Newsletter portlet"
+msgstr "Nyhedsbrevportlet"
+
+#: collective/chimpfeed/form.py:400
+msgid "No content found; newsletter not created."
+msgstr "Intet indhold fundet; nyhedsbrev er ikke blevet oprettet."
+
+#: collective/chimpfeed/form.py:1099
+msgid "None"
+msgstr "Ingen"
+
+#: collective/chimpfeed/form.py:105
+msgid "Not a valid e-mail address."
+msgstr "Ikke en gyldig e-mail adresse."
+
+#: collective/chimpfeed/controlpanel.py:98
+msgid "Please configure an API-key and define one or more feeds."
+msgstr "Indsæt din API-nøgle og opret en eller flere udsendelseslister."
+
+#: collective/chimpfeed/moderate.pt:2
+msgid "Please review the following schedule."
+msgstr "Indhold uden markering kræver godkendelse."
+
+#: collective/chimpfeed/interfaces.py:346
+msgid "Please select a category for this item."
+msgstr "Vælg venligst en kategori for dette indholdsobjekt."
+
+#: collective/chimpfeed/interfaces.py:172
+msgid "Preselected interests."
+msgstr "Forvalgte interesser."
+
+#: collective/chimpfeed/campaign.py:26
+#: collective/chimpfeed/form.py:512
+msgid "Preview"
+msgstr "Vis"
+
+#: collective/chimpfeed/interfaces.py:297
+msgid "Provide a title for the portlet."
+msgstr "Denne tekst bliver vist som overskrift for portletten."
+
+#: collective/chimpfeed/interfaces.py:312
+msgid "RSS"
+msgstr "RSS"
+
+#: collective/chimpfeed/form.py:859
+msgid "Register"
+msgstr "Tilmeld"
+
+#: collective/chimpfeed/controlpanel.py:138
+msgid "Repair"
+msgstr "Reparér"
+
+#: collective/chimpfeed/controlpanel.py:194
+msgid "Repaired ${count} items."
+msgstr "${count} indholdsobjekter opdateret."
+
+#: collective/chimpfeed/form.py:1134
+msgid "Request processed"
+msgstr "Tilmelding modtaget"
+
+#: collective/chimpfeed/interfaces.py:115
+msgid "Require moderation"
+msgstr "Indhold skal godkendes"
+
+#: collective/chimpfeed/legacy.py:56
+msgid "Save"
+msgstr "Gem"
+
+#: collective/chimpfeed/form.py:134
+msgid "Schedule date"
+msgstr "Planlæg udsendelse"
+
+#: collective/chimpfeed/interfaces.py:199
+msgid "Section"
+msgstr "Sektion"
+
+#: collective/chimpfeed/interfaces.py:192
+msgid "Select a campaign template."
+msgstr "Vælg en skabelon til dit nyhedsbrev. Bemærk, at der i parentesen efter skabelonens navn er anført de definerede sektioner (se nedenfor)."
+
+#: collective/chimpfeed/interfaces.py:146
+msgid "Select a mailinglist for this portlet."
+msgstr "Vælg en tilmeldingsliste for denne portlet."
+
+#: collective/chimpfeed/form.py:146
+msgid "Select interest groups"
+msgstr "Vælg interesse grupper"
+
+#: collective/chimpfeed/interfaces.py:257
+msgid "Select interest groups before sending"
+msgstr "Vælg interesse grupper før afsendelse"
+
+#: collective/chimpfeed/interfaces.py:153
+msgid "Select interest groups. Note that all interests within the selected groups will appear in the portlet."
+msgstr "Vælg interessegrupper. For hver gruppe vises de underliggende interessevalg. Bemærk, at de angivne interessegrupper skal være definerede for den valgte tilmeldingsliste. I modsat fald kan det ske, at tilmelding mislykkedes."
+
+#: collective/chimpfeed/interfaces.py:164
+msgid "Select interests."
+msgstr "Vælg specifikke interesser. Som ved valg af interessegrupper skal de valgte interesser være definerede indenfor den valgte tilmeldingsliste."
+
+#: collective/chimpfeed/interfaces.py:336
+msgid "Select one or more items from this list to include in the corresponding feed."
+msgstr "Vælg et eller flere emner for at tilføje indholdet til den tilsvarende udsendelsesliste."
+
+#: collective/chimpfeed/form.py:1129
+msgid "Select subscription options and submit form."
+msgstr "Få besked, når vi har nyheder om emner, der særligt interesserer dig. Vælg emner:"
+
+#: collective/chimpfeed/interfaces.py:258
+msgid "Select this option if the interest groups should be selected before the newsletter is sent."
+msgstr "Vælg denne indstilling hvis du ønsker at vælge interesse grupper før afsendelse."
+
+#: collective/chimpfeed/form.py:120
+msgid "Select this option to apply the markup required for automatic interest group filtering."
+msgstr "Personligt nyhedsbrev."
+
+#: collective/chimpfeed/interfaces.py:362
+msgid "Select this option to approve item."
+msgstr "Vælg dette for at godkende udsendelse."
+
+#: collective/chimpfeed/interfaces.py:123
 msgid "Select this option to automatically bump the schedule date to today's date, if it is unset or set to an earlier date."
 msgstr "Hvis dette er valgt, sættes udsendelsesdato til dags dato ved godkendelse, såfremt denne ikke er sat i forvejen, eller er sat til en tidligere dato."
+
+#: collective/chimpfeed/interfaces.py:116
+msgid "Select this option to enable content moderation."
+msgstr "Vælg dette for at påkræve godkendelse af indhold til udsendelse."
+
+#: collective/chimpfeed/portlet.py:63
+msgid "Send or schedule a newsletter campaign based on the current context."
+msgstr "Send eller planlæg et nyhedsbrev baseret på det aktuelle indhold."
+
+#: collective/chimpfeed/portlet.py:48
+msgid "Send or schedule a newsletter campaign."
+msgstr "Send eller planlæg et nyhedsbrev."
+
+#: collective/chimpfeed/profiles/default/portlets.xml
+msgid "Send or schedule newsletter campaigns."
+msgstr "Send eller planlæg nyhedsbrevskampagner."
+
+#: collective/chimpfeed/profiles/default/portlets.xml
+msgid "Send or schedule single element newsletters."
+msgstr "Send eller planlæg nyhedsbrev baseret på et enkelt indholdsobjekt."
+
+#: collective/chimpfeed/interfaces.py:131
+msgid "Show name on subscription form"
+msgstr "Vis navn på tilmeldingsformular"
+
+#: collective/chimpfeed/profiles/default/portlets.xml
+msgid "Sign up form to join a mailinglist."
+msgstr "Tilmeld nyhedsbrev."
+
+#: collective/chimpfeed/interfaces.py:216
+msgid "Start date"
+msgstr "Dato"
+
+#: collective/chimpfeed/portlet.py:62
+msgid "Static campaign scheduling"
+msgstr "Send statisk nyhedsbrev"
+
+#: collective/chimpfeed/interfaces.py:209
+msgid "Subject"
+msgstr "Emne"
+
+#: collective/chimpfeed/form.py:1137
+msgid "Subscribe to: ${name}"
+msgstr "Abonnér på ${name}"
+
+#: collective/chimpfeed/portlet.py:99
+msgid "Subscribe: ${title}"
+msgstr "Tilmelding: ${title}"
+
+#: collective/chimpfeed/interfaces.py:191
+msgid "Template"
+msgstr "Skabelon"
+
+#: collective/chimpfeed/form.py:959
+msgid "Thank you for signing up. We'll send you a confirmation message by e-mail shortly."
+msgstr "Tak for din tilmelding. Du vil om kort tid modtage en e-mail med anmodning om godkendelse."
+
+#: collective/chimpfeed/preview.pt:14
+msgid "The content below the line is the newsletter preview content."
+msgstr "Indholdet under linjen viser nyhedsbrevet."
+
+#: collective/chimpfeed/interfaces.py:224
+msgid "The name of the content field that contains the content lead image. Note that it does not need to exist for all content."
+msgstr "Her kan angives navnet på et felt, der indeholder et billede (for hvert indholdsobjekt)."
+
+#: collective/chimpfeed/interfaces.py:233
+msgid "The name of the image scale."
+msgstr "Her angives navnet på den ønskede billedskalering."
+
+#: collective/chimpfeed/interfaces.py:210
+msgid "The newsletter subject."
+msgstr "Denne tekst bruges som nyhedsbrevets emnelinje."
+
+#: collective/chimpfeed/form.py:798
+msgid "The scheduled date has been set to today's date for the following items that were scheduled to a date in the past: ${titles}."
+msgstr "Udsendelsesdato ændret til dags dato for følgende indholdsobjekter, der var planlagt til udsendelse på en tidligere dato."
+
+#: collective/chimpfeed/interfaces.py:92
+msgid "The strings listed in this field are available for tagging on applicable site content. Please use one value per line. An RSS-feed is automatically available for each string (links are shown below). Note that it's possible to select a subscription list (see above) and pull additional strings from its interest groups."
+msgstr "Hver linje i dette felt skal være en tekststreng. Hermed oprettes en udsendelsesliste og man vil på et indholdsobjekt kunne markere én eller flere af disse strenge. Det anbefales dog at man i stedet opretter interessegrupper i MailChimp og henter dem ind automatisk ved hjælp af indstillingen ovenfor."
+
+#: collective/chimpfeed/form.py:946
+msgid "There was a problem signing you up for the selected interest groups. This could mean that the subscription service is configured incorrectly. Please contact the webmaster."
+msgstr "Der opstod et problem i forbindelse med din tilmelding til én eller flere interesser. Det skyldes muligvis en fejl i opsætningen. Kontakt venligst redaktionen eller webmaster og anmeld dette. Vi beklager fejlen."
+
+#: collective/chimpfeed/interfaces.py:313
+msgid "This field lists an RSS-feed for each of the available feed strings (including those that are automatically pulled from interest groups."
+msgstr "Her vises et feed for hver udsendelsesliste (inklusive dem, der er oprettet automatisk på baggrund af interessegrupper)."
+
+#: collective/chimpfeed/interfaces.py:59
+msgid "This key is associated to your account with MailChimp."
+msgstr "Denne nøgle giver adgang til din MailChimp-konto."
+
+#: collective/chimpfeed/interfaces.py:323
+msgid "This listing shows a link to a subscription form for each of the defined lists in your account."
+msgstr "Denne oversigt viser links til tilmeldingsformularer for hver liste, der er sat op for din konto."
+
+#: collective/chimpfeed/portlet.py:219
+msgid "This portlet shows a subscription form."
+msgstr "Denne portlet viser en tilmeldingsformular."
+
+#: collective/chimpfeed/interfaces.py:296
+msgid "Title"
+msgstr "Titel"
+
+#: collective/chimpfeed/form.py:254
+msgid "Today"
+msgstr "I dag"
+
+#: collective/chimpfeed/form.py:484
+msgid "Unable to process request: ${message}"
+msgstr "KAn ikke behandle forespørgselen: ${message}"
+
+#: collective/chimpfeed/campaign.py:116
+msgid "Unable to show content."
+msgstr "Kan ikke vise indhold."
+
+#: collective/chimpfeed/form.py:828
+msgid "Untitled"
+msgstr "Unavngiven"
+
+#: collective/chimpfeed/interfaces.py:68
+msgid "Use this field to automatically pull interest groups from a list. The interest groups are added to the list of feeds and kept up to date every hour."
+msgstr "Brug dette felt til automatisk at hente interessegruppper fra en tilmeldingsliste og få dem tilføjet som udsendelseslister (se nedenfor)."
+
+#: collective/chimpfeed/interfaces.py:80
+msgid "Use this field to limit the interest groups pulled automatically from the list to specific groupings."
+msgstr ""
+
+#: collective/chimpfeed/portlet.py:83
+msgid "Use this form to moderate content."
+msgstr "Gennemse planlagt indhold."
+
+#: collective/chimpfeed/form.py:1110
+msgid "name"
+msgstr "navn"
 

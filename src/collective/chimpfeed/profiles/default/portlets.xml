@@ -3,28 +3,30 @@
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     i18n:domain="collective.chimpfeed">
 
-  <portlet
-      addview="collective.chimpfeed.CampaignPortlet"
+  <portlet addview="collective.chimpfeed.CampaignPortlet"
       title="Mailchimp campaign portlet"
       description="Send or schedule newsletter campaigns."
-      />
+      i18n:attributes="title; description"/>
 
   <portlet
       addview="collective.chimpfeed.NewsletterPortlet"
-      title="Newsletter portlet"
+      title="Mailchimp newsletter portlet"
       description="Send or schedule single element newsletters."
+      i18n:attributes="title; description"
       />
 
   <portlet
       addview="collective.chimpfeed.SubscriptionPortlet"
       title="Mailchimp subscription portlet"
       description="Sign up form to join a mailinglist."
+      i18n:attributes="title; description"
       />
 
   <portlet
       addview="collective.chimpfeed.ModerationPortlet"
       title="Mailchimp moderation portlet"
       description="Moderate newsletter feed content."
+      i18n:attributes="title; description"
       />
 
 </portlets>
