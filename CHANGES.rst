@@ -10,6 +10,9 @@ Changes:
   correct a pep8 related issue.
   [bosim] 
 
+- Updated translations in general including danish translations.
+  [bosim]
+
 1.9.8 (2012-01-25)
 ------------------
 
