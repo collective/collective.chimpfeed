@@ -58,7 +58,7 @@ class ItemProxy(Implicit):
 
 
 class Feed(Implicit):
-    template = ViewPageTemplateFile("feed.pt")
+    template = ViewPageTemplateFile("feed.pt.xml")
 
     max_items = 25
 
