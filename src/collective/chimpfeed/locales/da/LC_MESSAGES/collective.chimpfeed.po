@@ -172,8 +172,8 @@ msgid "If provided, item will be scheduled to be sent at this time."
 msgstr "Hvis dette felt udfyldes, vil nyhedsbrevet efter oprettelse blive planlagt til udsendelse på det angivne tidspunkt."
 
 #: collective/chimpfeed/interfaces.py:354
-msgid "If this date is set, the content will only be included in Mailchimp-based feeds from this date on. Otherwise, the "Publishing date" is used."
-msgstr ""
+msgid "If this date is set, the content will only be included in Mailchimp-based feeds from this date on. Otherwise, the \"Publishing date\" is used."
+msgstr "Hvis denne dato er valgt, medtages indholdet kun i udsendelseslister fra den valgte dato og fremefter. I modsat fald benyttes \"Publiceringsdato\"."
 
 #: collective/chimpfeed/interfaces.py:79
 msgid "Ignored interest groupings"
