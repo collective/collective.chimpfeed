@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-07-09 15:51+0000\n"
+"POT-Creation-Date: 2013-07-10 08:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Malthe Borch <mborch@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -172,8 +172,8 @@ msgid "If provided, item will be scheduled to be sent at this time."
 msgstr "Hvis dette felt udfyldes, vil nyhedsbrevet efter oprettelse blive planlagt til udsendelse på det angivne tidspunkt."
 
 #: collective/chimpfeed/interfaces.py:354
-msgid "If this date is set, the content will only be included in Mailchimp-based feeds from this date on. Otherwise, the \"Publishing date\" is used."
-msgstr "Hvis denne dato er valgt, medtages indholdet kun i udsendelseslister fra den valgte dato og fremefter. I modsat fald benyttes \"Publiceringsdato\"."
+msgid "If this date is set, the content will only be included in Mailchimp-based feeds from this date on. Otherwise, the "Publishing date" is used."
+msgstr ""
 
 #: collective/chimpfeed/interfaces.py:79
 msgid "Ignored interest groupings"
@@ -235,22 +235,6 @@ msgstr "MailChimp API-nøgle"
 msgid "MailChimp settings"
 msgstr "MailChimp-indstillinger"
 
-#: collective/chimpfeed/profiles/default/portlets.xml
-msgid "Mailchimp campaign portlet"
-msgstr "Mailchimp kampagneportlet"
-
-#: collective/chimpfeed/profiles/default/portlets.xml
-msgid "Mailchimp moderation portlet"
-msgstr "Mailchimp udsendelsesstyring"
-
-#: collective/chimpfeed/profiles/default/portlets.xml
-msgid "Mailchimp newsletter portlet"
-msgstr "Mailchimp nyhedsbrevportlet"
-
-#: collective/chimpfeed/profiles/default/portlets.xml
-msgid "Mailchimp subscription portlet"
-msgstr "Mailchimp tilmeldelsesportlet"
-
 #: collective/chimpfeed/interfaces.py:145
 msgid "Mailinglist"
 msgstr "Tilmeldingsliste"
@@ -258,10 +242,6 @@ msgstr "Tilmeldingsliste"
 #: collective/chimpfeed/form.py:415
 msgid "Mailinglist not found."
 msgstr "Tilmeldingsliste blev ikke fundet."
-
-#: collective/chimpfeed/profiles/default/portlets.xml
-msgid "Moderate newsletter feed content."
-msgstr "Godkend indhold til udsendelse."
 
 #: collective/chimpfeed/portlet.py:85
 msgid "Moderation portlet"
@@ -408,21 +388,9 @@ msgstr "Send eller planlæg et nyhedsbrev baseret på det aktuelle indhold."
 msgid "Send or schedule a newsletter campaign."
 msgstr "Send eller planlæg et nyhedsbrev."
 
-#: collective/chimpfeed/profiles/default/portlets.xml
-msgid "Send or schedule newsletter campaigns."
-msgstr "Send eller planlæg nyhedsbrevskampagner."
-
-#: collective/chimpfeed/profiles/default/portlets.xml
-msgid "Send or schedule single element newsletters."
-msgstr "Send eller planlæg nyhedsbrev baseret på et enkelt indholdsobjekt."
-
 #: collective/chimpfeed/interfaces.py:131
 msgid "Show name on subscription form"
 msgstr "Vis navn på tilmeldingsformular"
-
-#: collective/chimpfeed/profiles/default/portlets.xml
-msgid "Sign up form to join a mailinglist."
-msgstr "Tilmeld nyhedsbrev."
 
 #: collective/chimpfeed/interfaces.py:216
 msgid "Start date"

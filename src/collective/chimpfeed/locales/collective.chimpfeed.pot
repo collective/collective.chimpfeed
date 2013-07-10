@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-07-09 15:51+0000\n"
+"POT-Creation-Date: 2013-07-10 08:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -238,32 +238,12 @@ msgstr ""
 msgid "MailChimp settings"
 msgstr ""
 
-#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
-msgid "Mailchimp campaign portlet"
-msgstr ""
-
-#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
-msgid "Mailchimp moderation portlet"
-msgstr ""
-
-#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
-msgid "Mailchimp newsletter portlet"
-msgstr ""
-
-#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
-msgid "Mailchimp subscription portlet"
-msgstr ""
-
 #: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:145
 msgid "Mailinglist"
 msgstr ""
 
 #: collective.chimpfeed/src/collective/chimpfeed/form.py:415
 msgid "Mailinglist not found."
-msgstr ""
-
-#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
-msgid "Moderate newsletter feed content."
 msgstr ""
 
 #: collective.chimpfeed/src/collective/chimpfeed/portlet.py:85
@@ -411,20 +391,8 @@ msgstr ""
 msgid "Send or schedule a newsletter campaign."
 msgstr ""
 
-#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
-msgid "Send or schedule newsletter campaigns."
-msgstr ""
-
-#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
-msgid "Send or schedule single element newsletters."
-msgstr ""
-
 #: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:131
 msgid "Show name on subscription form"
-msgstr ""
-
-#: collective.chimpfeed/src/collective/chimpfeed/profiles/default/portlets.xml
-msgid "Sign up form to join a mailinglist."
 msgstr ""
 
 #: collective.chimpfeed/src/collective/chimpfeed/interfaces.py:216
