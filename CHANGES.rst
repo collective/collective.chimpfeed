@@ -13,6 +13,9 @@ Changes:
 - Updated translations in general including danish translations.
   [bosim]
 
+- Translations for portlet titles and descriptions are now in the plone domain.
+  [bosim]
+
 1.9.8 (2012-01-25)
 ------------------
 
