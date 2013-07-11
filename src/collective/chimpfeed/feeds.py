@@ -58,7 +58,7 @@ class ItemProxy(Implicit):
 
 
 class Feed(Implicit):
-    template = ViewPageTemplateFile("feed.pt")
+    template = ViewPageTemplateFile("feed.pt.xml")
 
     max_items = 25
 
@@ -83,8 +83,8 @@ class Feed(Implicit):
         today = DateTime()
 
         query = In('review_state', ('published', )) & \
-                Eq('chimpfeeds', self.name) & \
-                Le('feedSchedule', today)
+            Eq('chimpfeeds', self.name) & \
+            Le('feedSchedule', today)
 
         settings = IFeedSettings(self.context)
         if settings.use_moderation:
