@@ -19,9 +19,9 @@
       <div class="visualClear"></div>
     </dd>
 
-    <div class="portletFooter portletFooterEmpty">
+    <dd class="portletFooter portletFooterEmpty">
       <span class="portletBottomLeft"></span>
       <span class="portletBottomRight"></span>
-    </div>
+    </dd>
   </dl>
 </html>
