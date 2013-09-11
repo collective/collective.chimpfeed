@@ -3,7 +3,12 @@ from zope.component import getUtility
 from zope.component import ComponentLookupError
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
-from zope.app.component.hooks import getSite
+try:
+ # Plone < 4.3
+ from zope.app.component.hooks import setSite
+except ImportError:
+ # Plone >= 4.3
+ from zope.component.hooks import setSite  # NOQA 
 
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 
