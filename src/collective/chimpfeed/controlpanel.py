@@ -5,7 +5,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 
 from Acquisition import ImplicitAcquisitionWrapper
 
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
 from zope.component import adapts
 from zope.lifecycleevent import modified
