@@ -16,6 +16,10 @@ Changes:
 - Translations for portlet titles and descriptions are now in the plone domain.
   [bosim]
 
+- Some Plone 4.3+ changes.
+  [senner]
+
+
 1.9.8 (2012-01-25)
 ------------------
 
