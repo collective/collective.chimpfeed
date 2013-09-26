@@ -139,6 +139,12 @@ class IFeedSettings(Interface):
         default=True,
     )
 
+    interests_required = schema.Bool(
+        title=_(u'Require one or more interests to subscribe'),
+        required=False,
+        default=False,
+    )
+
 
 class ISubscriptionFormSettings(Interface):
     mailinglist = schema.Choice(

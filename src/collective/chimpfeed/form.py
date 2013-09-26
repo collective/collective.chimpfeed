@@ -31,6 +31,7 @@ from zope.i18n import negotiate
 from zope.i18n import translate
 from zope.i18n.interfaces import ITranslationDomain
 from zope.component import queryUtility, getUtility, getMultiAdapter
+from zope.component.hooks import getSite
 from zope.interface import alsoProvides
 from zope.interface import Interface
 from zope.interface import implements
@@ -103,6 +104,17 @@ def is_email(value):
 
 class EmailValidationError(ValidationError):
     __doc__ = _(u"Not a valid e-mail address.")
+
+
+def interests_required(value):
+    settings = IFeedSettings(getSite())
+    if settings.interests_required and not value:
+        raise InterestsRequiredValidationError(value)
+    return True
+
+
+class InterestsRequiredValidationError(ValidationError):
+    __doc__ = _(u"Please select at least one interest.")
 
 
 class ICampaign(ICampaignPortlet):
@@ -189,6 +201,7 @@ class ISubscription(Interface):
             vocabulary="collective.chimpfeed.vocabularies.InterestGroups",
         ),
         required=False,
+        constraint=interests_required,
     )
 
 

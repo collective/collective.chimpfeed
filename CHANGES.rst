@@ -1,6 +1,16 @@
 Changes
 =======
 
+Unreleased
+----------
+
+Changes:
+
+- Add option to make interests required when subscribing via
+  list subscribe form.
+  [tmog]
+  
+
 1.9.9 (2013-09-12)
 ------------------
 
