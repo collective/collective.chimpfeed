@@ -85,9 +85,9 @@ class MailChimpVocabulary(VocabularyBase):
 
         try:
             return SimpleVocabulary(terms)
-        except ValueError as exc:
-            logger.info(exc.msg)
-            return SimpleVocabulary()
+        except ValueError as e:
+            logger.info(e.message)
+            return SimpleVocabulary([])
 
 
 class ListVocabulary(MailChimpVocabulary):
