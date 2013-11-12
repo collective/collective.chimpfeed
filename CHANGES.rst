@@ -6,6 +6,9 @@ Unreleased
 
 Changes:
 
+- Fix issue with creating campaigns when segments span multiple groupings.
+  [tmog]
+
 - Add option to make interests required when subscribing via
   list subscribe form.
   [tmog]

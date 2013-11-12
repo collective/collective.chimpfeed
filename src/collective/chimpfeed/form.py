@@ -647,14 +647,21 @@ class NewsletterForm(BaseCampaignForm):
         if not interest_groups:
             return []
 
-        (grouping_id, interest_description, group_id) = interest_groups[0]
+        groupings = {}
+        for grouping_id, group_name, _ in interest_groups:
+            groupings.setdefault(grouping_id, []).append(group_name)
 
-        return [{'field': 'interests-' + str(grouping_id),
-                 'op': 'one',
-                 'value': ','.join([interest[1].encode("utf-8")
-                                    for interest
-                                    in interest_groups])
-                 }]
+        segments = []
+        for grouping, interests in groupings.items():
+            segments.append({
+                'field': 'interests-' + str(grouping),
+                'op': 'one',
+                'value': ','.join(
+                    [i.encode("utf-8") for i in interests]
+                )
+            })
+
+        return segments
 
     @button.buttonAndHandler(_(u'Preview'))
     def handlePreview(self, action):
@@ -709,7 +716,7 @@ class NewsletterForm(BaseCampaignForm):
             api_key, method, subject,
             create_draft, schedule, rendered, next_url,
             segment_conditions and {
-                'match': 'all',
+                'match': 'any',
                 'conditions': segment_conditions
             } or None
         )
