@@ -8,11 +8,13 @@
    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
    i18n_domain="collective.chimpfeed">
 
+  <five:registerPackage package="." />
+
   <include package="plone.browserlayer" />
   <include package="plone.app.z3cform" />
   <include package="archetypes.schemaextender" />
   <include file="upgradesteps.zcml" />
-  
+
   <genericsetup:registerProfile
       name="default"
       title="Chimpfeed"
@@ -21,12 +23,27 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="collective.chimpfeed uninstall"
+      directory="profiles/uninstall"
+      description="Uninstalls the collective.chimpfeed module: removes persistent utilities"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+      name="collective.chimpfeed.various-uninstall"
+      title="collective.chimpfeed: uninstall collective.chimpfeed"
+      description="Various import steps that are not handled by GS import/export handlers."
+      handler="collective.chimpfeed.setuphandlers.variousUninstallSteps">
+  </genericsetup:importStep>
+
   <!-- Schema extension -->
 
-  <adapter 
-      name="feeds" 
+  <adapter
+      name="feeds"
       factory=".schema.FeedExtender"
-      provides="archetypes.schemaextender.interfaces.ISchemaExtender" 
+      provides="archetypes.schemaextender.interfaces.ISchemaExtender"
       />
 
   <!-- Archetypes -->
