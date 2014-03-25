@@ -1,6 +1,15 @@
 Changes
 =======
 
+2.0.1 (2014-03-25) Unreleased
+---------------------------
+
+Changes:
+
+- Uninstall profile, removing the persistent utility.
+  [sunew]
+
+
 2.0 (2013-12-29)
 ----------------
 
@@ -19,9 +28,9 @@ Changes:
 
 Changes:
 
-- Renamed feed.pt to feed.pt.xml to ensure i18ndude works for translations, and 
+- Renamed feed.pt to feed.pt.xml to ensure i18ndude works for translations, and
   correct a pep8 related issue.
-  [bosim] 
+  [bosim]
 
 - Updated translations in general including danish translations.
   [bosim]
