@@ -638,6 +638,7 @@ class NewsletterForm(BaseCampaignForm):
 
     fields['create_draft'].widgetFactory = SingleCheckBoxFieldWidget
     fields['interests'].widgetFactory = CheckBoxFieldWidget
+    prefix='chimpXYZ'
 
     ignoreContext = True
 
@@ -665,9 +666,12 @@ class NewsletterForm(BaseCampaignForm):
 
     @button.buttonAndHandler(_(u'Preview'))
     def handlePreview(self, action):
+
         if self.context.REQUEST.get('restricted_traverse', False):
             return
-
+        subj = self.context.REQUEST.get('chimpXYZ.widgets.subject')
+        if type(subj) == type(''):
+            self.context.REQUEST.set('chimpXYZ.widgets.subject', subj.decode('utf-8'))
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
@@ -727,6 +731,8 @@ class NewsletterForm(BaseCampaignForm):
         today = datetime.date.today()
 
         subject = self.widgets['subject']
+        if type(subject.value) == type(''):
+            subject.value = subject.value.decode('utf-8')
         if not subject.value:
             value = self.context.subject or \
                 self.context.Title().decode('utf-8')
