@@ -685,7 +685,9 @@ class NewsletterForm(BaseCampaignForm):
     def handleCreate(self, action):
         if self.context.REQUEST.get('restricted_traverse', False):
             return
-
+        subj = self.context.REQUEST.get('chimpXYZ.widgets.subject')
+        if type(subj) == type(''):
+            self.context.REQUEST.set('chimpXYZ.widgets.subject', subj.decode('utf-8'))
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
