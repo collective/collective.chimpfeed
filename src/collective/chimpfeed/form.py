@@ -1037,6 +1037,7 @@ class SelectAllGroupsJavascript(JavascriptWidget):
     """Replace the fieldset legend with a select all checkbox."""
 
     path = os.path.join(os.path.dirname(__file__), "select.js")
+    value = None
 
     @property
     @forever
