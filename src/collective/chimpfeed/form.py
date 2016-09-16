@@ -1055,6 +1055,10 @@ class SelectAllGroupsJavascript(JavascriptWidget):
 
 
 class ListSubscribeForm(SubscribeForm):
+
+    # See Products.PloneHotfix20160830==1.3
+    allow_prefill_from_GET_request = True
+
     @property
     def fields(self):
         fields = field.Fields()
